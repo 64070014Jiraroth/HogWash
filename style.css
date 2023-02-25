@@ -1,0 +1,40 @@
+*{
+    font-family: 'Prompt', sans-serif;
+    /* background-image: url("./img/bg.png");
+    background-size: cover; */
+}
+html {
+    scroll-behavior: smooth;
+  }
+body {
+    background-image: url("./img/bg.png");
+    background-size: cover;
+}
+#home1 {
+    height: 100%;
+}
+
+.slogan {
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    color: #59A8B9;
+    top: 35%;
+    left: 25%;
+    text-align: center;
+}
+.card-group {
+    position: absolute;
+    text-align: center;
+}
+.card {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+    border: 4px solid #7CCF85;
+    margin: 6%;
+}
+.card-img-top {
+    width:80%;
+}
