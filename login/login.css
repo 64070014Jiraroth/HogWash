@@ -1,0 +1,43 @@
+*{
+    font-family: 'Prompt', sans-serif;
+}
+body {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #CAEAF1;
+}
+svg {
+    color: #59A8B9;
+}
+.backButton {
+    position:fixed;
+    left: -150px;
+    top:200px;
+    
+}
+.card {
+    border-radius: 30px;
+    border:none;
+    text-align: center;
+    height: 500px;
+    width: 400px;
+    margin-right: 50px;
+}
+.card-title {
+    color:#59A8B9;
+    font-size: 40px;
+    font-weight: 700;
+    text-align:start;
+    margin-top:50px;
+}
+.small {
+    border: 2px solid salmon;
+    /* line-height: 20px; */
+}
+.btn {
+    width: 92%;
+    font-size: 20px;
+    letter-spacing: .8px;
+}
