@@ -1,8 +1,8 @@
 var login = new Vue({
     el: '#login',
     data: {
-        show_login: true,
-        show_signup: false,
+        show_signIn: true,
+        // show_signUp: false,
         users: [{
             user_id: '',
             user_password: '',
