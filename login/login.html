@@ -37,21 +37,20 @@
                     <div class="card-body">
                         <h5 class="card-title mx-3">ลงชื่อเข้าใช้</h5>
                         <p class="card-text">
-                        <form>
+                        <form onsubmit="return false">
                             <div class="form-group mx-3 py-4">
-                                <input type="email" class="form-control" id="signInEmail"
-                                    aria-describedby="emailHelp" placeholder="อีเมล">
+                                <input v-model="user_email" type="email" class="form-control" id="signInEmail" placeholder="อีเมล" required>
                             </div>
                             <div class="form-group mx-3 py-4">
-                                <input type="password" class="form-control" id="signInPassword"
-                                    placeholder="รหัสผ่าน">
+                                <input v-model="user_password" type="password" class="form-control" id="signInPassword" placeholder="รหัสผ่าน" required>
                             </div>
+                            <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
+                                @click="checkUser()">
+                            เข้าสู่ระบบ
+                        </button>
                         </form>
                         </p>
-                        <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;">
-                            เข้าสู่ระบบ
-                        </button><br>
-                        <small class="text-muted py-4">ยังไม่มีบัญชีผู้ใช้ ?
+                        <br><small class="text-muted py-4">ยังไม่มีบัญชีผู้ใช้ ?
                             <a @click="show_signIn = !show_signIn" style="color:#59A8B9; cursor: pointer;">สมัครเลย</a>
                         </small>
                     </div>
@@ -69,24 +68,22 @@
                     <div class="card-body">
                         <h5 class="card-title mx-3">สมัครสมาชิก</h5>
                         <p class="card-text">
-                        <form>
+                        <form onsubmit="return false">
                             <div class="form-group mx-3 py-3">
-                                <input type="email" class="form-control" id="signUpEmail"
-                                    aria-describedby="emailHelp" placeholder="อีเมล">
+                                <input v-model="new_email" type="email" class="form-control" id="signUpEmail" placeholder="อีเมล" required>
                             </div>
                             <div class="form-group mx-3 py-3">
-                                <input type="password" class="form-control" id="signUpPassword"
-                                    placeholder="รหัสผ่าน">
+                                <input v-model="new_password1" type="password" name="new_ps" class="form-control" id="signUpPassword" placeholder="รหัสผ่าน" required>
                             </div>
                             <div class="form-group mx-3 py-3">
-                                <input type="password" class="form-control" id="confirmPassword"
-                                    placeholder="ยืนยันรหัสผ่าน">
+                                <input v-model="new_password2" type="password" name="new_ps" class="form-control" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
                             </div>
+                            <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
+                                @click="addUser()">
+                                สร้างบัญชีผู้ใช้
+                            </button><br>
                         </form>
                         </p>
-                        <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;">
-                            สร้างบัญชีผู้ใช้
-                        </button><br>
                         <small class="text-muted py-4">มีบัญชีผู้ใช้อยู่แล้ว ?
                             <a @click="show_signIn =! show_signIn" style="color:#59A8B9; cursor: pointer;">เข้าสู่ระบบเลย</a>
                         </small>
