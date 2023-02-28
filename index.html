@@ -12,18 +12,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" 
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" 
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.23.1/bootstrap-vue.min.js" 
-        integrity="sha512-SP/zE7YazvnUG95bWnA1AeC5+WtAOqumEHSgcKTNfVefAMsDcVCt6D3Q3goqR3vSf50zPG3OZtnMjBJd9GBgkw==" 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.23.1/bootstrap-vue.min.js"
+        integrity="sha512-SP/zE7YazvnUG95bWnA1AeC5+WtAOqumEHSgcKTNfVefAMsDcVCt6D3Q3goqR3vSf50zPG3OZtnMjBJd9GBgkw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
+
 
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,7 +72,7 @@
         </div>
         <a class="px-3 mx-3" href="./login/login.html">
             <button class="btn my-2 my-sm-0" type="submit"
-            style="background-color:#59A8B9;color:white;">เข้าสู่ระบบ</button>
+                style="background-color:#59A8B9;color:white;">เข้าสู่ระบบ</button>
         </a>
 
     </nav>
@@ -85,12 +88,13 @@
 
     <!-- section 2 -->
     <section id="home2">
-        
+
         <!-- Washing Machine cards -->
         <div class="allCard">
             <div class="row justify-content-center groupCard my-2">
                 <div class="col-3" v-for="wm in Washing_machine">
-                    <div class="card" style="cursor: pointer;" @click="modal_choose = !modal_choose; wm.wm_status = 2;">
+                    <div :class="['card', wm.wm_status == 0 ? ' border0' : '', wm.wm_status == 1 ? ' border1' : '', wm.wm_status == 2 ? ' border2' : '']">
+                    
                         <img class="card-img-top" :src="wm_img">
                         <div class="card-body">
                             <h3 class="card-title">{{ wm.wm_id }}</h3>
@@ -99,97 +103,95 @@
                                 <div v-show="wm.wm_status == 1" style="color:#DD6060;">50:00:00</div>
                                 <div v-show="wm.wm_status == 2" style="color:#F1D438;">อยู่ระหว่างดำเนินการ</div>
                             </h4>
-                            <p class="card-text"><small class="text-muted">จำนวนคิวต่อใช้งาน : {{ wm.queue_id }}</small></p>
+                            <p class="card-text"><small class="text-muted">จำนวนคิวต่อใช้งาน : {{ wm.queue_id }}</small>
+                            </p>
+                            <div v-show="wm.wm_status == 0">
+                                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#available" style="background-color:#7CCF85;color:white;">
+                                    เลือกใช้งาน
+                                </button>
+                            </div>
+                            <div v-show="wm.wm_status == 1">
+                                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#queue" style="background-color:#DD6060;color:white;">
+                                    จองคิว
+                                </button>
+                            </div>
+                            <div v-show="wm.wm_status == 2">
+                                <button type="button" class="btn btn-light" disabled style="background-color:#F1D438;color:white;">
+                                    รอสักครู่
+                                </button>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
 
                 <!-- modal -->
 
-                <div>
-                    <b-button v-b-modal.modal-multi-1>Open First Modal</b-button>
-                  
-                    <b-modal id="modal-multi-1" size="lg" title="First Modal" ok-only no-stacking>
-                      <p class="my-2">First Modal</p>
-                      <b-button v-b-modal.modal-multi-2>Open Second Modal</b-button>
-                    </b-modal>
-                  
-                    <b-modal id="modal-multi-2" title="Second Modal" ok-only>
-                      <p class="my-2">Second Modal</p>
-                      <b-button v-b-modal.modal-multi-3 size="sm">Open Third Modal</b-button>
-                    </b-modal>
-                  
-                    <b-modal id="modal-multi-3" size="sm" title="Third Modal" ok-only>
-                      <p class="my-1">Third Modal</p>
-                    </b-modal>
-                  </div>
-
-                <!-- <a @click="modal_choose = !modal_choose" class="button is-warning">Confirm Order</a>
-
-                <div class="modal" v-bind:class="{'is-active':modal_choose}">
-                    <div class="modal-background" @click="modal_choose = !modal_choose"></div>
-                    <div class="modal-card" style="max-width: 960px;width: 90%;">
-                        <section class="modal-card-body">
-                            ตัวอย่าง order
-                            <img src="./Table example.png">
-                            <hr>
-                            Order Table ของนักศึกษา
-                            <table id='order-table' style="width: 100%;" class="table is-bordered">
-    
-                            </table>
-                        </section>
-                    </div>
-                </div> -->
-
-                <!-- <div class="modal" v-bind:class="{'is-active' : modal_choose}">
-                    <div class="modal-background" @click="modal_choose = !modal_choose" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
+                <div class="modal fade" id="available" tabindex="-1" role="dialog"
+                    aria-labelledby="availableTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                        ...
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">เลือกรูปแบบการซัก</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                        <div class="row">
+                                            <button type="button" class="col btn selectOption" ><h5>ซักเร็ว</h5>
+                                                <small>20 บาท / 30 นาที</small>
+                                            </button>
+                                            <button type="button" class="col btn selectOption" ><h5>ซักธรรมดา</h5>
+                                                <small>30 บาท / 50 นาที</small>
+                                            </button>
+                                            <div class="w-100"></div>
+                                            <button type="button" class="col btn selectOption" ><h5>ซักน้ำร้อน</h5>
+                                                <small>50 บาท / 50 นาที</small>
+                                            </button>
+                                            <button type="button" class="col btn selectOption" ><h5>ซักน้ำร้อน</h5>
+                                                <small>50 บาท / 50 นาที</small>
+                                            </button>
+                                    </div>
+                                </div>
+                                      
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                </div> -->
+                </div>
 
-<!-- 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Launch demo modal
-  </button>
-  
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
+                <div class="modal fade" id="queue" tabindex="-1" role="dialog"
+                    aria-labelledby="queueTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">เครื่องไม่พร้อมใช้งานในขณะนี้<br>
+                                    เนื่องจากมีการใช้งานอยู่</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <button type="button" class="btn queueOption" style="background-color:#59A8B9;color:white;">จองคิว</button>
+                                <!-- <small class="text-muted py-4">จำนวนคิวต่อใช้งานในขณะนี้ : 1</small> -->
+                                <button type="button" class="btn queueOption" style="background-color:#B3B3B3;color:white;">ยกเลิก</button>
+                            </div>
+                            <!-- <div class="modal-footer"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
             </div>
         </div>
 
-        
+
 
     </section>
 

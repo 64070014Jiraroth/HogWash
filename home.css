@@ -22,6 +22,15 @@ body::-webkit-scrollbar {
     align-items: center;
     height: 100%;
 }
+.border0 {
+    border: 3px solid #7CCF85;
+}
+.border1 {
+    border: 3px solid #DD6060;
+}
+.border2 {
+    border: 3px solid #F1D438;
+}
 
 .slogan {
     position: absolute;
@@ -37,15 +46,15 @@ body::-webkit-scrollbar {
 }
 .allCard {
     position: relative;
-    top: 15%;
+    top: 10%;
 }
 .card {
     /* width: 100%; */
     text-align: center;
     align-items: center;
     border-radius: 40px;
-    border: 3px solid #7CCF85;
     margin: 7%;
+    /* cursor: pointer; */
 }
 .card-img-top {
     width:80%;
@@ -60,4 +69,29 @@ body::-webkit-scrollbar {
 .text-muted {
     font-size: 18px;
     font-weight: 500;
+}
+.modal-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: #59A8B9;
+}
+.modal-body {
+    text-align: center;
+}
+.selectOption {
+    border: 2px solid #D9D9D9;
+    border-radius: 20px;
+    margin: 8px;
+    text-align: left;
+    padding: 15px;
+}
+.queueOption {
+    font-weight: bold;
+    border-radius: 15px;
+    width: 180px;
+    height: 50px;
+    font-size: 17px;
+    letter-spacing: 1.5px;
+    margin: 10px;
+    /* margin-bottom: 20px; */
 }
