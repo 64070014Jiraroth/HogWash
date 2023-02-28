@@ -31,11 +31,11 @@
           </svg>    
     </a>
 
-
-    <div class="row">
+    <div id="login">
+        <div class="row">
         <div class="col-sm-6">
             <div class="card">
-                <div class="card-body">
+                <div v-show="show_login" class="card-body">
                     <h5 class="card-title mx-3">ลงชื่อเข้าใช้</h5>
                     <p class="card-text">
                     <form>
@@ -53,19 +53,20 @@
                         เข้าสู่ระบบ
                     </button><br>
                     <small class="text-muted py-4">ยังไม่มีบัญชีผู้ใช้ ?
-                        <a @click="signUp()" href="" style="color:#59A8B9;">สมัครเลย</a>
+                        <a @click="show_signup = !show_signup" href="" style="color:#59A8B9;">สมัครเลย</a>
                     </small>
                 </div>
 
                 <!-- v-show -->
-                <!-- <div class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
+                <div v-show="show_signup" class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
                     <img style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" src="../img/logo.png">
-                </div> -->
+                </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="card">
-                <div class="card-body">
+
+                <div  v-show="show_signup" class="card-body">
                     <h5 class="card-title mx-3">สมัครสมาชิก</h5>
                     <p class="card-text">
                     <form>
@@ -87,17 +88,19 @@
                         สร้างบัญชีผู้ใช้
                     </button><br>
                     <small class="text-muted py-4">มีบัญชีผู้ใช้อยู่แล้ว ?
-                        <a @click="signUp()" href="" style="color:#59A8B9;">เข้าสู่ระบบเลย</a>
+                        <a @click="show_login = !show_login" href="" style="color:#59A8B9;">เข้าสู่ระบบเลย</a>
                     </small>
                 </div>
 
                 <!-- v-show -->
-                <!-- <div class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
+                <div  v-show="show_login" class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
                     <img style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" src="../img/logo.png">
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
+    </div>
+    
 
 </body>
 
