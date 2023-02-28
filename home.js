@@ -1,7 +1,9 @@
 var app = new Vue({
-    el: '#app',
+    el: '#home2',
     data: {
         wm_img: './img/wm.png',
+        modal_choose : false,
+        choose_id : '',
         Washing_machine: [
             {
                 wm_id: '001',
@@ -60,6 +62,5 @@ var app = new Vue({
                 queue_id: 0
             },
         ],
-        
     }
 })

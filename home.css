@@ -8,7 +8,10 @@ html {
 body::-webkit-scrollbar {
     display: none;
   }  
-
+#navbar {
+    background-color: #CAEAF1; 
+    font-size: 18px;
+}
 #home1 {
     height: 100%;
     background-image: url("./img/bg.png");
@@ -17,6 +20,7 @@ body::-webkit-scrollbar {
 #home2 {
     /* position:absolute; */
     align-items: center;
+    height: 100%;
 }
 
 .slogan {
@@ -30,6 +34,10 @@ body::-webkit-scrollbar {
 }
 .groupCard {
     margin: 10%;
+}
+.allCard {
+    position: relative;
+    top: 15%;
 }
 .card {
     /* width: 100%; */
