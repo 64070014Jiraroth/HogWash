@@ -62,17 +62,18 @@
                 </li>
             </ul>
         </div>
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            TH
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">TH</a>
-            <a class="dropdown-item" href="#">ENG</a>
+        
+        <div class="dropdown">
+            <a class="nav-link dropdown-toggle" id="languageDropdown" role="button" data-toggle="dropdown">TH </a>
+            <div class="dropdown-menu dropdown-menu-right" v-model="language">
+                <a class="dropdown-item" href="#">TH</a>
+                <a class="dropdown-item" href="#">ENG</a>
+            </div>
         </div>
+        
         <a class="px-3 mx-3" href="./login/login.html">
             <button class="btn my-2 my-sm-0" type="submit"
-                style="background-color:#59A8B9;color:white;">เข้าสู่ระบบ</button>
+                style="background-color:#59A8B9;color:white; font-size: 18; width:120px;">เข้าสู่ระบบ</button>
         </a>
 
     </nav>

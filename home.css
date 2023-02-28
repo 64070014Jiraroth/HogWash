@@ -31,7 +31,12 @@ body::-webkit-scrollbar {
 .border2 {
     border: 3px solid #F1D438;
 }
-
+.dropdown-menu {
+    font-size: 18;
+    text-align: center;
+    margin: 10;
+    right: -10px;
+}
 .slogan {
     position: absolute;
     font-size: 40px;
