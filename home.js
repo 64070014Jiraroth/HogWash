@@ -4,6 +4,7 @@ var app = new Vue({
         wm_img: './img/wm.png',
         modal_choose : false,
         choose_id : '',
+        isCheck : false,
         Washing_machine: [
             {
                 wm_id: '001',
@@ -62,5 +63,9 @@ var app = new Vue({
                 queue_id: 0
             },
         ],
+        promptPay : './img/payments/promptPay.png',
+        trueMoney : '',
+        shopeePay : '',
+        rabbitLinePay : './img/payments/rabbitLinePay.png',
     }
 })
