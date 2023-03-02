@@ -7,14 +7,9 @@ var login = new Vue({
         new_email: '',
         new_password1: '',
         new_password2: '',
-        // users: [{
-            // user_id: '',
-            // user_password: '',
-            // user_email: '',
-            // user_fname: '',
-            // user_lname: '',
-        // }],
         users: [],
+        online: false,
+        user_online: '',
     },
     created() {
         if (localStorage.getItem("usersData") != null) {
@@ -29,10 +24,15 @@ var login = new Vue({
             else if (this.new_password1 != this.new_password2) {
                 alert('Incorrect password confirmation')
             }
+            else if (this.users.filter((data) => { return data.user_email == this.new_email }).length > 0) {
+                alert('This email is already in use')
+            }
             else if (this.new_email.includes('@') && this.new_email.includes('.')) {
                 this.users.push({
                     user_email: this.new_email,
-                    user_password: this.new_password1
+                    user_password: this.new_password1,
+                    // user_fname: '',
+                    // user_lname: ''
                 })
                 alert('Sign up successfully')
                 const myJSON = JSON.stringify(this.users);
@@ -44,10 +44,13 @@ var login = new Vue({
             let check = this.users.filter((data) => {
                 return (data.user_email == this.user_email && data.user_password == this.user_password)
             })
-            console.log(check)
             if(check.length > 0) {
                 if (check[0].user_email == this.user_email && check[0].user_password == this.user_password) {
                     alert('Sign in sucessfully')
+                    this.online = true
+                    this.online_user = this.user_email
+                    localStorage.setItem("online_status", JSON.stringify(this.online));
+                    localStorage.setItem("online_user", JSON.stringify(this.online_user));
                     window.location.href = "../index.html";
                 }
                 else {
