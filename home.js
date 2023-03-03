@@ -13,6 +13,7 @@ var app = new Vue({
         option_choose:'',
         time_cost: '',
         pay_choose: '',
+        time_left: 0,
 
         Washing_machine: [
             {
@@ -26,21 +27,21 @@ var app = new Vue({
                 wm_id: '002',
                 wm_brand: 'Toshiba',
                 wm_model: '',
-                wm_status: 2,
+                wm_status: 0,
                 queue_id: 0
             },
             {
                 wm_id: '003',
                 wm_brand: 'Toshiba',
                 wm_model: '',
-                wm_status: 1,
+                wm_status: 0,
                 queue_id: 0
             },
             {
                 wm_id: '004',
                 wm_brand: 'Toshiba',
                 wm_model: '',
-                wm_status: 2,
+                wm_status: 0,
                 queue_id: 0
             },
             {
@@ -68,7 +69,7 @@ var app = new Vue({
                 wm_id: '008',
                 wm_brand: 'Toshiba',
                 wm_model: '',
-                wm_status: 2,
+                wm_status: 0,
                 queue_id: 0
             },
         ],
@@ -77,25 +78,25 @@ var app = new Vue({
                 option_id: "01",
                 option_name: "ซักเร็ว",
                 option_cost: 20,
-                option_time: 30
+                option_time: 3 //1800
             },
             {
                 option_id: "02",
                 option_name: "ซักธรรมดา",
                 option_cost: 30,
-                option_time: 50
+                option_time: 3000
             },
             {
                 option_id: "03",
                 option_name: "ซักนํ้าร้อน",
                 option_cost: 50,
-                option_time: 50
+                option_time: 3000
             },
             {
                 option_id: "04",
                 option_name: "ซักนํ้าเย็น",
                 option_cost: 50,
-                option_time: 50
+                option_time: 3000
             },
         ],
         payments: [
@@ -127,6 +128,17 @@ var app = new Vue({
         if (localStorage.getItem("online_user") != null) {
             this.online_user = JSON.parse(localStorage.getItem("online_user"));  
         }
+        if (localStorage.getItem("wm_data") != null) {
+            this.Washing_machine = JSON.parse(localStorage.getItem("wm_data"));  
+        }
+        if (localStorage.getItem("time_left") != null) {
+            this.time_left = JSON.parse(localStorage.getItem("time_left"));  
+        }
+    },
+    updated() {
+        console.log('update')
+        localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
+        localStorage.setItem("time_left", JSON.stringify(this.time_left));
     },
     methods: {
         logout() {
@@ -145,27 +157,33 @@ var app = new Vue({
             this.pay_choose = pay.pay_name
         },
         count_time() {
-            let wm = this.Washing_machine.filter((data) => { return data.wm_id == this.wm_choose.wm_id})
+            const wm = this.Washing_machine.filter((data) => { return data.wm_id == this.wm_choose.wm_id})
             wm[0].wm_status = 1;
 
             if(+this.time_cost > 0) {
-                let min = Math.floor(this.time_cost);
-                let sec = (this.time_cost*60)%60;
-        
+                
+                this.time_left = +this.time_cost
+                let min = Math.floor(this.time_left/60);
+                let sec = this.time_left%60;
+                
+
                 document.getElementById('sec').innerHTML = ("0" + sec).slice(-2);
                 document.getElementById('min').innerHTML = ("0" + min).slice(-2);
                 
-                setInterval(() => { 
+                let counter = setInterval(() => { 
                     if(sec <= 0 && min <= 0) {
-                        clearInterval();
+                        wm[0].wm_status = 0
+                        clearInterval(counter);
                     }
                     else if(sec <=0 && min > 0) {
                         sec = 59;
                         min--;
                         document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
+                        this.time_left--
                     }
                     else {
                         sec--;
+                        this.time_left--
                     }
                     document.getElementById('sec').innerHTML = ("0" + sec).slice(-2); 
                 }, 1000);
@@ -175,5 +193,10 @@ var app = new Vue({
             this.wm_choose.wm_status = 0
             wm_choose = ''
         },
-    }
+        putQueue() {
+            console.log(this.wm_choose)
+            if(this.wm_choose != '')
+                this.wm_choose.queue_id += 1
+        },
+    },
 })

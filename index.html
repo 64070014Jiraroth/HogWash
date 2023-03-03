@@ -146,7 +146,7 @@
                                         </div>
                                     </h4>
                                     <button :disabled="online == false" type="button" class="btn btn-light" data-toggle="modal" data-target="#queue"
-                                        style="background-color:#DD6060;color:white;">
+                                        style="background-color:#DD6060;color:white;" @click="wm_choose = wm">
                                         จองคิว
                                     </button>
                                 </div>
@@ -155,7 +155,7 @@
                                         <div style="color:#F1D438;">อยู่ระหว่างดำเนินการ</div>
                                     </h4>
                                     <button :disabled="online == false" type="button" class="btn btn-light" disabled
-                                        style="background-color:#F1D438;color:white;">
+                                        style="background-color:#F1D438;color:white;" @click="wm_choose = wm">
                                         รอสักครู่
                                     </button>
                                 </div>
@@ -183,7 +183,7 @@
                                         <button type="button" class="col btn selectOption w-100" data-dismiss="modal"
                                             data-toggle="modal" href="#selectPayment" @click="option_select(op)">
                                             <h5>{{ op.option_name }}</h5>
-                                            <small>{{ op.option_cost }} บาท / {{ op.option_time }} นาที</small>
+                                            <small>{{ op.option_cost }} บาท / {{ op.option_time/60 }} นาที</small>
                                         </button>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content rounded-4">
                         <div class="modal-header" style="border:none;margin-top: 30px;">
-                            <h1 class="modal-title w-100 text-center">ลำดับคิวของคุณ : 0</h1>
+                            <h1 class="modal-title w-100 text-center">ลำดับคิวของคุณ : {{ wm_choose.queue_id + 1 }}</h1>
                             <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
                         </div>
                         <div class="modal-body">
@@ -296,7 +296,7 @@
                         <div class="modal-body">
                                 <h5>ระบบจะแจ้งให้ทราบเมื่อถึงคิวของคุณ</h5>
                                 <h5>และโปรดยืนยันการใช้งานต่อภายในเวลาที่กำหนด</h5><br>
-                                <button type="button" class="btn confirmed"
+                                <button type="button" class="btn confirmed" @click="putQueue()"
                                 style="background-color:#59A8B9;color:white;" data-dismiss="modal">
                                 เข้าใจแล้ว
                             </button>
