@@ -11,9 +11,8 @@ var app = new Vue({
 
         wm_choose: '',
         option_choose:'',
-        time_cost: '',
+        time_cost: 0,
         pay_choose: '',
-        time_left: 0,
 
         Washing_machine: [
             {
@@ -22,55 +21,63 @@ var app = new Vue({
                 wm_model: '',
                 wm_status: 0,
                 queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '002',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '003',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '004',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '005',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '006',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '007',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
             {
                 wm_id: '008',
                 wm_brand: 'Toshiba',
                 wm_model: '',
                 wm_status: 0,
-                queue_id: 0
+                queue_id: 0,
+                time_left: 0,
             },
         ],
         options: [
@@ -84,13 +91,13 @@ var app = new Vue({
                 option_id: "02",
                 option_name: "ซักธรรมดา",
                 option_cost: 30,
-                option_time: 3000
+                option_time: 30 //3000
             },
             {
                 option_id: "03",
                 option_name: "ซักนํ้าร้อน",
                 option_cost: 50,
-                option_time: 3000
+                option_time: 60  //3000
             },
             {
                 option_id: "04",
@@ -131,14 +138,31 @@ var app = new Vue({
         if (localStorage.getItem("wm_data") != null) {
             this.Washing_machine = JSON.parse(localStorage.getItem("wm_data"));  
         }
-        if (localStorage.getItem("time_left") != null) {
-            this.time_left = JSON.parse(localStorage.getItem("time_left"));  
+        if (this.Washing_machine.filter((data) => { return data.time_left > 0 }).length > 0) {
+            let wm = this.Washing_machine.filter((data) => { return data.time_left > 0 })
+            // this.count_time(wm)
+            for (let i=0; i<wm.length; i++) {
+                if(wm[i].time_left > 0) {
+                    let counter = setInterval(() => { 
+                        if(wm[i].time_left <= 0) {
+                            wm[i].wm_status = 0
+                            clearInterval(counter);
+                            // if (wm[i].queue_id > 0) {
+                            //     wm[i].wm_status = 2
+                            // }
+                        }
+                        else {
+                            wm[i].time_left--;
+                        }
+                        localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
+                    }, 1000);
+                }
+            }
         }
     },
     updated() {
         console.log('update')
         localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
-        localStorage.setItem("time_left", JSON.stringify(this.time_left));
     },
     methods: {
         logout() {
@@ -156,36 +180,22 @@ var app = new Vue({
         payment_select(pay) {
             this.pay_choose = pay.pay_name
         },
-        count_time() {
-            const wm = this.Washing_machine.filter((data) => { return data.wm_id == this.wm_choose.wm_id})
+        count_time(wm_choose) {
+            const wm = this.Washing_machine.filter((data) => { return data.wm_id == wm_choose.wm_id })
             wm[0].wm_status = 1;
+            wm[0].time_left = this.time_cost
 
-            if(+this.time_cost > 0) {
-                
-                this.time_left = +this.time_cost
-                let min = Math.floor(this.time_left/60);
-                let sec = this.time_left%60;
-                
-
-                document.getElementById('sec').innerHTML = ("0" + sec).slice(-2);
-                document.getElementById('min').innerHTML = ("0" + min).slice(-2);
-                
+            if(wm[0].time_left > 0) {
                 let counter = setInterval(() => { 
-                    if(sec <= 0 && min <= 0) {
+                    if(wm[0].time_left <= 0) {
                         wm[0].wm_status = 0
                         clearInterval(counter);
                     }
-                    else if(sec <=0 && min > 0) {
-                        sec = 59;
-                        min--;
-                        document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
-                        this.time_left--
-                    }
                     else {
-                        sec--;
-                        this.time_left--
+                        wm[0].time_left--;
                     }
-                    document.getElementById('sec').innerHTML = ("0" + sec).slice(-2); 
+                    localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
+                    // document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
                 }, 1000);
             }
         },

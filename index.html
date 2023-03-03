@@ -142,7 +142,7 @@
                                 <div v-show="wm.wm_status == 1">
                                     <h4 class="card-text">
                                         <div style="color:#DD6060;">
-                                            00:<span id="min">00</span>:<span id="sec">00</span>
+                                            00:<span id="min">{{ Math.floor(wm.time_left/60) }}</span>:<span id="sec">{{ wm.time_left%60 }}</span>
                                         </div>
                                     </h4>
                                     <button :disabled="online == false" type="button" class="btn btn-light" data-toggle="modal" data-target="#queue"
@@ -240,7 +240,7 @@
                                 <input type="checkbox" class="form-check-input" @click="isCheck = !isCheck"> รับทราบ <br><br>
                                 <button type="button" :class="['btn confirmed', isCheck ? '' : ' disabled']"
                                     style="background-color:#59A8B9;color:white;" data-dismiss="modal" 
-                                    @click="count_time()">ยืนยัน
+                                    @click="count_time(wm_choose)">ยืนยัน
                                 </button>
                             </div>
                         </div>
