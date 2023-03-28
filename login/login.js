@@ -51,7 +51,7 @@ var login = new Vue({
                     this.online_user = this.user_email
                     localStorage.setItem("online_status", JSON.stringify(this.online));
                     localStorage.setItem("online_user", JSON.stringify(this.online_user));
-                    window.location.href = "../index.html";
+                    window.location.href = "../home/index.html";
                 }
                 else {
                     alert('Incorrect email or password')

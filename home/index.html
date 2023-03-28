@@ -43,7 +43,7 @@
         <!-- nav bar -->
         <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between">
             <a class="navbar-brand mx-4" href="#">
-                <img src="./img/logo.png" width="80" height="" alt="">
+                <img src="../img/logo.png" width="80" height="" alt="">
             </a>
             <a class="navbar-brand" href="#" style="color:#59A8B9;">HogWash</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -90,7 +90,7 @@
 
             <div class="dropdown">
                 <!-- เข้าสู่ระบบ -->
-                <a class="px-3 mx-3" href="./login/login.html" v-show="online == false">
+                <a class="px-3 mx-3" href="../login/login.html" v-show="online == false">
                     <button class="btn my-2 my-sm-0" type="submit"
                         style="background-color:#59A8B9;color:white; font-size: 18; width:120px;">เข้าสู่ระบบ</button>
                 </a>
@@ -99,6 +99,7 @@
                     <button class="btn dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
                         style="background-color:#59A8B9;color:white; font-size: 18;">ยินดีต้อนรับ {{ online_user }} ! </button>
                     <div class="dropdown-menu dropdown-menu-right" style="width: 250px;">
+                        <a class="dropdown-item" style="cursor: pointer;" >แก้ไขบัญชีผู้ใช้</a>
                         <a class="dropdown-item" style="cursor: pointer;" >ประวัติการใช้งาน</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" @click="logout()" style="color: red; cursor: pointer;" >ออกจากระบบ</a>

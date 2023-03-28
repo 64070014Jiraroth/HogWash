@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#home',
     data: {
-        wm_img: './img/wm.png',
+        wm_img: '../img/wm.png',
         modal_choose : false,
         choose_id : '',
         isCheck : false,
@@ -109,19 +109,19 @@ var app = new Vue({
         payments: [
             {
                 pay_name: 'Prompt Pay',
-                pay_img: './img/payments/promptPay.png'
+                pay_img: '../img/payments/promptPay.png'
             },
             {
                 pay_name: 'True Money Wallet',
-                pay_img: './img/payments/trueMoney.png'
+                pay_img: '../img/payments/trueMoney.png'
             },
             {
                 pay_name: 'Shopee Pay',
-                pay_img: './img/payments/shopeePay.png'
+                pay_img: '../img/payments/shopeePay.png'
             },
             {
                 pay_name: 'Rabbit Line Pay',
-                pay_img: './img/payments/rabbitLinePay.png'
+                pay_img: '../img/payments/rabbitLinePay.png'
             },
         ],
         history: [
