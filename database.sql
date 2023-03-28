@@ -9,7 +9,7 @@
 
 DROP TABLE IF EXISTS `washing_machine`;
 CREATE TABLE `washing_machine` (
-    `wm_id`     VARCHAR(3),
+    `wm_id`     INT(3)  AUTO_INCREMENT,
     `wm_brand`  VARCHAR(30),
     `wm_model`  VARCHAR(30),
     `wm_status` INT(1)  NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `washing_machine` (
 
 DROP TABLE IF EXISTS `washing_option`;
 CREATE TABLE `washing_option` (
-    `option_id`     VARCHAR(2),
+    `option_id`     INT(2)  AUTO_INCREMENT,
     `option_brand`  VARCHAR(10),
     `option_cost`   INT(2)  NOT NULL,
     `option_time`   INT(3)  NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `washing_option` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-    `user_id`       VARCHAR(10),
+    `user_id`       INT(10) AUTO_INCREMENT,
     `user_password` VARCHAR(20) NOT NULL,
     `user_email`    VARCHAR(50) NOT NULL,
     `user_fname`    VARCHAR(50),
@@ -39,9 +39,9 @@ CREATE TABLE `user` (
 
 DROP TABLE IF EXISTS `has_queue`;
 CREATE TABLE `has_queue` (
-    `queue_id`  INT(3),
-    `wm_id`     VARCHAR(3)  NOT NULL,
-    `user_id`   VARCHAR(10) NOT NULL,
+    `queue_id`  INT(3)      AUTO_INCREMENT,
+    `wm_id`     INT(3)  NOT NULL,
+    `user_id`   INT(10) NOT NULL,
     PRIMARY KEY (`queue_id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
@@ -49,13 +49,13 @@ CREATE TABLE `has_queue` (
 
 DROP TABLE IF EXISTS `usage_history`;
 CREATE TABLE `usage_history` (
-    `use_id`        VARCHAR(3),
+    `use_id`        INT(3)  AUTO_INCREMENT,
     `use_date`      DATE,
     `use_time`      TIME,
     `use_payment`   VARCHAR(20),
-    `wm_id`     VARCHAR(3)  NOT NULL,
-    `user_id`   VARCHAR(10) NOT NULL,
-    `option_id` VARCHAR(2)  NOT NULL,
+    `wm_id`     INT(3)  NOT NULL,
+    `user_id`   INT(10) NOT NULL,
+    `option_id` INT(2)  NOT NULL,
     PRIMARY KEY (`use_id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`),
