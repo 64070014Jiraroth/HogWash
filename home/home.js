@@ -2,6 +2,8 @@ var app = new Vue({
     el: '#home',
     data: {
         wm_img: '../img/wm.png',
+        powder_img: '../img/powder.png',
+        softener_img: '../img/softener.png',
         modal_choose : false,
         choose_id : '',
         isCheck : false,
@@ -22,6 +24,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '002',
@@ -30,6 +34,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '003',
@@ -38,6 +44,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '004',
@@ -46,6 +54,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '005',
@@ -54,6 +64,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '006',
@@ -62,6 +74,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '007',
@@ -70,6 +84,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
             {
                 wm_id: '008',
@@ -78,6 +94,8 @@ var app = new Vue({
                 wm_status: 0,
                 queue_id: 0,
                 time_left: 0,
+                powder: 100,
+                softener: 100,
             },
         ],
         options: [

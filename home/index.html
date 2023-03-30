@@ -128,17 +128,31 @@
                         <div
                             :class="['card', wm.wm_status == 0 ? ' border0' : '', wm.wm_status == 1 ? ' border1' : '', wm.wm_status == 2 ? ' border2' : '']">
 
+                            <h3 class="card-title">{{ wm.wm_id }}</h3>
                             <img class="card-img-top" :src="wm_img">
                             <div class="card-body">
-                                <h3 class="card-title">{{ wm.wm_id }}</h3>
+                                <!------------------------------ powder & softener --------------------------------------------- -->
+                                <table id="product_table" style="align-items: center;">
+                                    <tr>
+                                        <td><img class="product_img" :src="powder_img"></td>
+                                        <td><img class="product_img" :src="softener_img"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p class="card-text" style="text-align: center;"><small class="text-muted"> {{wm.powder}}%</small></p></td>
+                                        <td><p class="card-text" style="text-align: center;"><small class="text-muted"> {{wm.softener}}%</small></p></td>
+                                    </tr>
+                                </table>
                                 <div v-show="wm.wm_status == 0">
-                                    <h4 class="card-text">
+                                    <!-- <h4 class="card-text">
                                         <div style="color:#7CCF85;">สถานะ : ว่าง</div>
-                                    </h4>
+                                    </h4> -->
                                     <button :disabled="online == false" type="button" class="btn btn-light" data-toggle="modal" data-target="#available"
                                         style="background-color:#7CCF85;color:white;" @click="wm.wm_status = 2; wm_choose = wm">
                                         เลือกใช้งาน
                                     </button>
+                                    <h4 class="card-text">
+                                        <div style="color:#7CCF85;">สถานะ : ว่าง</div>
+                                    </h4>
                                 </div>
                                 <div v-show="wm.wm_status == 1">
                                     <h4 class="card-text">
