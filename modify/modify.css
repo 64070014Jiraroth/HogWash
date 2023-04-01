@@ -1,0 +1,35 @@
+body {
+    background-color:azure
+}
+.card-changePass {
+    border-radius: 30px;
+    border:none;
+    text-align: center;
+    height: 450px;
+    width: 350px;
+    margin-right: 50px;
+}
+
+.card-title-changePass {
+    color:#59A8B9;
+    font-size: 40px;
+    font-weight: 700;
+    text-align:start;
+    margin-top:20px;
+}
+.button-changePass {
+    width: 92%;
+    font-size: 20px;
+    letter-spacing: .8px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.form-control-changePass {
+    /* width: 250px; */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.modal-content {
+    align-items: center;
+}
