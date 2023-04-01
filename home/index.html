@@ -399,7 +399,7 @@
             </div>
 
             <!-- ซักเสร็จแล้วเย่ -->
-            <div class="modal fade" id="completed" tabindex="-1" role="dialog">
+            <div class="modal fade" id="completed" tabindex="-1" role="dialog" data-backdrop="static">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content rounded-4">
                         <div class="modal-header" style="border:none;margin-top: 30px;">
@@ -407,10 +407,14 @@
                             <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
                         </div>
                         <div class="modal-body">
-                                <button type="button" class="btn confirmed"
-                                style="background-color:#59A8B9;color:white;" data-dismiss="modal">
-                                เข้าใจแล้ว
-                            </button>
+                            <div class="modal-body confirmedText">
+                                <p style="color:#DD6060;font-weight: bold;">กรุณานำผ้าออกจากเครื่องก่อนกดยืนยัน</p>
+                                <input type="checkbox" class="form-check-input" @click="isCheck = !isCheck"> นำผ้าออกจากเครื่องเรียบร้อยแล้ว <br><br>
+                                <button type="button" :class="['btn confirmed', isCheck ? '' : ' disabled']"
+                                    style="background-color:#59A8B9;color:white;" data-dismiss="modal" 
+                                    @click="count_time(wm_choose)">ยืนยัน
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
