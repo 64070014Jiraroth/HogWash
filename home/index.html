@@ -36,6 +36,8 @@
     <!-- css link -->
     <link rel="stylesheet" type="text/css" href="home.css" />
 
+    <link rel="icon" href="../img/logo.png">
+
 </head>
 
 <body>
@@ -99,8 +101,8 @@
                     <button class="btn dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
                         style="background-color:#59A8B9;color:white; font-size: 18;">ยินดีต้อนรับ {{ online_user }} ! </button>
                     <div class="dropdown-menu dropdown-menu-right" style="width: 250px;">
-                        <a class="dropdown-item" style="cursor: pointer;" >แก้ไขบัญชีผู้ใช้</a>
-                        <a class="dropdown-item" style="cursor: pointer;" >ประวัติการใช้งาน</a>
+                        <a class="dropdown-item" style="cursor: pointer;" href="../modify/modify.html">แก้ไขรหัสผ่าน</a>
+                        <a class="dropdown-item" style="cursor: pointer;" href="../history/history.html" >ประวัติการใช้งาน</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" @click="logout()" style="color: red; cursor: pointer;" >ออกจากระบบ</a>
                     </div>

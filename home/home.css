@@ -79,7 +79,7 @@ body::-webkit-scrollbar {
 }
 td {
     align-items: center;
-    border:1px solid black;
+    /* border:1px solid black; */
 }
 .card-body {
     align-items: center;
