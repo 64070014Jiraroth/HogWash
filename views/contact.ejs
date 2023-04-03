@@ -1,0 +1,56 @@
+<html lang="en">
+    <%- include('header') -%>
+
+    <head>
+        <link rel="stylesheet" href="/css/home.css" />
+        <link rel="stylesheet" href="/css/contact.css" />
+    </head>
+    
+    <body>
+        <div id="home">
+            <%- include('navbar') -%>
+        </div>
+
+        <section id="contact">
+            <div class="contact">
+                <p style="font-size: 40px;font-weight: bold;">ช่องทางการติดต่อ</p>
+                <table style="font-size: 30px;font-weight: bold;">
+                    <!-- ../static/img/contact/ -->
+                        <tr>
+                            <td><img class="icon" src="../img/phone.png"></td>
+                            <td>0912345678</td>
+                        </tr>
+                        <tr>
+                            <td><img class="icon" src="../static/img/contact/phone.png"></td>
+                            <td>hogwash@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td><img class="icon" src="../static/img/contact/phone.png"></td>
+                            <td>@HogWashLaundry</td>
+                        </tr>
+                </table>
+            </div>
+            <div class="mailbox">
+                <p style="font-size: 20px;">หรือติดต่อเราผ่าน Email ทันทีได้ที่นี่</p>
+                <form class="mailbox-form" action="">
+                    <div class="col-md-6">
+                        <label>หัวข้อเรื่อง</label>
+                        <input type="text" class="form-control" placeholder="หัวข้อเรื่อง">
+                      </div>
+                        <label>รายละเอียด</label>
+                        <textarea type="text" class="form-control" style='height:100px' placeholder=""> </textarea>
+                        <button type="button" class="btn sendMail"
+                                style="position: absolute;right:5%;background-color:#59A8B9;color:white;">ส่งข้อความ</button>
+                </form>
+                
+            </div>
+
+
+        </section>
+        
+    
+        <!-- js link -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="/js/home.js"></script>
+    </body>
+</html>

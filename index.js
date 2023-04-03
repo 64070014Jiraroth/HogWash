@@ -23,10 +23,12 @@ app.use(bodyParser.urlencoded({ extended: false}));
 const indexRouter = require('./routes/index')
 const loginRouter = require('./routes/login')
 const historyRouter = require('./routes/history')
+const contactRouter = require('./routes/contact')
 
 app.use(indexRouter.router)
 app.use(loginRouter.router)
 app.use(historyRouter.router)
+app.use(contactRouter.router)
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)

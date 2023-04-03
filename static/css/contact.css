@@ -1,0 +1,38 @@
+#contact {
+    height: 100%;
+    background-image: url("../img/bg2.png");
+    background-size: cover;
+}
+.contact {
+    position: absolute;
+    color: #59A8B9;
+    top: 18%;
+    left: 13%;
+}
+.mailbox {
+    position: absolute;
+    background-color: 	hsl(199, 52%, 75%, 30%);
+    border-radius: 30px;
+    top: 18%;
+    left: 50%;
+    width: 600px;
+    height: 370px;
+    padding: 35px;
+    color: #59A8B9;
+}
+.mailbox-form {
+    padding: 10px;
+    padding-top: 0px;
+}
+.icon {
+    padding: 25px;
+}
+.sendMail {
+    font-weight: 600;
+    border-radius: 15px;
+    width: 150px;
+    height: 50px;
+    font-size: 17px;
+    letter-spacing: 1.5px;
+    margin: 15px;
+}
