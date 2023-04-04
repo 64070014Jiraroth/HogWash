@@ -61,8 +61,13 @@ body::-webkit-scrollbar {
 
 .detail {
     position: absolute;
-    top: 35%;
+    top: 33%;
     left: 60%;
+}
+.detail table {
+    font-size: 20px;
+    border-collapse: separate;
+    border-spacing: 20px;
 }
 #detail-table {
     text-align: center;
@@ -75,7 +80,7 @@ body::-webkit-scrollbar {
 }
 .allCard {
     position: relative;
-    top: 10%;
+    top: 20%;
 }
 .card {
     width: 90%;
@@ -96,24 +101,16 @@ body::-webkit-scrollbar {
 }
 #product_table {
     align-items: center;
-<<<<<<< HEAD
     margin: 5px;
-    border-collapse: collapse;
-    border-spacing: 0;
 }
 .product_img {
-    width:60%;
-=======
-    margin-bottom: 10px;
-}
-.product_img {
-    width:70%;
->>>>>>> 1bb462937e52b87f9784aaf68d5536f1368fd699
+    width: 60%;
+    margin: 0px;
 }
 td {
     text-align: center;
     align-items: center;
-    border:1px solid black;
+    /* border:1px solid black; */
 }
 th {
     text-align: center;
@@ -196,8 +193,8 @@ th {
     border:none;
     text-align: center;
     height: 450px;
-    width: 350px;
-    margin-right: 50px;
+    width: 600px;
+    /* margin-right: 50px; */
 }
 .card-title-changePass {
     color:#59A8B9;
@@ -207,7 +204,7 @@ th {
     margin-top:20px;
 }
 .button-changePass {
-    width: 92%;
+    width: 100%;
     font-size: 20px;
     letter-spacing: .8px;
     margin-top: 20px;
@@ -220,16 +217,62 @@ th {
 }
 .modalChangepass {
     align-items: center;
+    width: 600px;
 }
 
-/* arrow */
-.arrow,
-.arrow:before {
+/* arrow-up */
+.arrow-up,
+.arrow-up:before {
   position: absolute;
   left: 50%;
 }
 
-.arrow {
+.arrow-up {
+  width: 40px;
+  height: 40px;
+  top: 117%;
+  margin: -20px 0 0 -20px;
+  transform: rotate(225deg);
+  border-left: none;
+  border-top: none;
+  border-right: 3px #59A8B9 solid;
+  border-bottom: 3px #59A8B9 solid;
+}
+
+  
+.arrow-up:before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+  border-left: none;
+  border-top: none;
+  border-right: 2px #59A8B9 solid;
+  border-bottom: 2px #59A8B9 solid;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: arrow-up;
+}
+  
+@keyframes arrow-up {
+  0% {
+      opacity: 1
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -10px);
+  }
+}
+
+/* arrow-down */
+.arrow-down,
+.arrow-down:before {
+  position: absolute;
+  left: 50%;
+}
+
+.arrow-down {
   width: 40px;
   height: 40px;
   top: 90%;
@@ -242,7 +285,7 @@ th {
 }
 
   
-.arrow:before {
+.arrow-down:before {
   content: '';
   width: 20px;
   height: 20px;
@@ -254,10 +297,10 @@ th {
   border-bottom: 2px #59A8B9 solid;
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  animation-name: arrow;
+  animation-name: arrow-down;
 }
   
-@keyframes arrow {
+@keyframes arrow-down {
   0% {
       opacity: 1
   }
