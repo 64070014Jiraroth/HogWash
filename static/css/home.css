@@ -87,26 +87,33 @@ body::-webkit-scrollbar {
     /* cursor: pointer; */
 }
 .card-img-top {
-    width:60%;
+    width:50%;
 }
 .card-title {
     font-weight: 700;
     letter-spacing: 1.5px;
-    margin-top: 10%;
+    margin-top: 12px;
 }
 #product_table {
     align-items: center;
+<<<<<<< HEAD
     margin: 5px;
     border-collapse: collapse;
     border-spacing: 0;
 }
 .product_img {
     width:60%;
+=======
+    margin-bottom: 10px;
+}
+.product_img {
+    width:70%;
+>>>>>>> 1bb462937e52b87f9784aaf68d5536f1368fd699
 }
 td {
     text-align: center;
     align-items: center;
-    /* border:1px solid black; */
+    border:1px solid black;
 }
 th {
     text-align: center;
