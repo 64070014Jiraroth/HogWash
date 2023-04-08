@@ -13,18 +13,18 @@
         </a>
 
         <div class="row">
-            <!-- Sign In -->
+            <!-- LOG In -->
             <div id="signIn_card" class="col-sm-6" >
                 <div class="card" v-show="show_signIn">
                     <div class="card-body">
                         <h5 class="card-title mx-3">ลงชื่อเข้าใช้</h5>
                         <p class="card-text">
-                        <form onsubmit="return false">
+                        <form action="/login/" enctype="multipart/form-data" method="POST" onsubmit="return false">
                             <div class="form-group mx-3 py-4">
-                                <input v-model="user_email" type="email" class="form-control" id="signInEmail" placeholder="อีเมล" required>
+                                <input v-model="user_email" type="email" class="form-control" id="signInEmail" name="signInEmail" placeholder="อีเมล" required>
                             </div>
                             <div class="form-group mx-3 py-4">
-                                <input v-model="user_password" type="password" class="form-control" id="signInPassword" placeholder="รหัสผ่าน" required>
+                                <input v-model="user_password" type="password" class="form-control" id="signInPassword" name="signInPassword" placeholder="รหัสผ่าน" required>
                             </div>
                             <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                 @click="checkUser()">
@@ -50,15 +50,16 @@
                     <div class="card-body">
                         <h5 class="card-title mx-3">สมัครสมาชิก</h5>
                         <p class="card-text">
-                        <form onsubmit="return false">
+                        <form action="/login/" enctype="multipart/form-data" method="POST"> 
+                            <!-- onsubmit="return false" -->
                             <div class="form-group mx-3 py-3">
-                                <input v-model="new_email" type="email" class="form-control" id="signUpEmail" placeholder="อีเมล" required>
+                                <input v-model="new_email" type="email" class="form-control" id="signUpEmail" name="signUpEmail" placeholder="อีเมล" required>
                             </div>
                             <div class="form-group mx-3 py-3">
-                                <input v-model="new_password1" type="password" name="new_ps" class="form-control" id="signUpPassword" placeholder="รหัสผ่าน" required>
+                                <input v-model="new_password1" type="password" class="form-control" name="new_ps" id="signUpPassword" placeholder="รหัสผ่าน" required>
                             </div>
                             <div class="form-group mx-3 py-3">
-                                <input v-model="new_password2" type="password" name="new_ps" class="form-control" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
+                                <input v-model="new_password2" type="password" class="form-control" name="new_ps"  id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
                             </div>
                             <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                 @click="addUser()">
