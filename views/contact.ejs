@@ -32,13 +32,13 @@
             </div>
             <div class="mailbox">
                 <p style="font-size: 23px;">หรือติดต่อเราผ่าน Email ทันทีได้ที่นี่</p>
-                <form class="mailbox-form" action="">
+                <form class="mailbox-form" action="/contact/" enctype="multipart/form-data" method="POST">
                     <div class="col-md-6">
                         <label style="font-size: 18px;">หัวข้อเรื่อง</label>
-                        <input type="text" class="form-control" placeholder="หัวข้อเรื่อง">
+                        <input type="text" class="form-control" placeholder="" id="comment_title">
                     </div><br>
                         <label style="font-size: 18px;">รายละเอียด</label>
-                        <textarea type="text" class="form-control" style='height:100px' placeholder=""></textarea>
+                        <textarea type="text" class="form-control" style='height:100px;resize: none;' placeholder="" id="comment_detail"></textarea>
                         <button type="button" class="btn sendMail" on>ส่งข้อความ</button>
                 </form>
                 

@@ -6,18 +6,6 @@ const { sign } = require("crypto");
 
 router = express.Router();
 
-var storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-      callback(null, './static/uploads') // path to save file
-    },
-    filename: function (req, file, callback) {
-      // set file name
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-})
-
-const upload = multer({ storage: storage })
-
 router.get("/login", async function (req, res, next) {
     
     return res.render("login");
