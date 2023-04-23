@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
 *{
     font-family: 'Prompt', sans-serif;
     /* overflow: hidden; */
@@ -14,7 +16,7 @@ body::-webkit-scrollbar {
 }
 #home1 {
     height: 100%;
-    background-image: url("../img/background.png");
+    background-image: url("~@/assets/img/background.png");
     background-size: cover;
 }
 #home2 {

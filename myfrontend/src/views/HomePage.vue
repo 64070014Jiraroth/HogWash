@@ -2,7 +2,7 @@
   <div>
     <div id="home">
       <!-- section 1 -->
-      <section id="home1">
+      <section id="home1" >
         <div class="slogan">
           <p style="font-size: 80px">HogWash<br />Laundry</p>
           <p>ระบบให้บริการซักผ้า</p>
