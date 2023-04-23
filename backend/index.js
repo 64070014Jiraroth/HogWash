@@ -3,21 +3,29 @@ const path = require("path")
 const bodyParser = require('body-parser')
 
 const app = express();
+var cors = require('cors')
 
-// set the view engine to ejs
-app.set('view engine', 'ejs')
-// set root folder for views
-app.set('views', path.join(__dirname, 'views'))
+app.use(cors())
 
-// Statics
-app.use(express.static(path.join(__dirname, 'static')))
+// // set the view engine to ejs
+// app.set('view engine', 'ejs')
+// // set root folder for views
+// app.set('views', path.join(__dirname, 'views'))
 
-// Encode body
-app.use(bodyParser.urlencoded({ extended: false}));
+// // Statics
+// app.use(express.static(path.join(__dirname, 'static')))
+
+// // Encode body
+// app.use(bodyParser.urlencoded({ extended: false}));
 
 
 // app.use(express.json()) // for parsing application/json
 // app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+// Statics
+app.use(express.static('static'))
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // routers
 const indexRouter = require('./routes/index')
