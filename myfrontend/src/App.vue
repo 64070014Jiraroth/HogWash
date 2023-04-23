@@ -5,7 +5,7 @@
       class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between"
     >
       <a class="navbar-brand mx-4" href="/">
-        <img src="/img/logo.png" width="80" height="" alt="" />
+        <img :src="require('./assets/img/logo.png')" width="80" height="" alt="" />
       </a>
       <a class="navbar-brand" href="/" style="color: #59a8b9">HogWash</a>
       <button
@@ -198,7 +198,11 @@
         </div>
       </div>
     </nav>
+
+    <router-view :key="$route.fullPath" />
+    
   </div>
+  
 </template>
 
 <style>

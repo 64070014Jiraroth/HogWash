@@ -13,7 +13,7 @@ app.use(cors())
 // app.set('views', path.join(__dirname, 'views'))
 
 // // Statics
-// app.use(express.static(path.join(__dirname, 'static')))
+app.use(express.static(path.join(__dirname, 'static')))
 
 // // Encode body
 // app.use(bodyParser.urlencoded({ extended: false}));
@@ -23,9 +23,9 @@ app.use(cors())
 // app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Statics
-app.use(express.static('static'))
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+// app.use(express.static('static'))
+// app.use(express.json()) // for parsing application/json
+// app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // routers
 const indexRouter = require('./routes/index')

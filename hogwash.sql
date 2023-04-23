@@ -13,7 +13,7 @@ CREATE TABLE `washing_machine` (
     `wm_brand`  VARCHAR(30),
     `wm_model`  VARCHAR(30),
     `wm_status` INT(1)  NOT NULL,
-    `queue_id`  INT(3)  NOT NULL,
+    `queue_id`  INT(3)  ,
     PRIMARY KEY (`wm_id`),
     FOREIGN KEY (`queue_id`) REFERENCES `has_queue`(`queue_id`)
 );
@@ -61,6 +61,17 @@ CREATE TABLE `usage_history` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`),
     FOREIGN KEY (`option_id`) REFERENCES `washing_option`(`option_id`)
 );
+
+DROP TABLE IF EXISTS `images`;
+CREATE TABLE `images` (
+    `img_id`        INT(3)  AUTO_INCREMENT,
+    `img_path`      VARCHAR(200)    NOT NULL,
+    `img_name`      VARCHAR(20),
+    PRIMARY KEY (`img_id`)
+);
+
+INSERT INTO `washing_machine` (`wm_id`, `wm_status`) 
+VALUES (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
