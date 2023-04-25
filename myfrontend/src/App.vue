@@ -28,7 +28,9 @@
             <a class="nav-link" href="../#home2">สถานะเครื่องซักผ้า</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/contact">ติดต่อเรา</a>
+            <router-link to="/contact" class="nav-link">
+              <a>ติดต่อเรา</a>
+            </router-link>
           </li>
           <li class="nav-item">
             <a
@@ -77,7 +79,7 @@
         </ul>
       </div>
 
-      <div class="dropdown">
+      <Dropdown class="dropdown">
         <!-- เข้าสู่ระบบ -->
         <a class="px-3 mx-3" href="/login" v-show="online == false">
           <button
@@ -117,8 +119,9 @@
               data-target="#changePassword"
               >แก้ไขรหัสผ่าน</a
             >
-            <a class="dropdown-item" style="cursor: pointer" href="/history"
-              >ประวัติการใช้งาน</a
+              <router-link to="/contact" class="nav-link">
+                <a>ประวัติการใช้งาน</a>
+              </router-link>
             >
             <div class="dropdown-divider"></div>
             <a
@@ -129,7 +132,7 @@
             >
           </div>
         </div>
-      </div>
+      </Dropdown>
 
       <div class="modal fade" id="changePassword" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -204,6 +207,12 @@
   </div>
   
 </template>
+
+<script>
+
+export default {
+}
+</script>
 
 <style>
 </style>

@@ -9,6 +9,21 @@ const routes = [
     name: 'Home',
     component: () => import('../views/HomePage.vue') // set home as path '/'
   },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('../views/ContactPage.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginPage.vue')
+  },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('../views/HistoryPage.vue')
+  },
 ]
 
 const router = new VueRouter({
