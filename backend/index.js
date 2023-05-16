@@ -38,6 +38,8 @@ app.use(loginRouter.router)
 app.use(historyRouter.router)
 app.use(contactRouter.router)
 
+app.use(express.json())
+
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`)
 })
