@@ -1,14 +1,13 @@
 <template>
   <div>
     <div id="home">
-<<<<<<< HEAD
+
       <!-- section 1 -->
-      <section id="home1" v-bind:style="{'background-image' : 'url(' + require('../assets/img/background.png') + ')' }">
-=======
+      <!-- <section id="home1" v-bind:style="{'background-image' : 'url(' + require('../assets/img/background.png') + ')' }"> -->
+
       <!-- div 1 -->
       <div id="home1">
       <div class="intro">
->>>>>>> 46b169fcdde696601af2ca6ea977e116338a7a26
         <div class="slogan">
           <p style="font-size: 80px">HogWash<br />Laundry</p>
           <p>ระบบให้บริการซักผ้า</p>

@@ -1,11 +1,16 @@
 <template>
   <div id="app">
     <!-- nav bar -->
-    <nav  
+    <nav
       class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between"
     >
       <a class="navbar-brand mx-4" href="/">
-        <img :src="require('./assets/img/logo.png')" width="80" height="" alt="" />
+        <img
+          :src="require('./assets/img/logo.png')"
+          width="80"
+          height=""
+          alt=""
+        />
       </a>
       <a class="navbar-brand" href="/" style="color: #59a8b9">HogWash</a>
       <button
@@ -81,7 +86,7 @@
 
       <Dropdown class="dropdown">
         <!-- เข้าสู่ระบบ -->
-        <a class="px-3 mx-3" href="/login" v-show="online == false">
+        <a class="px-3 mx-3" href="/user" v-show="online == false">
           <button
             class="btn my-2 my-sm-0"
             type="submit"
@@ -119,9 +124,9 @@
               data-target="#changePassword"
               >แก้ไขรหัสผ่าน</a
             >
-              <router-link to="/contact" class="nav-link">
-                <a>ประวัติการใช้งาน</a>
-              </router-link>
+            <router-link to="/contact" class="nav-link">
+              <a>ประวัติการใช้งาน</a>
+            </router-link>
             >
             <div class="dropdown-divider"></div>
             <a
@@ -202,15 +207,37 @@
       </div>
     </nav>
 
-    <router-view :key="$route.fullPath" />
-    
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange" />
   </div>
-  
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 
 export default {
+  data () {
+    return {
+      user: null
+    }
+  },
+  mounted () {
+    this.onAuthChange()
+  },
+  methods: {
+    onAuthChange () {
+      const token = localStorage.getItem('token')
+      if (token) {
+        this.getUser()
+      }
+    },
+    getUser () {
+      // const token = localStorage.getItem('token')
+      // axios.get('http://localhost:3000/user/me', { headers: {Authorization: 'Bearer ' + token} }).then(res => {
+      axios.get('/user/me').then(res => {
+        this.user = res.data
+      })
+    },
+  }
 }
 </script>
 

@@ -27,14 +27,22 @@ CREATE TABLE `washing_option` (
     PRIMARY KEY (`option_id`)
 );
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-    `user_id`       INT(10) AUTO_INCREMENT,
-    `user_password` VARCHAR(20) NOT NULL,
-    `user_email`    VARCHAR(50) NOT NULL,
-    `user_fname`    VARCHAR(50),
-    `user_lname`    VARCHAR(50),
-    PRIMARY KEY (`user_id`)
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+    `id`       INT(10) AUTO_INCREMENT,
+    `email`    VARCHAR(50) NOT NULL,
+    `password` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `tokens`;
+CREATE TABLE `tokens` (
+    `id`        INT(10) AUTO_INCREMENT,
+    `user_id`   INT(10) NOT NULL,
+    `token`     varchar(100) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `tokens_UN` (`token`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `has_queue`;
@@ -44,7 +52,7 @@ CREATE TABLE `has_queue` (
     `user_id`   INT(10) NOT NULL,
     PRIMARY KEY (`queue_id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
 
 DROP TABLE IF EXISTS `usage_history`;
@@ -58,7 +66,7 @@ CREATE TABLE `usage_history` (
     `option_id` INT(2)  NOT NULL,
     PRIMARY KEY (`use_id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
     FOREIGN KEY (`option_id`) REFERENCES `washing_option`(`option_id`)
 );
 

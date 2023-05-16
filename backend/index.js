@@ -3,8 +3,11 @@ const path = require("path")
 const bodyParser = require('body-parser')
 
 const app = express();
-var cors = require('cors')
 
+const cors = require('cors')
+const { logger } = require('./middlewares')
+  
+app.use(logger)
 app.use(cors())
 
 // // set the view engine to ejs
@@ -13,28 +16,23 @@ app.use(cors())
 // app.set('views', path.join(__dirname, 'views'))
 
 // // Statics
-app.use(express.static(path.join(__dirname, 'static')))
+// app.use(express.static(path.join(__dirname, 'static')))
+// app.use(express.json())
 
-// // Encode body
-// app.use(bodyParser.urlencoded({ extended: false}));
-
-
-// app.use(express.json()) // for parsing application/json
-// app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Statics
-// app.use(express.static('static'))
-// app.use(express.json()) // for parsing application/json
-// app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(express.static('static'))
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // routers
 const indexRouter = require('./routes/index')
-const loginRouter = require('./routes/login')
+const userRouter = require('./routes/user')
 const historyRouter = require('./routes/history')
 const contactRouter = require('./routes/contact')
 
 app.use(indexRouter.router)
-app.use(loginRouter.router)
+app.use(userRouter.router)
 app.use(historyRouter.router)
 app.use(contactRouter.router)
 

@@ -15,17 +15,19 @@
                     <div class="card-body">
                         <h5 class="card-title mx-3">ลงชื่อเข้าใช้</h5>
                         <a class="card-text">
-                        <form action="/login/" enctype="multipart/form-data" method="POST" onsubmit="return false">
+                        <form action="/login/" enctype="multipart/form-data" method="POST">
                             <div class="form-group mx-3 py-4">
-                                <input v-model="user_email" type="email" class="form-control" id="signInEmail"
-                                    name="signInEmail" placeholder="อีเมล" required>
+                                <input v-model="loginEmail" class="form-control" type="email" />
+                                <!-- <input v-model="loginEmail" type="email" class="form-control" id="signInEmail"
+                                    name="signInEmail" placeholder="อีเมล" required> -->
                             </div>
                             <div class="form-group mx-3 py-4">
-                                <input v-model="user_password" type="password" class="form-control" id="signInPassword"
-                                    name="signInPassword" placeholder="รหัสผ่าน" required>
+                                <input v-model="loginPassword" class="form-control" type="password" />
+                                <!-- <input v-model="loginPassword" type="password" class="form-control" id="signInPassword"
+                                    name="signInPassword" placeholder="รหัสผ่าน" required> -->
                             </div>
                             <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
-                                @click="checkUser()">
+                                @click="submit()">
                                 เข้าสู่ระบบ
                             </button>
                         </form>
@@ -49,19 +51,62 @@
                     <div class="card-body">
                         <h5 class="card-title mx-3">สมัครสมาชิก</h5>
                         <a class="card-text">
-                            <form action="/login/" enctype="multipart/form-data" method="POST">
+                            <form action="/signup/" enctype="multipart/form-data" method="POST">
                                 <!-- onsubmit="return false" -->
                                 <div class="form-group mx-3 py-3">
-                                    <input v-model="new_email" type="email" class="form-control" name="signUpEmail"
-                                        id="signUpEmail" placeholder="อีเมล" required>
+                                    <input
+                                        v-model="$v.signUpEmail.$model"
+                                        :class="{ 'is-danger': $v.signUpEmail.$error }"
+                                        class="form-control"
+                                        type="text"
+                                        placeholder="อีเมล"
+                                    />
+                                    <template v-if="$v.signUpEmail.$error">
+                                        <p class="help is-danger" v-if="!$v.signUpEmail.required">
+                                            This field is required
+                                        </p>
+                                        <p class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</p>
+                                    </template>
+                                    <!-- <input v-model="new_email" type="email" class="form-control" name="signUpEmail"
+                                        id="signUpEmail" placeholder="อีเมล" required> -->
                                 </div>
                                 <div class="form-group mx-3 py-3">
-                                    <input v-model="new_password1" type="password" class="form-control" name="new_ps"
-                                        id="signUpPassword" placeholder="รหัสผ่าน" required>
+                                    <input
+                                        v-model="$v.signUpPassword.$model"
+                                        :class="{ 'is-danger': $v.signUpPassword.$error }"
+                                        class="form-control"
+                                        type="password"
+                                        placeholder="รหัสผ่าน"
+                                    />
+                                    <template v-if="$v.signUpPassword.$error">
+                                        <p class="help is-danger" v-if="!$v.signUpPassword.required">
+                                        This field is required
+                                        </p>
+                                        <p class="help is-danger" v-if="!$v.signUpPassword.minLength">
+                                        Password must be at least 6 letters
+                                        </p>
+                                        <p class="help is-danger" v-if="!$v.signUpPassword.complexPassword">
+                                        Password is too easy
+                                        </p>
+                                    </template>
+                                    <!-- <input v-model="new_password1" type="password" class="form-control" name="new_ps"
+                                        id="signUpPassword" placeholder="รหัสผ่าน" required> -->
                                 </div>
                                 <div class="form-group mx-3 py-3">
-                                    <input v-model="new_password2" type="password" class="form-control" name="new_ps"
-                                        id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
+                                    <input
+                                        v-model="$v.confirm_password.$model"
+                                        :class="{ 'is-danger': $v.confirm_password.$error }"
+                                        class="form-control"
+                                        type="password"
+                                        placeholder="ยืนยันรหัสผ่าน"
+                                    />
+                                    <template v-if="$v.confirm_password.$error">
+                                        <p class="help is-danger" v-if="!$v.confirm_password.sameAs">
+                                        Password do not match
+                                        </p>
+                                    </template>
+                                    <!-- <input v-model="new_password2" type="password" class="form-control" name="new_ps"
+                                        id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required> -->
                                 </div>
                                 <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                     @click="addUser()">
@@ -87,8 +132,87 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 import "../assets/css/login.css";
-export default {
-    
+
+import {
+    required,
+    email,
+    minLength,
+    sameAs,
+} from "vuelidate/lib/validators";
+
+function complexPassword(value) {
+    if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+        return false;
+    }
+    return true;
 }
+
+export default {
+    data() {
+        return {
+            signUpEmail: "",
+            signUpPassword: "",
+            confirm_password: "",
+            loginEmail: "",
+            loginPassword: "",
+        };
+    },
+    validations: {
+        signUpEmail: {
+            required,
+            email,
+        },
+        signUpPassword: {
+            required: required,
+            minLength: minLength(6),
+            complex: complexPassword,
+        },
+        confirm_password: {
+            sameAs: sameAs("signUpPassword"),
+        },
+    },
+    methods: {
+        addUser() {
+        // Validate all fields
+        this.$v.$touch();
+
+        // เช็คว่าในฟอร์มไม่มี error
+        if (!this.$v.$invalid) {
+            let data = {
+                signUpEmail: this.signUpEmail,
+                signUpPassword: this.signUpPassword,
+                confirm_password: this.confirm_password,
+            };
+
+            axios
+            .post("/user/signup", data)
+            .then(() => {
+                alert("Sign up Success");
+            })
+            .catch((err) => {
+                alert(err.response.data.details.message)
+            });
+        }
+        },
+        submit () {
+            const data = {
+                loginEmail: this.loginEmail,
+                loginPassword: this.loginPassword
+            } 
+            axios.post('/user/login/', data)
+            .then(res => {
+                const token = res.data.token                                
+                localStorage.setItem('token', token) // เอา token ที่ได้ไปใส่ใน local storage
+                this.$emit('auth-change')
+                this.$router.push({path: '/'}) // login สำเร็จ -> ไปหน้า index
+            })
+            .catch(error => {
+                this.error = error.response.data
+                console.log(error.response.data)
+            })
+        }
+    },
+};
 </script>

@@ -15,8 +15,8 @@ const routes = [
     component: () => import('../views/ContactPage.vue')
   },
   {
-    path: '/login',
-    name: 'login',
+    path: '/user',
+    name: 'user',
     component: () => import('../views/LoginPage.vue')
   },
   {
