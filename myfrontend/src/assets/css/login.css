@@ -1,7 +1,10 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 *{
     font-family: 'Prompt', sans-serif;
-}
-body {
+} */
+
+/* ทำไมไม่อยู่ตรงกลางงง */
+.loginPage {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -17,7 +20,7 @@ svg {
     top:200px;
     
 }
-.card {
+.card_login {
     border-radius: 30px;
     border:none;
     text-align: center;
@@ -25,7 +28,7 @@ svg {
     width: 400px;
     margin-right: 50px;
 }
-.card-title {
+.title_login {
     color:#59A8B9;
     font-size: 40px;
     font-weight: 700;
