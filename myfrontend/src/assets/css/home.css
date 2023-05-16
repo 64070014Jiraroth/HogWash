@@ -3,6 +3,7 @@
 *{
     font-family: 'Prompt', sans-serif;
     /* overflow: hidden; */
+    /* background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png'); */
 }
 html {
     scroll-behavior: smooth;
@@ -16,10 +17,13 @@ body::-webkit-scrollbar {
 }
 #home1 {
     height: 100%;
-    background-image: url("~@/assets/img/background.png");
+    /* background-image: url("~@/assets/img/background.png"); */
+    background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png');
     background-size: cover;
 }
-#home2 {
+#home2{
+    position: absolute;
+    top: 100%;
     align-items: center;
     height: 100%;
 }
@@ -46,6 +50,9 @@ body::-webkit-scrollbar {
     top: 35%;
     right: 60%;
     text-align: center;
+}
+.intro {
+    position: static;
 }
 .vl {
     position: absolute;
@@ -81,8 +88,9 @@ body::-webkit-scrollbar {
     margin: 10%;
 }
 .allCard {
-    position: relative;
-    top: 20%;
+    position: static;
+    margin-top: 11%;
+    padding-bottom: 2%;
 }
 .card {
     width: 90%;
@@ -232,7 +240,7 @@ th {
 .arrow-up {
   width: 40px;
   height: 40px;
-  top: 117%;
+  top: 15%;
   margin: -20px 0 0 -20px;
   transform: rotate(225deg);
   border-left: none;
