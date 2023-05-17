@@ -9,22 +9,30 @@
 
 DROP TABLE IF EXISTS `washing_machine`;
 CREATE TABLE `washing_machine` (
-    `wm_id`     INT(3)  AUTO_INCREMENT,
-    `wm_brand`  VARCHAR(30),
-    `wm_model`  VARCHAR(30),
-    `wm_status` INT(1)  NOT NULL,
-    `queue_id`  INT(3)  ,
-    PRIMARY KEY (`wm_id`),
-    FOREIGN KEY (`queue_id`) REFERENCES `has_queue`(`queue_id`)
+    `id`     INT(3)  AUTO_INCREMENT,
+    `brand`  VARCHAR(30),
+    `model`  VARCHAR(30),
+    `status` INT(1)  NOT NULL,
+    `powder`    INT(3) NOT NULL,
+    `softener`  INT(3) NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `washing_option`;
-CREATE TABLE `washing_option` (
-    `option_id`     INT(2)  AUTO_INCREMENT,
-    `option_brand`  VARCHAR(10),
-    `option_cost`   INT(2)  NOT NULL,
-    `option_time`   INT(3)  NOT NULL,
-    PRIMARY KEY (`option_id`)
+DROP TABLE IF EXISTS `options`;
+CREATE TABLE `options` (
+    `id`     INT(2)  AUTO_INCREMENT,
+    `name`  VARCHAR(10),
+    `price`   INT(2)  NOT NULL,
+    `time`   INT(3)  NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE `payments` (
+    `id`    INT(2)  AUTO_INCREMENT,
+    `name`  VARCHAR(10),
+    `path` VARCHAR(200) NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `users`;
@@ -46,37 +54,37 @@ CREATE TABLE `tokens` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `has_queue`;
-CREATE TABLE `has_queue` (
-    `queue_id`  INT(3)      AUTO_INCREMENT,
+DROP TABLE IF EXISTS `queue`;
+CREATE TABLE `queue` (
+    `id`  INT(3)      AUTO_INCREMENT,
     `wm_id`     INT(3)  NOT NULL,
     `user_id`   INT(10) NOT NULL,
-    PRIMARY KEY (`queue_id`),
-    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
+    `booking_time`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
 
-DROP TABLE IF EXISTS `usage_history`;
-CREATE TABLE `usage_history` (
-    `use_id`        INT(3)  AUTO_INCREMENT,
-    `use_date`      DATE,
-    `use_time`      TIME,
-    `use_payment`   VARCHAR(20),
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE `history` (
+    `id`        INT(3)  AUTO_INCREMENT,
+    `date`      DATE,
+    `time`      TIME,
+    `payment`   VARCHAR(20),
     `wm_id`     INT(3)  NOT NULL,
     `user_id`   INT(10) NOT NULL,
     `option_id` INT(2)  NOT NULL,
-    PRIMARY KEY (`use_id`),
-    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`wm_id`),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
-    FOREIGN KEY (`option_id`) REFERENCES `washing_option`(`option_id`)
+    FOREIGN KEY (`option_id`) REFERENCES `washing_option`(`id`)
 );
 
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
-    `img_id`        INT(3)  AUTO_INCREMENT,
-    `img_path`      VARCHAR(200)    NOT NULL,
-    `img_name`      VARCHAR(20),
-    PRIMARY KEY (`img_id`)
+    `id`        INT(3)  AUTO_INCREMENT,
+    `path`      VARCHAR(200)    NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `feedback`;
@@ -90,8 +98,32 @@ CREATE TABLE `feedback` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `washing_machine` (`wm_id`, `wm_status`) 
-VALUES (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0);
+INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
+VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (2, 'Panasonic', 'NA-127XB1WMY', 1, 100, 100), 
+        (3, 'Panasonic', 'NA-127XB1WMY', 2, 100, 100), 
+        (4, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (5, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (6, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (7, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (8, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100);
+
+INSERT INTO `options` (`id`, `name`, `price`, `time`) 
+VALUES  (1, 'ซักเร็ว', 20, 1800), 
+        (2, 'ซักธรรมดา', 30, 3000), 
+        (3, 'ซักนํ้าร้อน', 50, 3000), 
+        (4, 'ซักนํ้าเย็น', 50, 3000);
+
+INSERT INTO `payments` (`id`, `name`, `path`) 
+VALUES  (1, 'Prompt Pay', '/uploads/payments/promptPay.png'), 
+        (2, 'True Money Wallet', '/uploads/payments/trueMoney.png'), 
+        (3, 'Shopee Pay', '/uploads/payments/shopeePay.png'), 
+        (4, 'Rabbit Line Pay', '/uploads/payments/rabbitLinePay.png');
+
+INSERT INTO `images` (`id`, `path`) 
+VALUES  (1, '/uploads/materials/wm.png'), 
+        (2, '/uploads/materials/powder.png'), 
+        (3, '/uploads/materials/softener.png');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
