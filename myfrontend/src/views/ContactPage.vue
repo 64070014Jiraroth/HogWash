@@ -20,7 +20,8 @@
                 </table>
             </div>
             <div class="mailbox">
-                <p style="font-size: 23px;">หรือติดต่อเราผ่าน Email ทันทีได้ที่นี่</p>
+            <!-- <div class="mailbox" v-show="mailSent == false"> -->
+                <p style="font-size: 23px;">หรือติดต่อเราผ่าน <b>กล่องข้อความ</b> ทันทีได้ที่นี่</p>
                 <form class="mailbox-form" action="/contact/" enctype="multipart/form-data" method="POST">
                     <div class="col-md-6">
                         <label style="font-size: 18px;">หัวข้อเรื่อง</label>
@@ -28,8 +29,15 @@
                     </div><br>
                         <label style="font-size: 18px;">รายละเอียด</label>
                         <textarea type="text" class="form-control" style='height:100px;resize: none;' placeholder="" id="comment_detail"></textarea>
-                        <button type="button" class="btn sendMail" on>ส่งข้อความ</button>
+                        <!-- <div class="card card_login" v-show="show_signIn"> -->
+                        <button type="button" :class=" ['btn sendMail', mailSent ? 'disabled' : ' '] " 
+                        @click="mailSent = !mailSent"  v-show="mailSent == false" on>
+                        ส่งข้อความ</button>
+                        <button type="button" class="btn sendMail disabled" v-show="mailSent" style="width:180px" on>✓ ส่งข้อความแล้ว</button>
                 </form>
+            </div>
+            <div class="mailbox" v-show="mailSent">
+                 <!-- <p style="font-size: 23px;">✓ ส่งข้อความแล้ว</p> -->
             </div>
         </section>
     </div>
@@ -45,6 +53,11 @@ export default {
     computed: {
         backgroundImg() {
             return `background-image: url("https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png");`;
+        }
+    },
+    data() {
+        return {
+            mailSent: false,
         }
     }
 }

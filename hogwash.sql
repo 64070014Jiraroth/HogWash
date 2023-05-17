@@ -78,6 +78,17 @@ CREATE TABLE `images` (
     PRIMARY KEY (`img_id`)
 );
 
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE `feedback` (
+    `id`        INT(10) AUTO_INCREMENT,
+    `user_id`   INT(10) NOT NULL,
+    `title`     varchar(100) NOT NULL,
+    `description`     varchar(100) NOT NULL,
+    `feedback_date`     timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+);
+
 INSERT INTO `washing_machine` (`wm_id`, `wm_status`) 
 VALUES (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0);
 

@@ -6,8 +6,8 @@
 .contact {
     position: absolute;
     color: #59A8B9;
-    top: 13%;
-    left: 20%;
+    top: 35%;
+    left: 22%;
     padding: 20px;
 }
 label {
@@ -22,7 +22,7 @@ td {
     position: absolute;
     background-color: 	hsl(199, 52%, 75%, 30%);
     border-radius: 30px;
-    top: 16%;
+    top: 26%;
     left: 50%;
     width: 600px;
     height: 420px;

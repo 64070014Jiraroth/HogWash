@@ -1,5 +1,5 @@
 <template>
-    <div id="login">
+    <div class="loginPage" id="login">
         <a class="backButton" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-arrow-bar-left"
                 viewBox="0 0 16 16">
@@ -8,10 +8,11 @@
             </svg>
         </a>
 
-        <div class="row loginPage">
+        <div class="row">
             <!-- LOG In -->
             <div id="signIn_card" class="col-sm-6">
-                <div class="card card_login" v-show="show_signIn">
+                <!-- <div class="card card_login" v-show="show_signIn"> -->
+                <div class="card card_login" >
                     <div class="card-body">
                         <h5 class="card-title title_login mx-3">ลงชื่อเข้าใช้</h5>
                         <a class="card-text">
@@ -37,7 +38,8 @@
                         </small>
                     </div>
                 </div>
-                <div class="card card_login" v-show="show_signIn == false">
+                <!-- <div class="card card_login" v-show="show_signIn == false"> -->
+                <div class="card card_login" >
                     <div class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
                         <img style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
                             :src="require('../assets/img/logo.png')">
@@ -47,7 +49,8 @@
 
             <!-- Sign Up -->
             <div id="signUp_card" class="col-sm-6">
-                <div class="card card_login" v-show="show_signIn == false">
+                <!-- <div class="card card_login" v-show="show_signIn == false"> -->
+                <div class="card card_login">
                     <div class="card-body">
                         <h5 class="card-title title_login mx-3">สมัครสมาชิก</h5>
                         <a class="card-text">
@@ -120,7 +123,8 @@
                         </small>
                     </div>
                 </div>
-                <div class="card card_login" v-show="show_signIn">
+                <!-- <div class="card card_login" v-show="show_signIn"> -->
+                <div class="card card_login">
                     <div class="card-body" style="background-color: #EEFCFF;border-radius: 30px;">
                         <img style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"
                             :src="require('../assets/img/logo.png')">

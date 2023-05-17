@@ -27,32 +27,34 @@ router.post("/contact",multer().any(), async function (req, res, next) {
 
     // res.send(JSON.stringify(req.body));
 
-    const commentTitle = req.body.comment_title;
-    const commentDetail = req.body.comment_detail;
+    // const commentTitle = req.body.comment_title;
+    // const commentDetail = req.body.comment_detail;
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
-        console.log('password', commentTitle)
-        console.log('email', commentDetail)
-        let results = await conn.query(
-            "INSERT INTO comment(comment_title, comment_detail) VALUES(?, ?)",
-            [commentTitle, commentDetail]
+        // console.log('password', commentTitle)
+        // console.log('email', commentDetail)
+        const [rows1, fields1] = await conn.query(
+            'INSERT INTO `feedback` (`user_id`, `title`, `description`, `feedback_date`) VALUES (?, ?, ?, CURRENT_TIMESTAMP)',
+            [1, 'title', 'description']
         )
-        // const userID = results[0].insertId
-
+        const [rows2, fields2] = await conn.query(
+            'SELECT * FROM `feedback` WHERE `id` = ?',
+            [rows1.insertId]
+        )
+        
         await conn.commit()
+        
+        // res.redirect('/')
 
-        this.online = true
-        this.online_user = this.user_email
-
-        res.redirect('/')
+        return res.json(rows2[0])
 
 
     } catch (err) {
         await conn.rollback();
-        next(err)
+        return res.status(500).json(err)
     } finally {
         console.log('finally')
         conn.release();

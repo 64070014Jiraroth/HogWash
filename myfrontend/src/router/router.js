@@ -6,31 +6,37 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'HogWash',
     component: () => import('../views/HomePage.vue') // set home as path '/'
   },
   {
     path: '/contact',
-    name: 'contact',
+    name: 'HogWash | Contact',
     component: () => import('../views/ContactPage.vue')
   },
   {
     path: '/user',
-    name: 'user',
+    name: 'HogWash | User',
     component: () => import('../views/LoginPage.vue')
   },
   {
     path: '/history',
-    name: 'history',
+    name: 'HogWash | History',
     component: () => import('../views/HistoryPage.vue')
   },
 ]
+
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.name;
+  next();
+});
 
 // const router = new VueRouter({ routes })
 

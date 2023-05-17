@@ -2,8 +2,7 @@
   <div id="app">
     <!-- nav bar -->
     <nav
-      class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between"
-    >
+      class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between" style="background-color:#CAEAF1;font-size:20px">
       <a class="navbar-brand mx-4" href="/">
         <img
           :src="require('./assets/img/logo.png')"
@@ -12,7 +11,7 @@
           alt=""
         />
       </a>
-      <a class="navbar-brand" href="/" style="color: #59a8b9">HogWash</a>
+      <a class="navbar-brand" href="../#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
       <button
         class="navbar-toggler"
         type="button"
