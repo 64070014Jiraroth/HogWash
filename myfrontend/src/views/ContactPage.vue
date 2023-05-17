@@ -75,7 +75,14 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
-        }
+        },
+    //     getUser () {
+    //         // const token = localStorage.getItem('token')
+    //         // axios.get('http://localhost:3000/user/me', { headers: {Authorization: 'Bearer ' + token} }).then(res => {
+    //         axios.get('/user/me').then(res => {
+    //             this.user = res.data
+    //   })
+    // },
     }
 }
 </script>

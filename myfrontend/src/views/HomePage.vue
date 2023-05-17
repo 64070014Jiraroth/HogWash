@@ -113,9 +113,12 @@
                   <!-- status border -->
 
                   <div v-show="wm.status == 0">
+                    <h4 class="card-title wmCard-text">
+                      <div style="color: #7ccf85">สถานะ : ว่าง</div>
+                    </h4>
                     <b-button
                       v-b-modal="'available'"
-                      style="background-color: #7ccf85; color: white"
+                      style="background-color: #7ccf85; color: white; border:none;"
                       @click="
                         wm.status = 2;
                         choose = wm;
@@ -123,9 +126,6 @@
                     >
                       เลือกใช้งาน
                     </b-button>
-                    <h4 class="card-title wmCard-text">
-                      <div style="color: #7ccf85">สถานะ : ว่าง</div>
-                    </h4>
                   </div>
 
                   <div v-show="wm.status == 1">
@@ -139,7 +139,7 @@
                     </h4>
                     <b-button
                       v-b-modal="'queue'"
-                      style="background-color: #dd6060; color: white"
+                      style="background-color: #dd6060; color: white; border:none;"
                       @click="choose = wm"
                     >
                       จองคิว
@@ -152,7 +152,7 @@
                     </h4>
                     <b-button
                       v-b-modal="'queue'"
-                      style="background-color: #f1d438; color: white"
+                      style="background-color: #f1d438; color: white; border:none;"
                       @click="choose = wm"
                     >
                       รอสักครู่
@@ -171,7 +171,7 @@
         </div>
 
         <!-- modal available -->
-        <b-modal id="available" size='lg' centered hide-footer hide-header no-stacking>
+        <b-modal id="available" size='lg' centered hide-footer hide-header no-stacking data-backdrop="static" data-keyboard="false">
           <template>
             <h1 class="modal-title w-100 text-center">
               เลือกรูปแบบการซัก
@@ -181,7 +181,7 @@
               <div class="col-6" v-for="option in options" :key="option.id">
                 <b-button
                   v-b-modal="'selectPayment'"
-                  class="col btn selectOption w-100"
+                  class="col btn selectOption"
                   variant="light"
                 >
                   <h5>{{ option.name }}</h5>
@@ -210,12 +210,12 @@
               <div class="col-6" v-for="payment in payments" :key="payment.id">
                 <b-button
                   v-b-modal="'confirmPayment'"
-                  class="col btn selectOption w-100"
+                  class="col btn selectOption"
                   variant="light"
                 >
                   <img :src="imagePath(payment.path)" />
                   <span></span>
-                  <b>{{ payment.name }}</b>
+                  <b>  {{ payment.name }}</b>
                 </b-button>
               </div>
             </div>
@@ -262,7 +262,7 @@
         <!-- modal queue -->
         <b-modal id="queue" size='lg' centered hide-footer hide-header no-stacking>
           <template>
-            <h1 class="modal-title w-100 text-center">
+            <h1 class="modal-title my-4 w-100 text-center">
               เครื่องไม่พร้อมใช้งานในขณะนี้<br />
               เนื่องจากมีการใช้งานอยู่
             </h1>
@@ -274,7 +274,6 @@
               >
                 จองคิว
               </b-button>
-              <!-- <small class="text-muted py-4">จำนวนคิวต่อใช้งานในขณะนี้ : 1</small> -->
               <b-button
                 class="btn queueOption"
                 style="background-color: #b3b3b3; color: white"
@@ -283,13 +282,14 @@
                 ยกเลิก
               </b-button>
             </div>
+            <small class="text-muted py-2" style="font-size:15px">จำนวนคิวต่อใช้งานในขณะนี้ : 1</small>
           </template>
         </b-modal>
 
         <!-- ************************** ทำต่อตรงนี้ ********************************* -->
 
         <!-- modal page2 queue -->
-        <div class="modal fade" id="queue2" tabindex="-1" role="dialog">
+        <div class="modal fade" id="queue2" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -297,7 +297,7 @@
             <div class="modal-content rounded-4">
               <div class="modal-header" style="border: none; margin-top: 30px">
                 <h1 class="modal-title w-100 text-center">
-                  <!-- ลำดับคิวของคุณ : {{ choose.queue_id + 1 }} -->
+                  ลำดับคิวของคุณ : {{ choose.queue_id + 1 }}
                 </h1>
                 <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
@@ -325,7 +325,7 @@
           </div>
         </div>
         <!-- modal page3 queue confirmed -->
-        <div class="modal fade" id="queue3" tabindex="-1" role="dialog">
+        <div class="modal fade" id="queue3" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -403,7 +403,7 @@
         </div>
 
         <!-- จองไปแล้วและกดเครื่องเดิมซํ้า -->
-        <div class="modal fade" id="editQueue" tabindex="-1" role="dialog">
+        <div class="modal fade" id="editQueue" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -439,7 +439,7 @@
           </div>
         </div>
         <!-- editQueue2 -->
-        <div class="modal fade" id="editQueue2" tabindex="-1" role="dialog">
+        <div class="modal fade" id="editQueue2" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -476,7 +476,7 @@
         </div>
 
         <!-- จองไปแล้วและไปกดเครื่องอื่น -->
-        <div class="modal fade" id="inQueue" tabindex="-1" role="dialog">
+        <div class="modal fade" id="inQueue" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"

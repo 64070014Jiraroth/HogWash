@@ -21,7 +21,7 @@ CREATE TABLE `washing_machine` (
 DROP TABLE IF EXISTS `options`;
 CREATE TABLE `options` (
     `id`     INT(2)  AUTO_INCREMENT,
-    `name`  VARCHAR(10),
+    `name`  VARCHAR(20),
     `price`   INT(2)  NOT NULL,
     `time`   INT(3)  NOT NULL,
     PRIMARY KEY (`id`)
@@ -30,7 +30,7 @@ CREATE TABLE `options` (
 DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
     `id`    INT(2)  AUTO_INCREMENT,
-    `name`  VARCHAR(10),
+    `name`  VARCHAR(20),
     `path` VARCHAR(200) NOT NULL,
     PRIMARY KEY (`id`)
 );
