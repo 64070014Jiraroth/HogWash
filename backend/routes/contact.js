@@ -27,18 +27,17 @@ router.post("/contact",multer().any(), async function (req, res, next) {
 
     // res.send(JSON.stringify(req.body));
 
-    // const commentTitle = req.body.comment_title;
-    // const commentDetail = req.body.comment_detail;
+    const feedbackTitle = req.body.feedbackTitle;
+    const feedbackDes = req.body.feedbackDes;
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
-        // console.log('password', commentTitle)
-        // console.log('email', commentDetail)
+
         const [rows1, fields1] = await conn.query(
             'INSERT INTO `feedback` (`user_id`, `title`, `description`, `feedback_date`) VALUES (?, ?, ?, CURRENT_TIMESTAMP)',
-            [1, 'title', 'description']
+            [1, feedbackTitle, feedbackDes]
         )
         const [rows2, fields2] = await conn.query(
             'SELECT * FROM `feedback` WHERE `id` = ?',

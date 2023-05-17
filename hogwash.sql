@@ -32,6 +32,7 @@ CREATE TABLE `users` (
     `id`       INT(10) AUTO_INCREMENT,
     `email`    VARCHAR(50) NOT NULL,
     `password` VARCHAR(20) NOT NULL,
+    `role`      VARCHAR(20),
     PRIMARY KEY (`id`)
 );
 
