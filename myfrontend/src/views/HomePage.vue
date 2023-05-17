@@ -70,12 +70,12 @@
           <div class="row justify-content-center groupCard my-2">
             <div class="col-3" v-for="wm in  Washing_machine " :key="wm.id">
               <div :class="[
-                  'card',
+                  'card wmCard',
                   wm.wm_status == 0 ? ' border0' : '',
                   wm.wm_status == 1 ? ' border1' : '',
                   wm.wm_status == 2 ? ' border2' : '',
                 ]">
-                <h3 class="card-title">{{ wm.wm_id }}</h3>
+                <h3 class="card-title wmCard-title">{{ wm.wm_id }}</h3>
                 <img class="card-img-top" :src="require('../assets/img/wm.png')" style="padding: 1" />
                 <div class="card-body" style="padding-top: 2">
                   <!------------------------------ powder & softener --------------------------------------------- -->
@@ -86,19 +86,19 @@
                     </tr>
                     <tr>
                       <td>
-                        <p class="card-text">
+                        <p class="card-title wmCard-text">
                           <small class="text-muted"> {{ wm.powder }}%</small>
                         </p>
                       </td>
                       <td>
-                        <p class="card-text">
+                        <p class="card-title wmCard-text">
                           <small class="text-muted"> {{ wm.softener }}%</small>
                         </p>
                       </td>
                     </tr>
                   </table>
                   <div v-show="wm.wm_status == 0">
-                    <!-- <h4 class="card-text">
+                    <!-- <h4 class="card-title wmCard-text">
                                         <div style="color:#7CCF85;">สถานะ : ว่าง</div>
                                     </h4> -->
                     <button :disabled="online == false" type="button" class="btn btn-light" data-toggle="modal"
@@ -107,12 +107,12 @@
                                             ">
                       เลือกใช้งาน
                     </button>
-                    <h4 class="card-text">
+                    <h4 class="card-title wmCard-text">
                       <div style="color: #7ccf85">สถานะ : ว่าง</div>
                     </h4>
                   </div>
                   <div v-show=" wm.wm_status == 1 ">
-                    <h4 class="card-text">
+                    <h4 class="card-title wmCard-text">
                       <div style="color: #dd6060">
                         00:<span id="min">{{
                           Math.floor(wm.time_left / 60)
@@ -125,7 +125,7 @@
                     </button>
                   </div>
                   <div v-show=" wm.wm_status == 2 ">
-                    <h4 class="card-text">
+                    <h4 class="card-title wmCard-text">
                       <div style="color: #f1d438">อยู่ระหว่างดำเนินการ</div>
                     </h4>
                     <button :disabled=" online == false " type="button" class="btn btn-light"
@@ -133,7 +133,7 @@
                       รอสักครู่
                     </button>
                   </div>
-                  <p class="card-text">
+                  <p class="card-title wmCard-text">
                     <!-- <small class="text-muted"
                       >จำนวนคิวต่อใช้งาน : {{ wm.queue_id }}</small
                     > -->
@@ -446,8 +446,8 @@
                 <div class="modal-content rounded-4 modalChangepass">
                     <div class="card changePass">
                         <div class="card-body">
-                            <h5 class="card-title-changePass mx-3">แก้ไขรหัสผ่าน</h5>
-                            <p class="card-text">
+                            <h5 class="card-title wmCard-title-changePass mx-3">แก้ไขรหัสผ่าน</h5>
+                            <p class="card-title wmCard-text">
                             <form onsubmit="return false">
                                 <div class="form-group mx-3 py-3">
                                     <input v-model="new_email" type="password" class="form-control" id="signUpEmail" placeholder="รหัสผ่านปัจจุบัน" required>
@@ -478,8 +478,9 @@
 export default {
   name: 'HomePage',
   el: '#home',
+  // props: ['user'],
   props: {
-    news: Array
+    news: Array,
   },
   computed: {
     backgroundImg() {

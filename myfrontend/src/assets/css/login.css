@@ -1,19 +1,19 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 *{
     font-family: 'Prompt', sans-serif;
-} */
+}
 
 /* ทำไมไม่อยู่ตรงกลางงง */
-.loginPage {
-    /* position: fixed;
+.loginCard {
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); */
+    transform: translate(-50%, -50%);
 
-    position: absolute;
+    /* position:absolute;
     top: 35%;
     left: 22%;
-    background-color: #CAEAF1;
+    background-color: #CAEAF1; */
 }
 svg {
     color: #59A8B9;
@@ -28,8 +28,8 @@ svg {
     border-radius: 30px;
     border:none;
     text-align: center;
-    height: 500px;
-    width: 400px;
+    height: 400px;
+    width: 600px;
     margin-right: 50px;
 }
 .title_login {
