@@ -92,18 +92,17 @@
               color: white;
               font-size: 18;
               width: 120px;
-            "
-          >
+            ">
             เข้าสู่ระบบ
           </button>
         </a> -->
 
-      <b-dropdown  v-if="user" id="dropdown-right" text="ยินดีต้อนรับ" variant="none">
+      <b-dropdown  v-if="user" id="dropdown-right" text="ยินดีต้อนรับ " variant="none" style="margin:20px;">
         <b-dropdown-item v-b-modal="'changePassword'">
             แก้ไขรหัสผ่าน
         </b-dropdown-item>
         <b-dropdown-item>
-          <router-link style="text-decoration: none; color: inherit;" to="/contact">
+          <router-link style="text-decoration: none; color: inherit;padding-right:0;" to="/history">
             ประวัติการใช้งาน
           </router-link>
         </b-dropdown-item>
@@ -122,9 +121,9 @@
                 <div class="row justify-content-center">
                   <div class="col-auto">
                     <table class="table no-border">
-                      <tr>
-                        <td style="text-align: right">รหัสผ่านปัจจุบัน</td>
-                        <td>
+                      <tr style="border:none">
+                        <td style="font-size:20px;font-weight: 300;text-align: right;border:none;">รหัสผ่านปัจจุบัน</td>
+                        <td style="border:none;">
                           <input
                             v-model="currentPassword"
                             type="password"
@@ -133,9 +132,9 @@
                           />
                         </td>
                       </tr>
-                      <tr>
-                        <td style="text-align: right">รหัสผ่านใหม่</td>
-                        <td>
+                      <tr style="border:none">
+                        <td style="font-size:20px;font-weight: 300;text-align: right;border:none;">รหัสผ่านใหม่</td>
+                        <td style="border:none;">
                           <input
                             v-model="newPassword"
                             type="password"
@@ -144,9 +143,9 @@
                           />
                         </td>
                       </tr>
-                      <tr>
-                        <td style="text-align: right">ยืนยันรหัสผ่านใหม่</td>
-                        <td>
+                      <tr style="border:none">
+                        <td style="font-size:20px;font-weight: 300;text-align: right;border:none;">ยืนยันรหัสผ่านใหม่</td>
+                        <td style="border:none;">
                           <input
                             v-model="confirm_newPassword"
                             type="password"

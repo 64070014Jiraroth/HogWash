@@ -58,51 +58,51 @@
                         <a class="card-text">
                             <form action="/signup/" enctype="multipart/form-data" method="POST">
                                 <!-- onsubmit="return false" -->    
-                                <!-- <div class="form-group mx-3 py-3">
+                                <div class="form-group mx-3 py-3">
                                     <input
-                                        v-model="$v.signUpEmail.$model"
-                                        :class="{ 'is-danger': $v.signUpEmail.$error }"
+                                        v-model="signUpEmail.$model"
+                                        :class="{ 'is-danger': signUpEmail.$error }"
                                         class="form-control"
                                         type="text"
                                         placeholder="อีเมล"
                                     />
-                                    <template v-if="$v.signUpEmail.$error">
-                                        <p class="help is-danger" v-if="!$v.signUpEmail.required">
+                                    <template v-if="signUpEmail.$error">
+                                        <p class="help is-danger" v-if="!signUpEmail.required">
                                             This field is required
                                         </p>
-                                        <p class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</p>
+                                        <p class="help is-danger" v-if="!signUpEmail.email">Invalid Email</p>
                                     </template>
                                 </div>
                                 <div class="form-group mx-3 py-3">
                                     <input
-                                        v-model="$v.signUpPassword.$model"
-                                        :class="{ 'is-danger': $v.signUpPassword.$error }"
+                                        v-model="signUpPassword.$model"
+                                        :class="{ 'is-danger': signUpPassword.$error }"
                                         class="form-control"
                                         type="password"
                                         placeholder="รหัสผ่าน"
                                     />
-                                    <template v-if="$v.signUpPassword.$error">
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.required">
+                                    <template v-if="signUpPassword.$error">
+                                        <p class="help is-danger" v-if="!signUpPassword.required">
                                         This field is required
                                         </p>
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.minLength">
+                                        <p class="help is-danger" v-if="!signUpPassword.minLength">
                                         Password must be at least 6 letters
                                         </p>
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.complexPassword">
+                                        <p class="help is-danger" v-if="!signUpPassword.complexPassword">
                                         Password is too easy
                                         </p>
                                     </template>
                                 </div>
                                 <div class="form-group mx-3 py-3">
                                     <input
-                                        v-model="$v.confirm_password.$model"
-                                        :class="{ 'is-danger': $v.confirm_password.$error }"
+                                        v-model="confirm_password.$model"
+                                        :class="{ 'is-danger': confirm_password.$error }"
                                         class="form-control"
                                         type="password"
                                         placeholder="ยืนยันรหัสผ่าน"
                                     />
-                                    <template v-if="$v.confirm_password.$error">
-                                        <p class="help is-danger" v-if="!$v.confirm_password.sameAs">
+                                    <template v-if="confirm_password.$error">
+                                        <p class="help is-danger" v-if="!confirm_password.sameAs">
                                         Password do not match
                                         </p>
                                     </template>
@@ -110,7 +110,7 @@
                                 <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                     @click="addUser()">
                                     สร้างบัญชีผู้ใช้
-                                </button><br> -->
+                                </button><br>
                             </form>
                         </a>
                         <small class="text-muted py-4">มีบัญชีผู้ใช้อยู่แล้ว ?
@@ -172,10 +172,10 @@ export default {
     methods: {
         addUser() {
         // Validate all fields
-        this.$v.$touch();
+        this.$touch();
 
         // เช็คว่าในฟอร์มไม่มี error
-        if (!this.$v.$invalid) {
+        if (!this.$invalid) {
             let data = {
                 signUpEmail: this.signUpEmail,
                 signUpPassword: this.signUpPassword,
