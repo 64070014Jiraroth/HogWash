@@ -210,6 +210,7 @@ export default {
     },
     logOut() {
       localStorage.removeItem('token')
+      this.$router.push({ path: "/" });
       location.reload()
     },
     submitPassword() {

@@ -45,27 +45,8 @@ router.get("/user", async function (req, res, next) {
     } finally {
         conn.release()
     }
+    
 });
-
-// // specific user
-// router.get("/user/:id", async function (req, res, next) {
-
-//     const conn = await pool.getConnection()
-//     await conn.beginTransaction();
-
-//     try {
-//         const [rows, field] = await conn.query(
-//             "SELECT * FROM users WHERE id = ?", [req.params.id]
-//         )
-//         conn.commit()
-//         return res.json(rows)
-//     } catch (err) {
-//         conn.rollback()
-//         return res.send(err);
-//     } finally {
-//         conn.release()
-//     }
-// });
 
 // update password
 router.put("/user/:id", async function (req, res, next) {
@@ -199,6 +180,7 @@ router.post("/user/login", async function (req, res, next) {
     }
 })
 
+// specific user who logged in
 router.get('/user/me', isLoggedIn, async (req, res, next) => {
     // req.user ถูก save ข้อมูล user จาก database ใน middleware function "isLoggedIn"
     res.json(req.user)

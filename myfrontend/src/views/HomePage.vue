@@ -212,6 +212,7 @@
                   v-b-modal="'confirmPayment'"
                   class="col btn selectOption"
                   variant="light"
+                  @click="payment_choose = payment"
                 >
                   <img :src="imagePath(payment.path)" />
                   <span></span>
@@ -251,7 +252,7 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment'); wm_choose.status = 1; isCheck = false"
+                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false"
               >
                 ยืนยัน
               </b-button>
@@ -599,6 +600,7 @@ export default {
 
       wm_choose: "",
       option_choose: "",
+      payment_choose: "",
       // time_cost: 0,
       // pay_choose: '',
 
@@ -632,6 +634,23 @@ export default {
         return "https://bulma.io/images/placeholders/640x360.png";
       }
     },
+    addHistory() {
+      console.log(this.payment_choose.id)
+      axios
+        .post("/history", {
+          params: {
+            wm_choose: this.wm_choose.id,
+            option_choose: this.option_choose.id,
+            payment_choose: this.payment_choose.id,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   },
 };
 </script>

@@ -40,7 +40,7 @@ CREATE TABLE `users` (
     `id`       INT(10) AUTO_INCREMENT,
     `email`    VARCHAR(50) NOT NULL,
     `password` VARCHAR(20) NOT NULL,
-    `role`      VARCHAR(20),
+    `role`      VARCHAR(20) DEFAULT 'customer',
     PRIMARY KEY (`id`)
 );
 
@@ -61,23 +61,23 @@ CREATE TABLE `queue` (
     `user_id`   INT(10) NOT NULL,
     `booking_time`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE `history` (
     `id`        INT(3)  AUTO_INCREMENT,
-    `date`      DATE,
-    `time`      TIME,
-    `payment`   VARCHAR(20),
+    `date`      timestamp DEFAULT CURRENT_TIMESTAMP,
+    `payment_id`   INT(2) NOT NULL,
     `wm_id`     INT(3)  NOT NULL,
     `user_id`   INT(10) NOT NULL,
     `option_id` INT(2)  NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
-    FOREIGN KEY (`option_id`) REFERENCES `washing_option`(`id`)
+    FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE, 
+    FOREIGN KEY (`option_id`) REFERENCES `options`(`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `images`;
@@ -98,6 +98,12 @@ CREATE TABLE `feedback` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
+INSERT INTO `users` (`email`, `password`, `role`) 
+VALUES  ('admin@gmail.com', 'Admin1234', 'admin');
+
+INSERT INTO `users` (`email`, `password`) 
+VALUES  ('customer@gmail.com', 'Customer1234');
+
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
 VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
         (2, 'Panasonic', 'NA-127XB1WMY', 1, 100, 100), 
@@ -109,7 +115,7 @@ VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100),
         (8, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100);
 
 INSERT INTO `options` (`id`, `name`, `price`, `time`) 
-VALUES  (1, 'ซักเร็ว', 20, 1800), 
+VALUES  (1, 'ซักเร็ว', 20, 5), 
         (2, 'ซักธรรมดา', 30, 3000), 
         (3, 'ซักนํ้าร้อน', 50, 3000), 
         (4, 'ซักนํ้าเย็น', 50, 3000);
