@@ -16,7 +16,6 @@
                         <h5 class="card-title title_login mx-3">ลงชื่อเข้าใช้</h5>
                         <a class="card-text">
                         <form action="/" enctype="multipart/form-data" method="GET">
-                            
                             <div class="form-group mx-3 py-4">
                                 <input v-model="loginEmail" class="form-control" type="email" style="" placeholder="อีเมล" />
                             </div>

@@ -40,7 +40,7 @@ body::-webkit-scrollbar {
     font-size: 18;
     text-align: center;
     margin: 10;
-    right: -10px;
+    /* right: -10px; */
 }
 .slogan {
     position: absolute;
@@ -220,7 +220,7 @@ b-button {
     margin-top:20px;
 }
 .button-changePass {
-    width: 100%;
+    width: 60%;
     font-size: 20px;
     letter-spacing: .8px;
     margin-top: 20px;

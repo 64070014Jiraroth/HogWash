@@ -83,9 +83,7 @@
         </ul>
       </div>
 
-      <Dropdown class="dropdown">
-        <!-- เข้าสู่ระบบ -->
-        <a class="px-3 mx-3" href="/user" v-show="online == false">
+      <!-- <a v-if="!user" class="px-3 mx-3" href="/user" v-show="online == false">
           <button
             class="btn my-2 my-sm-0"
             type="submit"
@@ -98,65 +96,40 @@
           >
             เข้าสู่ระบบ
           </button>
-        </a>
-        <!-- ยินดีต้อนรับ -->
-        <div
-          class="dropdown"
-          style="margin-left: 30; margin-right: 30"
-          v-show="online"
-        >
-          <button
-            class="btn dropdown-toggle"
-            id="userDropdown"
-            role="button"
-            data-toggle="dropdown"
-            style="background-color: #59a8b9; color: white; font-size: 18"
-          >
-            ยินดีต้อนรับ {{ online_user }} !
-          </button>
-          <div class="dropdown-menu dropdown-menu-right" style="width: 250px">
-            <a
-              class="dropdown-item"
-              style="cursor: pointer"
-              data-dismiss="modal"
-              data-toggle="modal"
-              data-target="#changePassword"
-              >แก้ไขรหัสผ่าน</a
-            >
-            <router-link to="/contact" class="nav-link">
-              <a>ประวัติการใช้งาน</a>
-            </router-link>
-            >
-            <div class="dropdown-divider"></div>
-            <a
-              class="dropdown-item"
-              @click="logout()"
-              style="color: red; cursor: pointer"
-              >ออกจากระบบ</a
-            >
-          </div>
-        </div>
-      </Dropdown>
+        </a> -->
 
-      <div class="modal fade" id="changePassword" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content rounded-4 modalChangepass">
-            <div class="card changePass">
-              <div class="card-body" style="padding: 10px">
-                <h5 class="card-title-changePass mx-3">แก้ไขรหัสผ่าน</h5>
-                <a class="card-text">
-                  <form onsubmit="return false">
-                    <table style="border-collapse: separate">
+      <b-dropdown  v-if="user" id="dropdown-right" text="ยินดีต้อนรับ" variant="none">
+        <b-dropdown-item v-b-modal="'changePassword'">
+            แก้ไขรหัสผ่าน
+        </b-dropdown-item>
+        <b-dropdown-item>
+          <router-link style="text-decoration: none; color: inherit;" to="/contact">
+            ประวัติการใช้งาน
+          </router-link>
+        </b-dropdown-item>
+        <b-dropdown-divider></b-dropdown-divider>
+        <b-dropdown-item @click="logOut()">ออกจากระบบ</b-dropdown-item>
+      </b-dropdown>
+
+        <!-- modal change password -->
+
+        <b-modal id="changePassword" size='lg' centered hide-footer hide-header no-stacking>
+          <template>
+            <h1 class="modal-title my-4 w-100 text-center">
+              แก้ไขรหัสผ่าน
+            </h1>
+              <form>
+                <div class="row justify-content-center">
+                  <div class="col-auto">
+                    <table class="table no-border">
                       <tr>
                         <td style="text-align: right">รหัสผ่านปัจจุบัน</td>
                         <td>
                           <input
-                            v-model="new_email"
+                            v-model="currentPassword"
                             type="password"
                             class="form-control"
-                            id="signUpEmail"
                             placeholder="รหัสผ่านปัจจุบัน"
-                            required
                           />
                         </td>
                       </tr>
@@ -164,13 +137,10 @@
                         <td style="text-align: right">รหัสผ่านใหม่</td>
                         <td>
                           <input
-                            v-model="new_password1"
+                            v-model="newPassword"
                             type="password"
-                            name="new_ps"
                             class="form-control"
-                            id="signUpPassword"
                             placeholder="รหัสผ่านใหม่"
-                            required
                           />
                         </td>
                       </tr>
@@ -178,35 +148,30 @@
                         <td style="text-align: right">ยืนยันรหัสผ่านใหม่</td>
                         <td>
                           <input
-                            v-model="new_password2"
+                            v-model="confirm_newPassword"
                             type="password"
-                            name="new_ps"
                             class="form-control"
-                            id="confirmPassword"
                             placeholder="ยืนยันรหัสผ่านใหม่"
-                            required
                           />
                         </td>
                       </tr>
                     </table>
-                    <button
-                      class="button-changePass btn py-2 mb-3"
-                      type="submit"
-                      style="background-color: #59a8b9; color: white"
-                      @click="changePassword()"
-                    >
-                      บันทึก</button
-                    ><br />
-                  </form>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                  </div>
+                </div>
+                <b-button
+                  class="button-changePass btn py-2 mb-3"
+                  type="submit"
+                  style="background-color: #59a8b9; color: white"
+                  @click="changePassword()"
+                >
+                  บันทึก</b-button
+                ><br />
+              </form>
+          </template>
+        </b-modal>
     </nav>
 
-    <router-view :key="$route.fullPath" @auth-change="onAuthChange" />
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user"/>
   </div>
 </template>
 
@@ -236,9 +201,10 @@ export default {
         this.user = res.data
       })
     },
+    logOut() {
+      localStorage.removeItem('token')
+      location.reload()
+    }
   }
 }
 </script>
-
-<style>
-</style>
