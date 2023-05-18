@@ -83,23 +83,28 @@
         </ul>
       </div>
 
-      <!-- <a v-if="!user" class="px-3 mx-3" href="/user" v-show="online == false">
-          <button
-            class="btn my-2 my-sm-0"
-            type="submit"
-            style="
-              background-color: #59a8b9;
-              color: white;
-              font-size: 18;
-              width: 120px;
-            ">
-            เข้าสู่ระบบ
-          </button>
-        </a> -->
+      <!-- to-login-page button -->
+      <a  class="px-3 mx-3" href="/user">
+        <button 
+          v-if="!user"
+          class="btn my-2 my-sm-0"
+          type="submit"
+          style="
+            background-color: #59a8b9;
+            color: white;
+            font-size: 18;
+            width: 120px;
+          ">
+          <router-link style="text-decoration: none; color: inherit;padding-right:0;" to="/user">
+          เข้าสู่ระบบ
+          </router-link>
+        </button>
+      </a>
 
-      <b-dropdown  v-if="user" id="dropdown-right" text="ยินดีต้อนรับ " variant="none" style="margin:20px;">
+      <!-- greeting button -->
+      <b-dropdown  v-if="user" id="dropdown-right" :text="'ยินดีต้อนรับ ' + user.email + ' ! '" variant="none" style="margin:20px;">
         <b-dropdown-item v-b-modal="'changePassword'">
-            แก้ไขรหัสผ่าน
+            แก้ไขรหัสผ่าน 
         </b-dropdown-item>
         <b-dropdown-item>
           <router-link style="text-decoration: none; color: inherit;padding-right:0;" to="/history">
@@ -161,7 +166,7 @@
                   class="button-changePass btn py-2 mb-3"
                   type="submit"
                   style="background-color: #59a8b9; color: white"
-                  @click="changePassword()"
+                  @click="submitPassword()"
                 >
                   บันทึก</b-button
                 ><br />
@@ -180,7 +185,10 @@ import axios from '@/plugins/axios'
 export default {
   data () {
     return {
-      user: null
+      user: null,
+      currentPassword: "",
+      newPassword: "",
+      confirm_newPassword: "",
     }
   },
   mounted () {
@@ -203,7 +211,21 @@ export default {
     logOut() {
       localStorage.removeItem('token')
       location.reload()
-    }
+    },
+    submitPassword() {
+      const data = {
+          currentPassword: this.currentPassword,
+          newPassword: this.newPassword,
+          confirm_newPassword: this.confirm_newPassword,
+      } 
+      axios
+        .put("/user/" + this.user.id, data)
+        .then(() => {
+          alert('Password updated')
+          this.$router.push({ path: "/" });
+        })
+        .catch((e) => console.log(e));
+    },
   }
 }
 </script>

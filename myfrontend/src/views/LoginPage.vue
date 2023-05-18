@@ -56,8 +56,7 @@
                     <div class="card-body">
                         <h5 class="card-title title_login mx-3">สมัครสมาชิก</h5>
                         <a class="card-text">
-                            <form action="/signup/" enctype="multipart/form-data" method="POST">
-                                <!-- onsubmit="return false" -->    
+                            <form enctype="multipart/form-data" method="GET">  
                                 <div class="form-group mx-3 py-3">
                                     <input
                                         v-model="signUpEmail.$model"
@@ -150,9 +149,10 @@ export default {
             loginEmail: "",
             loginPassword: "",
             myStyle:{
-            backgroundColor:"#16a085" 
+                backgroundColor:"#16a085" 
             },
             show_login: true,
+            show_signup: false,
         };
     },
     validations: {

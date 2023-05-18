@@ -121,7 +121,7 @@
                       style="background-color: #7ccf85; color: white; border:none;"
                       @click="
                         wm.status = 2;
-                        choose = wm;
+                        wm_choose = wm;
                       "
                     >
                       เลือกใช้งาน
@@ -130,17 +130,17 @@
 
                   <div v-show="wm.status == 1">
                     <h4 class="card-title wmCard-text">
-                      <div style="color: #dd6060">
+                      <div style="color: #dd6060" >
                         00:<span id="min">{{
-                          Math.floor(wm.time_left / 60)
+                          Math.floor(option_choose.time / 60)
                         }}</span
-                        >:<span id="sec">{{ wm.time_left % 60 }}</span>
+                        >:<span id="sec">{{ option_choose.time % 60 }}</span>
                       </div>
                     </h4>
                     <b-button
                       v-b-modal="'queue'"
                       style="background-color: #dd6060; color: white; border:none;"
-                      @click="choose = wm"
+                      @click="wm_choose = wm"
                     >
                       จองคิว
                     </b-button>
@@ -153,7 +153,6 @@
                     <b-button
                       v-b-modal="'queue'"
                       style="background-color: #f1d438; color: white; border:none;"
-                      @click="choose = wm"
                     >
                       รอสักครู่
                     </b-button>
@@ -183,6 +182,7 @@
                   v-b-modal="'selectPayment'"
                   class="col btn selectOption"
                   variant="light"
+                  @click="option_choose = option"
                 >
                   <h5>{{ option.name }}</h5>
                   <small
@@ -192,7 +192,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <b-button variant="outline-secondary" block @click="$bvModal.hide('available')">
+              <b-button variant="outline-secondary" block @click="$bvModal.hide('available'); wm_choose.status = 0;">
                 Close
               </b-button>
             </div>
@@ -223,7 +223,7 @@
               <b-button v-b-modal="'available'" variant="outline-secondary">
                 Back
               </b-button>
-              <b-button variant="outline-secondary" block @click="$bvModal.hide('selectPayment')">
+              <b-button variant="outline-secondary" block @click="$bvModal.hide('selectPayment'); wm_choose.status = 0;">
                 Close
               </b-button>
             </div>
@@ -251,7 +251,7 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment')"
+                block @click="$bvModal.hide('confirmPayment'); wm_choose.status = 1; isCheck = false"
               >
                 ยืนยัน
               </b-button>
@@ -296,9 +296,9 @@
           >
             <div class="modal-content rounded-4">
               <div class="modal-header" style="border: none; margin-top: 30px">
-                <h1 class="modal-title w-100 text-center">
+                <!-- <h1 class="modal-title w-100 text-center">
                   ลำดับคิวของคุณ : {{ choose.queue_id + 1 }}
-                </h1>
+                </h1> -->
                 <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
               <div class="modal-body">
@@ -538,7 +538,7 @@
                     :class="['btn confirmed', isCheck ? '' : ' disabled']"
                     style="background-color: #59a8b9; color: white"
                     data-dismiss="modal"
-                    @click="count_time(choose)"
+                    @click="count_time(wm_choose)"
                   >
                     ยืนยัน
                   </button>
@@ -597,8 +597,8 @@ export default {
       // online_user: '',
       // in_queue: false,
 
-      choose: "",
-      // option_choose: '',
+      wm_choose: "",
+      option_choose: "",
       // time_cost: 0,
       // pay_choose: '',
 

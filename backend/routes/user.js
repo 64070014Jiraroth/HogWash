@@ -47,6 +47,63 @@ router.get("/user", async function (req, res, next) {
     }
 });
 
+// // specific user
+// router.get("/user/:id", async function (req, res, next) {
+
+//     const conn = await pool.getConnection()
+//     await conn.beginTransaction();
+
+//     try {
+//         const [rows, field] = await conn.query(
+//             "SELECT * FROM users WHERE id = ?", [req.params.id]
+//         )
+//         conn.commit()
+//         return res.json(rows)
+//     } catch (err) {
+//         conn.rollback()
+//         return res.send(err);
+//     } finally {
+//         conn.release()
+//     }
+// });
+
+// update password
+router.put("/user/:id", async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    const { currentPassword, newPassword, confirm_newPassword } = req.body;
+    
+    try {
+        const [rows, field] = await conn.query(
+            "SELECT password FROM users WHERE id = ?", [req.params.id]
+        )
+        // console.log(rows[0].password + " // " + currentPassword)
+        if (rows[0].password != currentPassword || newPassword != confirm_newPassword) {
+            return res.json({
+                message: "Incorrect password"
+            })
+        }
+        else {
+            const [rows, field] = await conn.query(
+                "UPDATE users SET password = ? WHERE id = ?",
+                [newPassword, req.params.id]
+            )
+            console.log(rows)
+            conn.commit()
+            return res.json({
+                message: "Updated"
+            })
+        }
+    } catch (err) {
+        conn.rollback()
+        return res.send(err);
+    } finally {
+        conn.release()
+    }
+});
+
 // sign up
 router.post("/user/signup", async function (req, res, next) {
 
