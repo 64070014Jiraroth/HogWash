@@ -56,21 +56,20 @@
                     <div class="card-body">
                         <h5 class="card-title title_login mx-3">สมัครสมาชิก</h5>
                         <a class="card-text">
-                            <!-- <form enctype="multipart/form-data" method="GET">   -->
                                 <div class="form-group mx-3 py-3">
-                                    <input
-                                        v-model="$v.signUpEmail.$model"
-                                        :class="{ 'is-danger': $v.signUpEmail.$error }"
-                                        class="form-control"
-                                        type="text"
-                                        placeholder="อีเมล"
-                                    />
-                                    <template v-if="$v.signUpEmail.$error">
-                                        <p class="help is-danger" v-if="!$v.signUpEmail.required">
-                                            This field is required
-                                        </p>
-                                        <p class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</p>
-                                    </template>
+                                <input
+                                    v-model="$v.signUpEmail.$model"
+                                    :class="{ 'is-danger': $v.signUpEmail.$error }"
+                                    class="form-control"
+                                    type="text"
+                                    placeholder="อีเมล"
+                                />
+                                <template v-if="$v.signUpEmail.$error">
+                                    <span class="help is-danger" v-if="!$v.signUpEmail.required">
+                                    This field is required
+                                    </span>
+                                    <span class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</span>
+                                </template>
                                 </div>
                                 <div class="form-group mx-3 py-3">
                                     <input
@@ -81,14 +80,10 @@
                                         placeholder="รหัสผ่าน"
                                     />
                                     <template v-if="$v.signUpPassword.$error">
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.required">
-                                        This field is required
-                                        </p>
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.minLength">
-                                        Password must be at least 6 letters
-                                        </p>
-                                        <p class="help is-danger" v-if="!$v.signUpPassword.complexPassword">
-                                        Password is too easy
+                                        <p class="help is-danger">
+                                            {{ !$v.signUpPassword.required ? 'This field is required.' : '' }}
+                                            {{ !$v.signUpPassword.minLength ? 'Password must be at least 6 letters.' : '' }}
+                                            {{ !$v.signUpPassword.complexPassword ? 'Password is too easy.' : '' }}
                                         </p>
                                     </template>
                                 </div>
@@ -105,7 +100,7 @@
                                         Password do not match
                                         </p>
                                     </template>
-                                </div>
+                                </div><br>
                                 <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                     @click="addUser()">
                                     สร้างบัญชีผู้ใช้

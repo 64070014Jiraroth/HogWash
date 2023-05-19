@@ -24,6 +24,11 @@ const routes = [
     name: 'HogWash | History',
     component: () => import('../views/HistoryPage.vue')
   },
+  {
+    path: '/feedback',
+    name: 'HogWash | Feedback',
+    component: () => import('../views/FeedbackPage.vue')
+  },
 ]
 
 

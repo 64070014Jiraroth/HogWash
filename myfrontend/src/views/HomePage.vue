@@ -564,12 +564,6 @@
               ยืนยันการเติมเครื่องซักผ้า {{refill_choose.id}}
             </h1>
             <div>
-              <!-- <b-button
-                class="btn queueOption"
-                style="background-color: #59a8b9; color: white"
-              >
-                จองคิว
-              </b-button> -->
               <div class="modal-body confirmedText">
               <p style="color: #dd6060">! ข้อควรระวัง !</p>
               <p style="color: #dd6060">
@@ -584,18 +578,11 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false"
+                block @click="$bvModal.hide('refillConfirm')"
               >
                 ยืนยัน
               </b-button>
             </div>
-              <!-- <b-button
-                class="btn queueOption"
-                style="background-color: #b3b3b3; color: white"
-                block @click="$bvModal.hide('queue')"
-              >
-                ยกเลิก
-              </b-button> -->
             </div>
           </template>
         </b-modal>
