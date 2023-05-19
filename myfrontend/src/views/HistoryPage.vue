@@ -11,7 +11,7 @@
             </tr>
             <tr v-for="hist in history" :key="hist.id">
                 <td>{{ hist.date }}</td>
-                <td>{{ hist.date }}</td>
+                <td>{{ hist.time }}</td>
                 <td>{{ hist.wm_id }}</td>
                 <td>
                     <span v-for="op in option" :key="op.id">

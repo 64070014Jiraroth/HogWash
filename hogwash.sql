@@ -131,6 +131,20 @@ VALUES  (1, '/uploads/materials/wm.png'),
         (2, '/uploads/materials/powder.png'), 
         (3, '/uploads/materials/softener.png');
 
+INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`)
+VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis'),
+      (2, '2', 'พนักงานหิวข้าว', 'description'),
+      (3, '2', 'พลับขอเส้นหมี่น้ำ', 'description'),
+      (4, '2', 'ใส่ลูกชิ้นเยอะๆชามนึงครับ', 'description'),
+      (5, '2', 'ผมมีเรื่องจะปรึกษาคุณครูครับ', 'description'),
+
+-- INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `feedback_date`)
+-- VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis', '2023-04-20 01:58:01'),
+--       (2, '2', 'พนักงานหิวข้าว', 'description', '2023-04-29 01:58:01'),
+--       (3, '2', 'พลับขอเส้นหมี่น้ำ', 'description', '2023-05-02 01:58:01'),
+--       (4, '2', 'ใส่ลูกชิ้นเยอะๆชามนึงครับ', 'description', '2023-05-10 01:58:01'),
+--       (5, '2', 'ผมมีเรื่องจะปรึกษาคุณครูครับ', 'description', '2023-05-20 01:58:01'),
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

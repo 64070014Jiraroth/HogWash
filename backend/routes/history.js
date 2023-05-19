@@ -32,7 +32,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
 
     try {
         const [historyRows, historyField] = await conn.query(
-            "SELECT * FROM history WHERE user_id = ?",
+            "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS date, FROM history WHERE user_id = ?",
             [req.user.id]
         )
         const [paymentRows, paymentField] = await conn.query(
@@ -44,6 +44,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
             [historyRows[0].option_id]
         )
         conn.commit()
+        console.log(historyRows)
         return res.json({
             history: historyRows,
             payment: paymentRows,
