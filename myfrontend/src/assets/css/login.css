@@ -2,6 +2,7 @@
 *{
     font-family: 'Prompt', sans-serif;
     box-sizing: border-box;
+    
 }
 /* template {
     background-color:aquamarine;
@@ -41,7 +42,7 @@ svg {
 }
 
 input {
-    display: block !important;
+    /* display: block !important; */
     /* text-decoration: none !important;
     outline:none; */
 }

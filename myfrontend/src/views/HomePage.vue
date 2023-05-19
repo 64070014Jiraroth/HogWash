@@ -116,7 +116,15 @@
                     <h4 class="card-title wmCard-text">
                       <div style="color: #7ccf85">สถานะ : ว่าง</div>
                     </h4>
-                    <b-button
+
+                    <b-button v-if="user && user.role == 'admin'"
+                    @click="refill_choose = wm;"
+                    v-b-modal="'refillConfirm'"
+                    style="background-color: #7ccf85; color: white; border:none;"> 
+                      Refill
+                    </b-button>
+
+                    <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'available'"
                       style="background-color: #7ccf85; color: white; border:none;"
                       @click="
@@ -137,7 +145,7 @@
                         >:<span id="sec">{{ option_choose.time % 60 }}</span>
                       </div>
                     </h4>
-                    <b-button
+                    <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
                       style="background-color: #dd6060; color: white; border:none;"
                       @click="wm_choose = wm"
@@ -150,7 +158,7 @@
                     <h4 class="card-title wmCard-text">
                       <div style="color: #f1d438">อยู่ระหว่างดำเนินการ</div>
                     </h4>
-                    <b-button
+                    <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
                       style="background-color: #f1d438; color: white; border:none;"
                     >
@@ -550,35 +558,48 @@
         </div>
       </div>
 
-      <!-- changePassword -->
-      <!-- <div class="modal fade" id="changePassword" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content rounded-4 modalChangepass">
-                    <div class="card changePass">
-                        <div class="card-body">
-                            <h5 class="card-title wmCard-title-changePass mx-3">แก้ไขรหัสผ่าน</h5>
-                            <p class="card-title wmCard-text">
-                            <form onsubmit="return false">
-                                <div class="form-group mx-3 py-3">
-                                    <input v-model="new_email" type="password" class="form-control" id="signUpEmail" placeholder="รหัสผ่านปัจจุบัน" required>
-                                </div>
-                                <div class="form-group mx-3 py-3">
-                                    <input v-model="new_password1" type="password" name="new_ps" class="form-control" id="signUpPassword" placeholder="รหัสผ่านใหม่" required>
-                                </div>
-                                <div class="form-group mx-3 py-3">
-                                    <input v-model="new_password2" type="password" name="new_ps" class="form-control" id="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" required>
-                                </div>
-                                <button class="button-changePass btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
-                                    @click="changePassword()">
-                                    บันทึกการเปลี่ยนแปลง
-                                </button><br>
-                            </form>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+    <b-modal id="refillConfirm" size='lg' centered hide-footer hide-header no-stacking>
+          <template>
+            <h1 class="modal-title my-4 w-100 text-center">
+              ยืนยันการเติมเครื่องซักผ้า {{refill_choose.id}}
+            </h1>
+            <div>
+              <!-- <b-button
+                class="btn queueOption"
+                style="background-color: #59a8b9; color: white"
+              >
+                จองคิว
+              </b-button> -->
+              <div class="modal-body confirmedText">
+              <p style="color: #dd6060">! ข้อควรระวัง !</p>
+              <p style="color: #dd6060">
+                โปรดตรวจสอบให้แน่ใจว่าทำการเติมผงซักฟอกและน้ำยาปรับผ้านุ่มแล้วก่อนกดยืนยัน
+              </p>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                @click="isCheck = !isCheck"
+              />
+              รับทราบ <br /><br />
+              <b-button
+                :class="['btn confirmed', isCheck ? '' : ' disabled']"
+                style="background-color: #59a8b9; color: white"
+                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false"
+              >
+                ยืนยัน
+              </b-button>
             </div>
-        </div> -->
+              <!-- <b-button
+                class="btn queueOption"
+                style="background-color: #b3b3b3; color: white"
+                block @click="$bvModal.hide('queue')"
+              >
+                ยกเลิก
+              </b-button> -->
+            </div>
+          </template>
+        </b-modal>
+      
     </div>
   </div>
 </template>
@@ -601,6 +622,7 @@ export default {
       wm_choose: "",
       option_choose: "",
       payment_choose: "",
+      refill_choose: "",
       // time_cost: 0,
       // pay_choose: '',
 
@@ -650,7 +672,20 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    }
+    },
+    refill() {
+      console.log('this.refill_choose.id', this.refill_choose)
+      axios
+        .put(`/${this.refill_choose.id}`,{})
+        .then(() => {
+          alert('refill successfully')
+          location.reload()
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          
+        });
+    },
   },
 };
 </script>

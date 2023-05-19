@@ -105,12 +105,12 @@ INSERT INTO `users` (`email`, `password`)
 VALUES  ('customer@gmail.com', 'Customer1234');
 
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
-VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80), 
         (2, 'Panasonic', 'NA-127XB1WMY', 1, 100, 100), 
         (3, 'Panasonic', 'NA-127XB1WMY', 2, 100, 100), 
-        (4, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (4, 'Panasonic', 'NA-127XB1WMY', 0, 90, 90), 
         (5, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
-        (6, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (6, 'Panasonic', 'NA-127XB1WMY', 0, 70, 70), 
         (7, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
         (8, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100);
 
