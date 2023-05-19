@@ -147,10 +147,10 @@ router.post("/user/login", async function (req, res, next) {
             [loginEmail]
         )
 
-        if (userCheck[0].email != loginEmail || userCheck[0].password != loginPassword) {    
-            return res.json({
-                message: 'Incorrect email or password',
-            })
+        console.log(userCheck[0])
+
+        if (!userCheck[0] || userCheck[0].password != loginPassword) {  
+            throw new Error('Incorrect email or password')        
         }
         else {
             // Check if token already existed

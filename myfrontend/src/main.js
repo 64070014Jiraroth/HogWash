@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
 
+import Vuelidate from 'vuelidate'
+
 import 'bulma/css/bulma.css'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
@@ -15,6 +17,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+
+Vue.use(Vuelidate)
 
 import "./assets/css/home.css";
 

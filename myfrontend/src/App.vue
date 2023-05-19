@@ -36,7 +36,7 @@
               <a>ติดต่อเรา</a>
             </router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a
               class="nav-link"
               href="#"
@@ -79,7 +79,7 @@
             >
               <b class="text-danger"> ( completed ) </b></a
             >
-          </li>
+          </li> -->
         </ul>
       </div>
 
