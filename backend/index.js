@@ -35,6 +35,7 @@ const feedbackRouter = require('./routes/feedback')
 app.use(indexRouter.router)
 app.use(userRouter.router)
 app.use(historyRouter.router)
+app.use(contactRouter.router)
 app.use(feedbackRouter.router)
 
 app.use(express.json())

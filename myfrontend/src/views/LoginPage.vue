@@ -180,14 +180,12 @@ export default {
 
             axios
             .post("/user/signup", data)
-            .then((res) => {
-                console.log(res)
+            .then(() => {
                 alert("Sign up Successfully");
                 location.reload();
             })
             .catch((err) => {
-                alert('This email already used')
-                console.log(err.response.data)
+                alert(err.response.data.details.message)
             });
         }
         else {

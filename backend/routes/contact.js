@@ -30,6 +30,7 @@ router.get("/contact", async function (req, res, next) {
             res.json({
                 images: images,
             });
+            console.log(images)
         })
         .catch((err) => {
             return res.status(500).json(err);
