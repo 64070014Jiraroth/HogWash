@@ -30,11 +30,12 @@ const indexRouter = require('./routes/index')
 const userRouter = require('./routes/user')
 const historyRouter = require('./routes/history')
 const contactRouter = require('./routes/contact')
+const feedbackRouter = require('./routes/feedback') 
 
 app.use(indexRouter.router)
 app.use(userRouter.router)
 app.use(historyRouter.router)
-app.use(contactRouter.router)
+app.use(feedbackRouter.router)
 
 app.use(express.json())
 

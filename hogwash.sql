@@ -140,7 +140,7 @@ INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `feedback_date`
 VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis', '2023-04-20 01:58:01'),
       (2, '2', 'พนักงานหิวข้าว', 'description', '2023-04-29 01:58:01'),
       (3, '2', 'พลับขอเส้นหมี่น้ำ', 'description', '2023-05-02 01:58:01'),
-      (4, '2', 'ใส่ลูกชิ้นเยอะๆชามนึงครับ', 'description', '2023-05-10 01:58:01'),
+      (4, '2', 'ใส่ลูกชิ้นเยอะๆ ชามนึงครับ', 'description', '2023-05-10 01:58:01'),
       (5, '2', 'ผมมีเรื่องจะปรึกษาคุณครูครับ', 'description', '2023-05-20 01:58:01');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
