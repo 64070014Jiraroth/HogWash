@@ -639,8 +639,6 @@ export default {
     imagePath(file_path) {
       if (file_path) {
         return "http://localhost:3000/" + file_path;
-      } else {
-        return "https://bulma.io/images/placeholders/640x360.png";
       }
     },
     addHistory() {
@@ -676,12 +674,3 @@ export default {
   },
 };
 </script>
-
-
-<style scoped>
-#home1 {
-  /* background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png'); */
-  background-image: url("~@/assets/img/background.png");
-  background-size: cover;
-}
-</style>

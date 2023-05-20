@@ -1,20 +1,20 @@
 <template>
-    <div :style="{'background-image':'url(https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png)'}">
+    <div>
         <!-- section 1 -->
         <section id="contact">
             <div class="contact">
                 <p style="font-size: 40px;font-weight: bold;">ช่องทางการติดต่อ</p>
                 <table>
-                        <tr>
-                            <td><img class="icon" src="/img/contact/phone.png"></td>
+                        <tr >
+                            <td><img :src="imagePath(images[3].path)" width="50" style="margin-bottom:20px; margin-right:20px"></td>
                             <td>0912345678</td>
                         </tr>
                         <tr>
-                            <td><img class="icon" src="/img/contact/mail.png"></td>
+                            <td><img :src="imagePath(images[4].path)" width="50" style="margin-bottom:20px; margin-right:20px"></td>
                             <td>hogwash@gmail.com</td>
                         </tr>
                         <tr>
-                            <td><img class="icon" src="/img/contact/line.png"></td>
+                            <td><img :src="imagePath(images[5].path)" width="50" style="margin-bottom:20px; margin-right:20px"></td>
                             <td>@HogWashLaundry</td>
                         </tr>
                 </table>
@@ -25,7 +25,7 @@
                 <form class="mailbox-form" action="/contact/" enctype="multipart/form-data" method="POST">
                     <div class="col-md-6">
                         <label style="font-size: 18px;">หัวข้อเรื่อง</label>
-                        <input type="text" class="form-control" placeholder="" id="comment_title" v-model="feedbackTitle">
+                        <input type="text" class="form-control" placeholder="" id="comment_title" v-model="feedbackTitle" maxlength="30">
                     </div><br>
                         <label style="font-size: 18px;">รายละเอียด</label>
                         <textarea type="text" class="form-control" style='height:100px;resize: none;' placeholder="" id="comment_detail" v-model="feedbackDes"></textarea>
@@ -45,52 +45,54 @@
   
 <script>
 import "../assets/css/contact.css";
-import axios from "axios";
+import axios from '@/plugins/axios'
 export default {
     name: 'HomePage',
     props: {news: Array} ["user"],
-    // props: {
-    //     news: Array
-    // },
-    computed: {
-        backgroundImg() {
-            return `background-image: url("https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png");`;
-        }
-    },
     data() {
         return {
             mailSent: false,
-            feedback: [],
+            images: [],
+            feedbackTitle: "",
+            feedbackDes: ""
         }
     },
+    mounted() {
+        this.getContact();
+    },
     methods: {
-        addFeedback() {
-        axios
-        .post(`http://localhost:3000/contact`, {
-          feedbackTitle: this.feedbackTitle,
-          feedbackDes: this.feedbackDes,
-        })
-        .then((response) => {
-          this.feedback.push(response.data);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
+        getContact() {
+            axios
+                .get("/contact")
+                .then((response) => {
+                    this.images = response.data.images;
+                    console.log(this.images)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            
         },
-    //     getUser () {
-    //         // const token = localStorage.getItem('token')
-    //         // axios.get('http://localhost:3000/user/me', { headers: {Authorization: 'Bearer ' + token} }).then(res => {
-    //         axios.get('/user/me').then(res => {
-    //             this.user = res.data
-    //   })
-    // },
+        imagePath(file_path) {
+            if (file_path) {
+                return "http://localhost:3000/" + file_path;
+            }
+        },
+        addFeedback() {
+            let data = {
+                feedbackTitle: this.feedbackTitle,
+                feedbackDes: this.feedbackDes,
+            }
+            axios
+                .post(`/contact`, data)
+                .then(() => {
+                    alert("Feedback send Successfully");
+                    location.reload();
+                })
+                .catch((error) => {
+                    console.log(error.response.data.message);
+                });
+            },
     }
 }
 </script>
-
-
-<style scoped lang="scss">
-.container {
-//   background-image: url('~@/assets/img/background.png');
-  background-image: url("https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png");
-}

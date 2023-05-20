@@ -210,7 +210,7 @@ export default {
     },
     logOut() {
       localStorage.removeItem('token')
-      this.$router.push({ path: "/" });
+      axios.get('/').then(() => {})
       location.reload()
     },
     submitPassword() {

@@ -105,9 +105,7 @@ router.post("/user/signup", async function (req, res, next) {
             [signUpEmail]
         )
         if (rowsCheck.length > 0) {
-            return res.json({
-                message: 'This email is already used',
-            })
+            throw new Error('This email is already used')
         }
         else {
             const [rows, fields] = await conn.query(
