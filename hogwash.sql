@@ -15,6 +15,7 @@ CREATE TABLE `washing_machine` (
     `status` INT(1)  NOT NULL,
     `powder`    INT(3) NOT NULL,
     `softener`  INT(3) NOT NULL,
+    `time`  INT(3) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 );
 
@@ -135,7 +136,6 @@ VALUES  (1, '/uploads/materials/wm.png'),
         (4, '/uploads/contact/line.png'), 
         (5, '/uploads/contact/mail.png'), 
         (6, '/uploads/contact/phone.png');
-
         
 INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `feedback_date`)
 VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis', '2023-04-20 01:58:01'),

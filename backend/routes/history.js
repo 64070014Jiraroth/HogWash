@@ -5,26 +5,6 @@ router = express.Router();
 
 const { isLoggedIn } = require('../middlewares')
 
-// router.get("/history", async function (req, res, next) {
-
-//     const conn = await pool.getConnection()
-//     await conn.beginTransaction();
-
-//     try {
-//         const [rows, field] = await conn.query(
-//             "SELECT * FROM history",
-//         )
-//         conn.commit()
-//         return res.json(rows)
-//     } catch (err) {
-//         conn.rollback()
-//         return res.send(err);
-//     } finally {
-//         conn.release()
-//     }
-
-// });
-
 router.get("/history", isLoggedIn, async function (req, res, next) {
 
     const conn = await pool.getConnection()
@@ -65,13 +45,19 @@ router.post("/history", isLoggedIn, async function (req, res, next) {
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
-    const { payment_choose, wm_choose, option_choose } = req.body.params;
+    const { payment_choose, wm_choose, option_choose, wm_time } = req.body.params;
 
     try {
         const [rows, fields] = await conn.query(
             "INSERT INTO history(date, payment_id, wm_id, user_id, option_id) VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)",
             [payment_choose, wm_choose, req.user.id, option_choose]
         )
+
+        const [rows2, fields2] = await conn.query(
+            "UPDATE washing_machine SET status = ?, time = ? WHERE id = ?",
+            [1, wm_time, wm_choose]
+        )
+
         conn.commit()
         return res.json({
             message: 'Done !',

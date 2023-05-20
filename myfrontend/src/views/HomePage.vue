@@ -138,12 +138,21 @@
 
                   <div v-show="wm.status == 1">
                     <h4 class="card-title wmCard-text">
-                      <div style="color: #dd6060" >
+                      <div style="color: #dd6060">
+                        00:<span id="min">{{
+                          Math.floor(wm.time / 60)
+                        }}</span
+                        >:<span id="sec">{{ wm.time % 60 }}</span>
+                      </div>
+                      <!-- <template>
+                        <div>{{ timerOutput }}</div>
+                      </template> -->
+                      <!-- <div style="color: #dd6060" >
                         00:<span id="min">{{
                           Math.floor(option_choose.time / 60)
                         }}</span
                         >:<span id="sec">{{ option_choose.time % 60 }}</span>
-                      </div>
+                      </div> -->
                     </h4>
                     <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
@@ -190,7 +199,7 @@
                   v-b-modal="'selectPayment'"
                   class="col btn selectOption"
                   variant="light"
-                  @click="option_choose = option"
+                  @click="option_choose = option; wms[wm_choose.id-1].time = option.time;"
                 >
                   <h5>{{ option.name }}</h5>
                   <small
@@ -260,7 +269,7 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false"
+                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false; startTimer(wm_choose.time)"
               >
                 ยืนยัน
               </b-button>
@@ -613,6 +622,10 @@ export default {
       // time_cost: 0,
       // pay_choose: '',
 
+      current_time: Date.parse(new Date()),
+      
+      timerOutput:  null,
+
       wms: [],
       images: [],
       options: [],
@@ -649,6 +662,7 @@ export default {
             wm_choose: this.wm_choose.id,
             option_choose: this.option_choose.id,
             payment_choose: this.payment_choose.id,
+            wm_time: this.wm_choose.time
           },
         })
         .then((res) => {
@@ -670,6 +684,54 @@ export default {
           console.log(error.response.data.message)
           
         });
+    },
+    startTimer(time) {
+      setInterval(() => { 
+        const deadline = new Date(this.current_time + time*60*1000);
+
+        const timeNow = new Date().getTime();
+        const timeDif = deadline - timeNow;
+
+        // console.log(deadline)
+
+        // const millisecInOneSecond = 1000;
+        // const millisecInOneMinute = millisecInOneSecond * 60;
+        // const millisecInOneHour = millisecInOneMinute * 60;
+        // const millisecInOneDay = millisecInOneHour * 24;
+        
+        // const DiffHours = (timeDif % millisecInOneDay) / millisecInOneHour;
+        // const DiffMinutes = (timeDif % millisecInOneHour) / millisecInOneMinute;
+        // const DiffSeconds = (timeDif % millisecInOneMinute) / millisecInOneSecond;
+
+        // const Hours = Math.floor(DiffHours);
+        // const Minutes = Math.floor(DiffMinutes);
+        // const Seconds = Math.floor(DiffSeconds);
+
+        var Seconds = Math.floor( (timeDif/1000) % 60 );
+        var Minutes = Math.floor( (timeDif/1000/60) % 60 );
+        var Hours = Math.floor( (timeDif/(1000*60*60)) % 24 );
+
+        this.timerOutput = Hours + " : " + Minutes + " : " + Seconds; 
+      }, 1000);
+    },
+    count_time(wm_choose) {
+        const wm = this.Washing_machine.filter((data) => { return data.wm_id == wm_choose.wm_id })
+        wm[0].wm_status = 1;
+        wm[0].time_left = this.time_cost
+
+        if(wm[0].time_left > 0) {
+            let counter = setInterval(() => { 
+                if(wm[0].time_left <= 0) {
+                    wm[0].wm_status = 0
+                    clearInterval(counter);
+                }
+                else {
+                    wm[0].time_left--;
+                }
+                localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
+                // document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
+            }, 1000);
+        }
     },
   },
 };
