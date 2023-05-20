@@ -26,3 +26,7 @@ tr {
 td {
     font-size: 18px;
 }
+.readButton {
+    background-color:#59A8B9;
+    border:none;
+}
