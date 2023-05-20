@@ -2,7 +2,7 @@
   <div id="app">
     <!-- nav bar -->
     <nav
-      class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between" style="background-color:#CAEAF1;font-size:20px">
+      class="navbar fixed-top navbar-expand-lg navbar-light justify-content-between" style="background-color:#CAEAF1;font-size:20px;">
       <a class="navbar-brand mx-4" href="/">
         <img
           :src="require('./assets/img/logo.png')"
@@ -42,15 +42,15 @@
               <a style="color:#59A8B9;">กล่องข้อความ</a>
             </router-link>
           </li>
+          <li class="nav-item" v-if="user && user.role == 'admin'">
+            <a class="nav-link" style="color:#59A8B9;" v-b-modal="'announcement'">เพิ่มประกาศ</a>
+          </li>
 
           <!-- test modal ----------------------------------------------->
           <li class="nav-item">
             <a
               class="nav-link"
-              href="#"
-              data-toggle="modal"
-              data-target="#gotQueue"
-              data-dismiss="modal"
+              v-b-modal="'gotQueue'"
             >
               <b class="text-info"> ( ทดสอบได้คิว ) </b></a
             >
@@ -58,10 +58,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="#"
-              data-toggle="modal"
-              data-target="#editQueue"
-              data-dismiss="modal"
+              v-b-modal="'editQueue'"
             >
               <b class="text-danger"> ( กดคิวซ้ำ ) </b></a
             >
@@ -69,10 +66,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="#"
-              data-toggle="modal"
-              data-target="#inQueue"
-              data-dismiss="modal"
+              v-b-modal="'inQueue'"
             >
               <b class="text-danger"> ( inQueue ) </b></a
             >
@@ -80,14 +74,14 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="#"
-              data-toggle="modal"
-              data-target="#completed"
-              data-dismiss="modal"
+              v-b-modal="'completed'"
             >
               <b class="text-danger"> ( completed ) </b></a
             >
           </li>
+
+
+
         </ul>
       </div>
 
@@ -110,17 +104,21 @@
       </a>
 
       <!-- greeting button -->
-      <b-dropdown  v-if="user" id="dropdown-right" :text="'ยินดีต้อนรับ ' + user.email + ' ! '" variant="none" style="margin:20px;">
+      <b-dropdown  v-if="user" id="dropdown-right" size="lg" :text="'ยินดีต้อนรับ ' + user.email + ' ! '" variant="none"
+      style="margin-right:20px;margin:15px;w" block menu-class="w-75" right
+      >
         <b-dropdown-item v-b-modal="'changePassword'">
-            แก้ไขรหัสผ่าน 
+            <a style="font-size:18px">แก้ไขรหัสผ่าน</a>
         </b-dropdown-item>
         <b-dropdown-item>
-          <router-link style="text-decoration: none; color: inherit;padding-right:0;" to="/history">
+          <router-link style="text-decoration: none; color: inherit;padding-right:0;font-size:18px" to="/history">
             ประวัติการใช้งาน
           </router-link>
         </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item @click="logOut()">ออกจากระบบ</b-dropdown-item>
+        <b-dropdown-item @click="logOut()">
+          <a style="font-size:18px">ออกจากระบบ</a>
+        </b-dropdown-item>
       </b-dropdown>
 
         <!-- modal change password -->
@@ -182,6 +180,10 @@
           </template>
         </b-modal>
     </nav>
+    
+    <!-- <header :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll" class="headroom header">
+      Header
+    </header> -->
 
     <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user"/>
   </div>
@@ -189,6 +191,7 @@
 
 <script>
 import axios from '@/plugins/axios'
+// import "./assets/css/nav.css";
 
 export default {
   data () {
@@ -197,6 +200,10 @@ export default {
       currentPassword: "",
       newPassword: "",
       confirm_newPassword: "",
+
+      limitPosition: 500,
+      scrolled: false,
+      lastPosition: 0
     }
   },
   mounted () {

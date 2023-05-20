@@ -5,14 +5,14 @@ router = express.Router();
 
 const { isLoggedIn } = require('../middlewares')
 
-router.get("/feedback", async function (req, res, next) {
+router.get("/feedback", isLoggedIn, async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
         const [feedback] = await conn.query(
-            "SELECT *, DATE_FORMAT(feedback_date, '%d-%m-%Y') AS feedback_date, TIME(feedback_date) AS feedback_time FROM feedback"
+            "SELECT *, DATE_FORMAT(feedback_date, '%d-%m-%Y') AS date, TIME(feedback_date) AS feedback_time FROM feedback ORDER BY feedback_date DESC"
         )
         const [email] = await conn.query(
             "SELECT * FROM users",
@@ -32,7 +32,7 @@ router.get("/feedback", async function (req, res, next) {
     }
 });
 
-router.get("/feedback/:id", async function (req, res, next) {
+router.get("/feedback/:id", isLoggedIn, async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();

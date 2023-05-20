@@ -31,12 +31,14 @@ const userRouter = require('./routes/user')
 const historyRouter = require('./routes/history')
 const contactRouter = require('./routes/contact')
 const feedbackRouter = require('./routes/feedback') 
+const announcementRouter = require('./routes/announcement') 
 
 app.use(indexRouter.router)
 app.use(userRouter.router)
 app.use(historyRouter.router)
 app.use(contactRouter.router)
 app.use(feedbackRouter.router)
+app.use(announcementRouter.router)
 
 app.use(express.json())
 
