@@ -53,14 +53,25 @@ router.post("/history", isLoggedIn, async function (req, res, next) {
             [payment_choose, wm_choose, req.user.id, option_choose]
         )
 
-        const [rows2, fields2] = await conn.query(
-            "UPDATE washing_machine SET status = ?, time = ? WHERE id = ?",
-            [1, wm_time, wm_choose]
+        const [rowsTemp] = await conn.query(
+            "SELECT * FROM washing_machine WHERE id = ?",
+            [wm_choose]
+        )
+
+        console.log(wm_choose)
+
+        const powderNum = +rowsTemp[0].powder - 5
+        const softenerNum = +rowsTemp[0].softener - 5
+
+        const [rows2] = await conn.query(
+            "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, time = ? WHERE id = ?",
+            [1, powderNum, softenerNum, wm_time, wm_choose]
         )
 
         conn.commit()
         return res.json({
-            message: 'Done !',
+            message: 'History added successfully',
+            data: rows2
         })
     } catch (err) {
         conn.rollback()

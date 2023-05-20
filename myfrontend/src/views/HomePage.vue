@@ -269,7 +269,7 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment'); addHistory(); wm_choose.status = 1; isCheck = false; startTimer(wm_choose.time)"
+                block @click="$bvModal.hide('confirmPayment');  wm_choose.status = 1; addHistory(); isCheck = false; startTimer(wm_choose.time); count_time(wm_choose);"
               >
                 ยืนยัน
               </b-button>
@@ -556,7 +556,6 @@
                     :class="['btn confirmed', isCheck ? '' : ' disabled']"
                     style="background-color: #59a8b9; color: white"
                     data-dismiss="modal"
-                    @click="count_time(wm_choose)"
                   >
                     ยืนยัน
                   </button>
@@ -655,7 +654,7 @@ export default {
       }
     },
     addHistory() {
-      console.log(this.payment_choose.id)
+      // console.log("payment_choose.id : ", this.payment_choose.id)
       axios
         .post("/history", {
           params: {
@@ -673,7 +672,7 @@ export default {
         });
     },
     refill() {
-      console.log('this.refill_choose', this.refill_choose)
+      console.log('this.refill_choose : ', this.refill_choose)
       axios
         .put(`/${this.refill_choose.id}`,{})
         .then(() => {
@@ -714,24 +713,27 @@ export default {
         this.timerOutput = Hours + " : " + Minutes + " : " + Seconds; 
       }, 1000);
     },
-    count_time(wm_choose) {
-        const wm = this.Washing_machine.filter((data) => { return data.wm_id == wm_choose.wm_id })
-        wm[0].wm_status = 1;
-        wm[0].time_left = this.time_cost
+    count_time(wm) {
+        console.log(wm)
+        // const wm = this.wms.filter((data) => { return data.id == wm_choose.id })
+        // console.log("wm_time id : " + wm)
 
-        if(wm[0].time_left > 0) {
-            let counter = setInterval(() => { 
-                if(wm[0].time_left <= 0) {
-                    wm[0].wm_status = 0
-                    clearInterval(counter);
-                }
-                else {
-                    wm[0].time_left--;
-                }
-                localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
-                // document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
-            }, 1000);
-        }
+        // wm[0].wm_status = 1;
+        // wm[0].time_left = this.time_cost
+
+        // if(wm[0].time_left > 0) {
+        //     let counter = setInterval(() => { 
+        //         if(wm[0].time_left <= 0) {
+        //             wm[0].wm_status = 0
+        //             clearInterval(counter);
+        //         }
+        //         else {
+        //             wm[0].time_left--;
+        //         }
+        //         localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
+        //         // document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
+        //     }, 1000);
+        // }
     },
   },
 };
