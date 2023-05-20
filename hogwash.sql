@@ -92,7 +92,7 @@ CREATE TABLE `feedback` (
     `id`        INT(10) AUTO_INCREMENT,
     `user_id`   INT(10) NOT NULL,
     `title`     varchar(100) NOT NULL,
-    `description`     varchar(100) NOT NULL,
+    `description`     varchar(255) NOT NULL,
     `feedback_date`     timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -102,7 +102,9 @@ INSERT INTO `users` (`email`, `password`, `role`)
 VALUES  ('admin@gmail.com', 'Admin1234', 'admin');
 
 INSERT INTO `users` (`email`, `password`) 
-VALUES  ('customer@gmail.com', 'Customer1234');
+VALUES  ('customer@gmail.com', 'Customer1234'),
+        ('customer2@gmail.com', 'Customer1234'),
+        ('Fluk@gmail.com', 'Customer1234');
 
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
 VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80), 
@@ -134,12 +136,52 @@ VALUES  (1, '/uploads/materials/wm.png'),
         (5, '/uploads/contact/mail.png'), 
         (6, '/uploads/contact/phone.png');
 
+        
 INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `feedback_date`)
 VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis', '2023-04-20 01:58:01'),
       (2, '2', 'พนักงานหิวข้าว', 'description', '2023-04-29 01:58:01'),
-      (3, '2', 'พลับขอเส้นหมี่น้ำ', 'description', '2023-05-02 01:58:01'),
-      (4, '2', 'ใส่ลูกชิ้นเยอะๆ ชามนึงครับ', 'description', '2023-05-10 01:58:01'),
-      (5, '2', 'ผมมีเรื่องจะปรึกษาคุณครูครับ', 'description', '2023-05-20 01:58:01');
+      (3, '4', 'พลับขอเส้นหมี่น้ำ', 'ฉันค่อยค่อยกินเส้นหมี่ก่อน
+ฉันค่อยค่อยกินถั่วงอกก่อน
+ฉันค่อยค่อยกิน
+กินน้ำซุปก่อน
+แล้วก็รอรอรอ
+แล้วฉันก็กินเส้นหมี่หมด
+แล้วฉันก็กินถั่วงอกหมด
+แล้วฉันก็กิน
+จนน้ำซุปหมด
+ก็จะเหลือเจ้าลูกกลมกลม
+', '2023-05-02 01:58:01'),
+      (4, '4', 'ใส่ลูกชิ้นเยอะๆ ชามนึงครับ', 'เธอมองอะไรกัน
+คอยจ้องอยู่อย่างนั้น
+แต่ละคนไม่น่าไว้ใจ
+ลูกชิ้นของฉัน
+ลูกชิ้นของฉัน
+ลูกชิ้นของฉัน
+ท่าทางไม่ปลอดภัย
+ของรักของหวง
+ของซื้อของขาย
+ตะเกียบอย่ายื่นมานะ
+ฉันไม่ยอม
+อย่ามาแย่งลูกชิ้นฉันเลย
+', '2023-05-10 01:58:01'),
+      (5, '3', 'ผมมีเรื่องจะปรึกษาคุณครูครับ', 'เหลือลูกกลมกลมชอบสุดสุด
+เหลือลูกนิดเดียวแหละชอบสุด
+ขอเคี้ยวให้นาน
+เลยไว้ท้ายสุด
+แล้วจะเคี้ยว
+เน้นเน้นทุกคำ
+เธอมองอะไรกัน
+คอยจ้องอยู่อย่างนั้น
+แต่ละคนไม่น่าไว้ใจ
+ลูกชิ้นของฉัน
+ลูกชิ้นของฉัน
+ลูกชิ้นของฉัน
+ท่าทางไม่ปลอดภัย
+ของรักของหวง
+ของซื้อของขาย
+ตะเกียบอย่ายื่นมานะ
+ฉันไม่ยอม
+อย่ามาแย่งลูกชิ้นฉันเลย', '2023-05-20 01:58:01');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

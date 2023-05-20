@@ -36,6 +36,13 @@
               <a>ติดต่อเรา</a>
             </router-link>
           </li>
+
+          <li class="nav-item" v-if="user && user.role == 'admin'">
+            <router-link to="/feedback" class="nav-link">
+              <a style="color:#59A8B9;">กล่องข้อความ</a>
+            </router-link>
+          </li>
+
           <!-- <li class="nav-item">
             <a
               class="nav-link"
