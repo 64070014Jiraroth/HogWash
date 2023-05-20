@@ -56,4 +56,29 @@ router.put("/:id", async function (req, res, next) {
     return;
 });
 
+router.put("/finish/:id", async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    try {
+        console.log(req.params.id)
+        let finish = await conn.query(
+            `UPDATE washing_machine SET status=?, time=? WHERE id=?`,
+            [0, 0, req.params.id]
+        )
+
+        await conn.commit()
+        res.send("wm finished !");
+
+    } catch (err) {
+        await conn.rollback();
+        next(err);
+    } finally {
+        console.log('finally')
+        conn.release();
+    }
+    return;
+});
+
 exports.router = router;

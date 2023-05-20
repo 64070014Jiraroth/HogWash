@@ -139,21 +139,11 @@
 
                   <div v-show="wm.status == 1">
                     <h4 class="card-title wmCard-text">
-                      <div style="color: #dd6060">
-                        00:<span id="min">{{
-                          Math.floor(wm.time / 60)
-                        }}</span
-                        >:<span id="sec">{{ wm.time % 60 }}</span>
-                      </div>
-                      <!-- <template>
-                        <div>{{ timerOutput }}</div>
-                      </template> -->
-                      <!-- <div style="color: #dd6060" >
-                        00:<span id="min">{{
-                          Math.floor(option_choose.time / 60)
-                        }}</span
-                        >:<span id="sec">{{ option_choose.time % 60 }}</span>
-                      </div> -->
+                        <div v-for="(output, index) in formattedTimerOutput" :key="index">
+                          <span v-if="index == wm.id-1">{{ output }}</span>
+                          
+                        </div>
+                        <!-- <div>{{ timerOutput[wm.id-1] }}</div> -->
                     </h4>
                     <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
@@ -272,7 +262,8 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment');  wm_choose.status = 1; addHistory(); isCheck = false; startTimer(wm_choose.time); count_time(wm_choose);"
+                block @click="$bvModal.hide('confirmPayment');  wm_choose.status = 1; addHistory(); isCheck = false;  
+                               fetchData(); startTimer(wm_choose);"
               >
                 ยืนยัน
               </b-button>
@@ -593,19 +584,31 @@ export default {
       refill_choose: "",
       // time_cost: 0,
       // pay_choose: '',
-
-      current_time: Date.parse(new Date()),
       
-      timerOutput:  null,
+      timerOutput:  [],
 
       wms: [],
       images: [],
       options: [],
       payments: [],
+
+      isFetch: false,
+
     };
   },
   mounted() {
     this.getWM();
+  },
+  computed: { 
+    formattedTimerOutput() {  // ทำให้เวลารันบนจอ
+      return this.timerOutput.map((time) => {
+        const timeDif = time * 1000;
+        const Seconds = Math.floor((timeDif / 1000) % 60);
+        const Minutes = Math.floor((timeDif / (60 * 1000)) % 60);
+        const Hours = Math.floor((timeDif / (60 * 60 * 1000)) % 24);
+        return `${this.padZero(Hours)}:${this.padZero(Minutes)}:${this.padZero(Seconds)}`;
+      });
+    }
   },
   methods: {
     getWM() {
@@ -637,8 +640,8 @@ export default {
             wm_time: this.wm_choose.time
           },
         })
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          // console.log(res)
         })
         .catch((err) => {
           console.log(err);
@@ -657,56 +660,66 @@ export default {
           
         });
     },
-    startTimer(time) {
-      setInterval(() => { 
-        const deadline = new Date(this.current_time + time*60*1000);
+    startTimer(choose) { // ทำเป็นวันกว่าจะได้ ********* ห้ามแก้ !!!! ***********
+      const wmTimer_choose = this.wms.find((data) => data.id === choose.id);
 
-        const timeNow = new Date().getTime();
-        const timeDif = deadline - timeNow;
+      const current_time = Date.now();
+      const timeFinish = current_time + wmTimer_choose.time * 1000 + 2000;
 
-        // console.log(deadline)
+      this.$set(this.timerOutput, wmTimer_choose.id - 1, wmTimer_choose.time); // $set เป็น vue instance (build in) --> set(item, index, value)
 
-        // const millisecInOneSecond = 1000;
-        // const millisecInOneMinute = millisecInOneSecond * 60;
-        // const millisecInOneHour = millisecInOneMinute * 60;
-        // const millisecInOneDay = millisecInOneHour * 24;
-        
-        // const DiffHours = (timeDif % millisecInOneDay) / millisecInOneHour;
-        // const DiffMinutes = (timeDif % millisecInOneHour) / millisecInOneMinute;
-        // const DiffSeconds = (timeDif % millisecInOneMinute) / millisecInOneSecond;
+      if (this.timerOutput[wmTimer_choose.id - 1] > 0) {
+        const timerId = setInterval(() => {
+          if (this.timerOutput[wmTimer_choose.id - 1] <= 1) {
+            clearInterval(timerId);
+            axios
+            .put(`/finish/${wmTimer_choose.id}`)
+            .then(() => {
+              // alert(`${wmTimer_choose.id} Finish !`)
+              this.isFetch = false
+              this.fetchData()
+            })
+            .catch((error) => {
+              console.log(error.response.data.message)
+            });
+          } else {
+            const timeNow = Date.now();
+            const timeDif = timeFinish - timeNow; // มันเก็บ datetime เป็น millisec (1 sec = 1000 millisec)
+            this.$set(this.timerOutput, wmTimer_choose.id - 1, timeDif / 1000);
 
-        // const Hours = Math.floor(DiffHours);
-        // const Minutes = Math.floor(DiffMinutes);
-        // const Seconds = Math.floor(DiffSeconds);
-
-        var Seconds = Math.floor( (timeDif/1000) % 60 );
-        var Minutes = Math.floor( (timeDif/1000/60) % 60 );
-        var Hours = Math.floor( (timeDif/(1000*60*60)) % 24 );
-
-        this.timerOutput = Hours + " : " + Minutes + " : " + Seconds; 
-      }, 1000);
+            // Send API request to save timer data
+            // axios.post('/timers', {
+            //   id: wmTimer_choose[0].id,
+            //   time: wmTimer_choose[0].time
+            // })
+            //   .then(response => {
+            //     // Handle success
+            //   })
+            //   .catch(error => {
+            //     // Handle error
+            //   });
+          }
+        }, 1000);
+      }
     },
-    count_time(wm) {
-        console.log(wm)
-        // const wm = this.wms.filter((data) => { return data.id == wm_choose.id })
-        // console.log("wm_time id : " + wm)
-
-        // wm[0].wm_status = 1;
-        // wm[0].time_left = this.time_cost
-
-        // if(wm[0].time_left > 0) {
-        //     let counter = setInterval(() => { 
-        //         if(wm[0].time_left <= 0) {
-        //             wm[0].wm_status = 0
-        //             clearInterval(counter);
-        //         }
-        //         else {
-        //             wm[0].time_left--;
-        //         }
-        //         localStorage.setItem("wm_data", JSON.stringify(this.Washing_machine));
-        //         // document.getElementById('min').innerHTML =  ("0" + min).slice(-2);
-        //     }, 1000);
-        // }
+    padZero(value) { // ทำให้เป็น 00 01
+      return String(value).padStart(2, '0'); 
+    },
+    fetchData() { // ทำให้ข้อมูลเปลี่ยนโดยไม่ต้องรีหน้า
+      // console.log(this.isFetch)
+      setTimeout(this.fetchData, 500);
+      if (!this.isFetch) {
+        axios
+          .get("/")
+          .then((response) => {
+            this.wms = response.data.wms;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        setTimeout(() => { this.isFetch = true; }, 500);
+      }
+      
     },
   },
 };
