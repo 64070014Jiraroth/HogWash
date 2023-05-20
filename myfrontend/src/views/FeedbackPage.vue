@@ -1,14 +1,14 @@
 <template>
-    <div class="feedback-border">
+    <div class="feedback-border" v-if="user && user.role == 'admin'">
         <p style="font-size: 40px;font-weight: bold;">กล่องข้อความ</p>
         <table class="history-table">
-            <tr >
+            <tr>
                 <th>ส่งโดย</th>
                 <th>หัวข้อเรื่อง</th>
                 <th>คำอธิบาย</th>
                 <th>วันที่</th>
             </tr>
-            <tr v-for="feed in feedback" :key="feed.id">
+            <tr v-for="feed in feedback" :key="feed.id" style="cursor:pointer;background:color:black" @click="feedback_choose = feed, readFeedback()">
                 <td>
                     <span v-for="em in email" :key="em.id">
                         <span v-if="em.id === feed.user_id">
@@ -17,12 +17,17 @@
                     </span>
                 </td>
                 <td>
-                    {{ truncateText(feed.title, 30) }}
+                    {{ cutText(feed.title, 30) }}
                 </td>
                 <td>
-                     {{ truncateText(feed.description, 30) }}
+                     {{ cutText(feed.description, 30) }}
                 </td>
                 <td>{{ feed.feedback_date }}</td>
+                <!-- <td>
+                    <b-button class="readButton" @click="feedback_choose = feed, readFeedback()">
+                        read
+                    </b-button>
+                </td> -->
             </tr>
         </table>
     </div>
@@ -38,6 +43,7 @@ export default {
         return {
             feedback: [],
             email: [],
+            feedback_choose: "",
         }
     },
     mounted() {
@@ -54,12 +60,26 @@ export default {
             console.log(err);
             });
         },
-        truncateText(text, maxLength) {
+        cutText(text, maxLength) {
             if (text.length > maxLength) {
             return text.substring(0, maxLength) + '...';
             }
             return text;
-        }
+        },
+        readFeedback() {
+            console.log('Row clicked');
+            console.log('this.feedback_choose1', this.feedback_choose.id)
+            axios
+                .get(`/feedback/${this.feedback_choose.id}`)
+                .then(() => {
+                    console.log('this.feedback_choose2', this.feedback_choose)
+                })
+                .catch((error) => {
+                console.log(error.response.data.message)
+
+                });
+                
+            }
     },
 }
 </script>

@@ -587,7 +587,7 @@
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('refillConfirm')"
+                block @click="refill(), $bvModal.hide('refillConfirm')"
               >
                 ยืนยัน
               </b-button>
@@ -673,7 +673,7 @@ export default {
         });
     },
     refill() {
-      console.log('this.refill_choose.id', this.refill_choose)
+      console.log('this.refill_choose', this.refill_choose)
       axios
         .put(`/${this.refill_choose.id}`,{})
         .then(() => {
