@@ -15,6 +15,7 @@
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
     "vue": "^2.7.14",
+    "vue-clamp": "^0.4.1",
     "vue-router": "^3.6.5",
     "vuelidate": "^0.7.7"
   },

@@ -1,32 +1,28 @@
 <template>
-    <div class="history-border">
+    <div class="feedback-border">
         <p style="font-size: 40px;font-weight: bold;">กล่องข้อความ</p>
-        <table class="history-table" style="width:200%">
+        <table class="history-table">
             <tr >
-                <th>วันที่ใช้งาน</th>
-                <th>เวลาเริ่มใช้งาน</th>
-                <th>เครื่องที่ใช้</th>
-                <th>รูปแบบการซัก</th>
-                <th>วันที่ส่ง</th>
+                <th>ส่งโดย</th>
+                <th>หัวข้อเรื่อง</th>
+                <th>คำอธิบาย</th>
+                <th>วันที่</th>
             </tr>
-            <tr v-for="hist in history" :key="hist.id">
-                <td>{{ hist.date }}</td>
-                <td>{{ hist.date }}</td>
-                <td>{{ hist.wm_id }}</td>
+            <tr v-for="feed in feedback" :key="feed.id">
                 <td>
-                    <span v-for="op in option" :key="op.id">
-                        <span v-if="op.id === hist.option_id">
-                            {{ op.name }}
+                    <span v-for="em in email" :key="em.id">
+                        <span v-if="em.id === feed.user_id">
+                            {{ em.email }}
                         </span>
                     </span>
                 </td>
                 <td>
-                    <span v-for="pay in payment" :key="pay.id">
-                        <span v-if="pay.id === hist.payment_id">
-                            {{ pay.name }}
-                        </span>
-                    </span>
+                    {{ truncateText(feed.title, 30) }}
                 </td>
+                <td>
+                     {{ truncateText(feed.description, 30) }}
+                </td>
+                <td>{{ feed.feedback_date }}</td>
             </tr>
         </table>
     </div>
@@ -34,33 +30,37 @@
 
 <script>
 import axios from "@/plugins/axios";
-import "../assets/css/history.css";
+import "../assets/css/feedback.css";
 
 export default {
     props: ["user"],
     data() {
         return {
-            history: [],
-            payment: [],
-            option: []
+            feedback: [],
+            email: [],
         }
     },
     mounted() {
-        this.getHistory();
+        this.getFeedback();
     },
     methods: {
-        getHistory() {
-            axios.get("history")
+        getFeedback() {
+            axios.get("feedback")
             .then((response) => {
-                this.history = response.data.history;
-                this.payment = response.data.payment;
-                this.option = response.data.option;
+                this.feedback = response.data.feedback;
+                this.email = response.data.email;
             })
             .catch((err) => {
             console.log(err);
             });
         },
-    }
+        truncateText(text, maxLength) {
+            if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        }
+    },
 }
 </script>
 
