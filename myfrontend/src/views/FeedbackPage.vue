@@ -8,7 +8,7 @@
                 <th>คำอธิบาย</th>
                 <th>วันที่</th>
             </tr>
-            <tr v-for="feed in feedback" :key="feed.id" style="cursor:pointer;background:color:black" @click="feedback_choose = feed, readFeedback()">
+            <tr class="trReading" v-for="feed in feedback" :key="feed.id" @click="feedback_choose = feed, readFeedback()" v-b-modal="'reading'">
                 <td>
                     <span v-for="em in email" :key="em.id">
                         <span v-if="em.id === feed.user_id">
@@ -30,6 +30,21 @@
                 </td> -->
             </tr>
         </table>
+
+        <b-modal id="reading" class="text-center" centered hide-header-close hide-footer  :title="feedback_choose.title">
+            {{feedback_choose.description}}
+            <!-- <div class="modal-footer">
+                เมื่อวันที่ `{{feedback_choose.date}}`
+            </div> -->
+
+            <!-- <template #modal-footer="{ hide }">
+                test
+            <b-button size="sm" variant="outline-secondary" @click="hide()">
+                {{feedback_choose.description}}dfsd
+            </b-button>
+            </template> -->
+            
+        </b-modal>
     </div>
 </template>
 
@@ -67,12 +82,10 @@ export default {
             return text;
         },
         readFeedback() {
-            console.log('Row clicked');
-            console.log('this.feedback_choose1', this.feedback_choose.id)
+            // console.log('this.feedback_choose1', this.feedback_choose.id)
             axios
                 .get(`/feedback/${this.feedback_choose.id}`)
                 .then(() => {
-                    console.log('this.feedback_choose2', this.feedback_choose)
                 })
                 .catch((error) => {
                 console.log(error.response.data.message)

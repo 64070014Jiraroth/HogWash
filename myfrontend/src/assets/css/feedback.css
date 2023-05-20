@@ -23,10 +23,28 @@ th, td {
 tr {
     border-bottom: 2px solid #D9D9D9;
 }
+.trReading:hover {
+    background-color: #dbe2e8;
+}
+
 td {
     font-size: 18px;
 }
 .readButton {
     background-color:#59A8B9;
     border:none;
+}
+
+.modal-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #59A8B9;
+    margin-top: 20px;
+}
+.modal-header {
+    justify-content: center;
+}
+.modal-body {
+    margin: 10px;
+    margin-top: 0;
 }
