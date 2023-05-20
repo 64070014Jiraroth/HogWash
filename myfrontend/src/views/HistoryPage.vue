@@ -1,7 +1,7 @@
 <template>
     <div class="history-border">
         <p style="font-size: 40px;font-weight: bold;">ประวัติการใช้งาน</p>
-        <table class="history-table" style="width:200%">
+        <table class="history-table">
             <tr >
                 <th>วันที่ใช้งาน</th>
                 <th>เวลาเริ่มใช้งาน</th>

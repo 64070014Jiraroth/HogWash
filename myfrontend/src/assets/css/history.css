@@ -9,12 +9,14 @@ th {
     color: #59A8B9;
     font-size: 20px;
 }
-.history-table {
+table {
     text-align: center;
+    width: 1500px;
 }
 th, td {
     padding-top: 15px;
     padding-bottom: 15px;
+    border-collapse: collapse;
 }
 tr {
     border-bottom: 2px solid #D9D9D9;

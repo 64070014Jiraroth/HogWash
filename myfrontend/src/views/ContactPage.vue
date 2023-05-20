@@ -48,9 +48,10 @@ import "../assets/css/contact.css";
 import axios from "axios";
 export default {
     name: 'HomePage',
-    props: {
-        news: Array
-    },
+    props: {news: Array} ["user"],
+    // props: {
+    //     news: Array
+    // },
     computed: {
         backgroundImg() {
             return `background-image: url("https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png");`;

@@ -48,6 +48,7 @@ router.post("/contact",multer().any(), async function (req, res, next) {
         
         // res.redirect('/')
 
+        // console.log('req.user.id', req.user.id)
         return res.json(rows2[0])
 
 
