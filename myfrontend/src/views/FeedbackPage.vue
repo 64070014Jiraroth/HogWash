@@ -22,27 +22,28 @@
                 <td>
                      {{ cutText(feed.description, 30) }}
                 </td>
-                <td>{{ feed.feedback_date }}</td>
+                <td>{{ feed.date }}</td>
             </tr>
         </table>
 
         <b-modal id="reading" class="text-center" centered hide-header-close hide-footer  :title="feedback_choose.title">
             {{feedback_choose.description}}
-            <!-- <div class="modal-footer">
-                เมื่อวันที่ `{{feedback_choose.date}}`
-            </div> -->
-
-            <!-- <template #modal-footer="{ hide }">
-                test
-            <b-button size="sm" variant="outline-secondary" @click="hide()">
-                {{feedback_choose.description}}dfsd
-            </b-button>
-            </template> -->
+            <template>
+            <div class="modal-footer" style="color:grey">
+               <span v-for="em in email" :key="em.id">
+                        <span v-if="em.id === feedback_choose.user_id">
+                            {{ em.email }}
+                        </span>
+                </span>
+               ({{feedback_choose.date}})
+            </div>
+            </template>
             
         </b-modal>
 
-        <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ">
-            <textarea class="form-control" type="text" style='height:100px;resize: none;' ></textarea>
+        <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ"
+        @ok="setAnnouncement()">
+            <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
         </b-modal>
     </div>
 </template>
@@ -58,6 +59,7 @@ export default {
             feedback: [],
             email: [],
             feedback_choose: "",
+            announce: "",
         }
     },
     mounted() {
@@ -83,16 +85,31 @@ export default {
         readFeedback() {
             // console.log('this.feedback_choose1', this.feedback_choose.id)
             axios
-                .get(`/feedback/${this.feedback_choose.id}`)
+            .get(`/feedback/${this.feedback_choose.id}`)
+            .then(() => {
+            })
+            .catch((error) => {
+            console.log(error.response.data.message)
+
+            });
+            
+        },
+        setAnnouncement() {
+            console.log('setAnnouncement', this.announce)
+            let data = {
+                announce: this.announce,
+            }
+            axios
+                .post(`/announcement`, data)
                 .then(() => {
+                    alert("Feedback send Successfully");
+                    this.$bvModal.hide('modal-prevent-closing')
                 })
                 .catch((error) => {
-                console.log(error.response.data.message)
-
+                    console.log(error.response.data.message);
                 });
-                
-            }
-    },
+        },
+    }
 }
 </script>
 

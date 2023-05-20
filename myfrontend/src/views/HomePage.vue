@@ -571,9 +571,10 @@
 
       
     </div>
-      <header v-if="user && (user.role == 'customer' || user.role == 'admin')" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll" class="headroom header">
-      Header
+      <header v-if="(user && (user.role == 'customer' || user.role == 'admin')) && announcement[0].announce != ''" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll" class="headroom header">
+      {{announcement[0].announce}} !!
       </header>
+
   </div>
 </template>
 
@@ -611,10 +612,12 @@ export default {
       limitPosition: 500,
       scrolled: false,
       lastPosition: 0,
+      announcement: [],
     };
   },
   mounted() {
     this.getWM();
+    this.getAnnoucement();
   },
   methods: {
     getWM() {
@@ -679,7 +682,16 @@ export default {
       
       this.lastPosition = window.scrollY;
       // this.scrolled = window.scrollY > 250;
-      },
+    },
+    getAnnoucement() {
+      axios.get("announcement")
+        .then((response) => {
+            this.announcement = response.data.announcement;
+        })
+        .catch((err) => {
+        console.log(err);
+        });
+    },
 
     startTimer(time) {
       setInterval(() => { 
