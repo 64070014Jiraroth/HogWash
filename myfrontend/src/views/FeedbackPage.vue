@@ -23,11 +23,6 @@
                      {{ cutText(feed.description, 30) }}
                 </td>
                 <td>{{ feed.feedback_date }}</td>
-                <!-- <td>
-                    <b-button class="readButton" @click="feedback_choose = feed, readFeedback()">
-                        read
-                    </b-button>
-                </td> -->
             </tr>
         </table>
 
@@ -44,6 +39,10 @@
             </b-button>
             </template> -->
             
+        </b-modal>
+
+        <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ">
+            <textarea class="form-control" type="text" style='height:100px;resize: none;' ></textarea>
         </b-modal>
     </div>
 </template>

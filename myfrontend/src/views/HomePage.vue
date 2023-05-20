@@ -120,6 +120,7 @@
                     <b-button v-if="user && user.role == 'admin'"
                     @click="refill_choose = wm;"
                     v-b-modal="'refillConfirm'"
+                    class="selectWm"
                     style="background-color: #7ccf85; color: white; border:none;"> 
                       Refill
                     </b-button>
@@ -539,36 +540,40 @@
         </div>
       </div>
 
-    <b-modal id="refillConfirm" size='lg' centered hide-footer hide-header no-stacking>
-          <template>
-            <h1 class="modal-title my-4 w-100 text-center">
-              ยืนยันการเติมเครื่องซักผ้า {{refill_choose.id}}
-            </h1>
-            <div>
-              <div class="modal-body confirmedText">
-              <p style="color: #dd6060">! ข้อควรระวัง !</p>
-              <p style="color: #dd6060">
-                โปรดตรวจสอบให้แน่ใจว่าทำการเติมผงซักฟอกและน้ำยาปรับผ้านุ่มแล้วก่อนกดยืนยัน
-              </p>
-              <input
-                type="checkbox"
-                class="form-check-input"
-                @click="isCheck = !isCheck"
-              />
-              รับทราบ <br /><br />
-              <b-button
-                :class="['btn confirmed', isCheck ? '' : ' disabled']"
-                style="background-color: #59a8b9; color: white"
-                block @click="refill(), $bvModal.hide('refillConfirm')"
-              >
-                ยืนยัน
-              </b-button>
-            </div>
-            </div>
-          </template>
-        </b-modal>
+      <b-modal id="refillConfirm" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+        <template>
+          <h1 class="modal-title my-4 w-100 text-center">
+            ยืนยันการเติมเครื่องซักผ้า {{refill_choose.id}}
+          </h1>
+          <div>
+            <div class="modal-body confirmedText">
+            <p style="color: #dd6060">! ข้อควรระวัง !</p>
+            <p style="color: #dd6060">
+              โปรดตรวจสอบให้แน่ใจว่าทำการเติมผงซักฟอกและน้ำยาปรับผ้านุ่มแล้วก่อนกดยืนยัน
+            </p>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              @click="isCheck = !isCheck"
+            />
+            รับทราบ <br /><br />
+            <b-button
+              :class="['btn confirmed', isCheck ? '' : ' disabled']"
+              style="background-color: #59a8b9; color: white"
+              block @click="refill(), $bvModal.hide('refillConfirm')"
+            >
+              ยืนยัน
+            </b-button>
+          </div>
+          </div>
+        </template>
+      </b-modal>
+
       
     </div>
+      <header v-if="user && (user.role == 'customer' || user.role == 'admin')" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll" class="headroom header">
+      Header
+      </header>
   </div>
 </template>
 
@@ -602,6 +607,10 @@ export default {
       images: [],
       options: [],
       payments: [],
+
+      limitPosition: 500,
+      scrolled: false,
+      lastPosition: 0,
     };
   },
   mounted() {
@@ -657,6 +666,21 @@ export default {
           
         });
     },
+    handleScroll() {
+      if (this.lastPosition < window.scrollY && this.limitPosition < window.scrollY) {
+        this.scrolled = true;
+        // move up!
+      } 
+      
+      if (this.lastPosition > window.scrollY) {
+        this.scrolled = false;
+        // move down
+      }
+      
+      this.lastPosition = window.scrollY;
+      // this.scrolled = window.scrollY > 250;
+      },
+
     startTimer(time) {
       setInterval(() => { 
         const deadline = new Date(this.current_time + time*60*1000);
@@ -709,5 +733,17 @@ export default {
         // }
     },
   },
+  created() {
+        window.addEventListener("scroll", this.handleScroll);
+      },
+      destroyed() {
+        window.removeEventListener("scroll", this.handleScroll);
+      },
 };
 </script>
+
+<style scoped>
+#home {
+  background-color: #ff0000;
+}
+</style>

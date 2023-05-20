@@ -17,15 +17,17 @@ body::-webkit-scrollbar {
 }
 #home1 {
     height: 100%;
-    /* background-image: url("~@/assets/img/background.png"); */
-    background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png');
-    background-size: cover;
+    background-image: linear-gradient(white, #CAEAF1, white);
+    /* background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png');
+    background-size: cover; */
 }
 #home2{
     position: absolute;
     top: 100%;
     align-items: center;
     height: 100%;
+    background-image: linear-gradient(white, #CAEAF1, white);
+    /* background: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png') center/cover no-repeat; */
 }
 .border0 {
     border: 3px solid #7CCF85;
@@ -332,3 +334,40 @@ b-button {
     border-radius: 15px;
     font-size: 18px;
 }
+
+* {
+    box-sizing: border-box;
+  }
+  
+  .boom {
+    background-color: red;
+  }
+  
+  h2 {
+    display: inline-block;
+  }
+  
+  /*  */
+  .header {
+    width: 100%;
+    height: 50px;
+    background: rgb(225, 60, 60);
+    position: fixed;
+    z-index: 1;
+    top: 94px;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 25px;
+    color:white
+  }
+  
+  .headroom {
+      will-change: transform;
+      transition: transform 200ms linear;
+  }
+  .headroom--pinned {
+      transform: translateY(0%);
+  }
+  .headroom--unpinned {
+      transform: translateY(-100%);
+  }

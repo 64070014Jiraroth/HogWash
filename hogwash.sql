@@ -99,6 +99,17 @@ CREATE TABLE `feedback` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS `announcement`;
+CREATE TABLE `announcement` (
+    `id`        INT(10) AUTO_INCREMENT,
+    `user_id`   INT(10) NOT NULL,
+    `announce` varchar(100),
+    `date`     timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+);
+
+
 INSERT INTO `users` (`email`, `password`, `role`) 
 VALUES  ('admin@gmail.com', 'Admin1234', 'admin');
 
