@@ -100,14 +100,13 @@ router.post("/user/signup", async function (req, res, next) {
     const { signUpEmail, signUpPassword } = req.body;
 
     try {
-        const [rowsCheck, fieldsCheck] = await pool.query(
+        const [userCheck] = await pool.query(
             "SELECT email FROM users WHERE email = ?",
             [signUpEmail]
         )
-        if (rowsCheck.length > 0) {
-            throw new Error('This email is already used')
-        }
-        else {
+        console.log(!userCheck[0])
+
+        if (!userCheck[0]) {
             const [rows, fields] = await conn.query(
                 "INSERT INTO users(email, password) VALUES(?, ?)",
                 [signUpEmail, signUpPassword]
@@ -116,10 +115,13 @@ router.post("/user/signup", async function (req, res, next) {
             return res.json({
                 message: 'Sign Up Successfully',
             })
+        }
+        else {
+            throw new Error('This email is already used')
         } 
-    } catch (err) {
+    } catch (error) {
         conn.rollback()
-        return res.send(err);
+        res.json(error.toString())
     } finally {
         conn.release()
     }
@@ -172,7 +174,7 @@ router.post("/user/login", async function (req, res, next) {
         }
     } catch (error) {
         conn.rollback()
-        res.status(400).json(error.toString())
+        res.json(error.toString())
     } finally {
         conn.release()
     }

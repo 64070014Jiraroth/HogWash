@@ -65,10 +65,10 @@
                                     placeholder="อีเมล"
                                 />
                                 <template v-if="$v.signUpEmail.$error">
-                                    <span class="help is-danger" v-if="!$v.signUpEmail.required">
+                                    <p class="help is-danger" v-if="!$v.signUpEmail.required">
                                     This field is required
-                                    </span>
-                                    <span class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</span>
+                                    </p>
+                                    <p class="help is-danger" v-if="!$v.signUpEmail.email">Invalid Email</p>
                                 </template>
                                 </div>
                                 <div class="form-group mx-3 py-3">
@@ -163,20 +163,15 @@ export default {
         confirm_password: {
             sameAs: sameAs("signUpPassword"),
         },
-        loginEmail: {
-            required: required,
-        },
-        loginPassword: {
-            required: required,
-        },
     },
     methods: {
         addUser() {
+
         // Validate all fields
         this.$v.$touch();
 
         // เช็คว่าในฟอร์มไม่มี error
-        if (!this.$v.$invalid) {
+        if (!this.$v.$invalid) {            
             let data = {
                 signUpEmail: this.signUpEmail,
                 signUpPassword: this.signUpPassword,
@@ -185,13 +180,18 @@ export default {
 
             axios
             .post("/user/signup", data)
-            .then(() => {
+            .then((res) => {
+                console.log(res)
                 alert("Sign up Successfully");
                 location.reload();
             })
             .catch((err) => {
-                alert(err.response.data.details.message)
+                alert('This email already used')
+                console.log(err.response.data)
             });
+        }
+        else {
+            console.log()
         }
         },
         submit () {
