@@ -11,7 +11,7 @@
           alt=""
         />
       </a>
-      <a class="navbar-brand" href="../#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
+      <a class="navbar-brand" href="#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -29,7 +29,7 @@
                     <a class="nav-link" href="#">หน้าแรก</a>
                 </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="../#home2">สถานะเครื่องซักผ้า</a>
+            <a class="nav-link" href="#home2">สถานะเครื่องซักผ้า</a>
           </li>
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">
@@ -86,7 +86,7 @@
       </div>
 
       <!-- to-login-page button -->
-      <a  class="px-3 mx-3" href="/user">
+      <a  class="px-3 mx-3">
         <button 
           v-if="!user"
           class="btn my-2 my-sm-0"

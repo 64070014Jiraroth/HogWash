@@ -560,10 +560,10 @@
         </template>
       </b-modal>
 
-      
     </div>
-      <header v-if="(user && (user.role == 'customer' || user.role == 'admin')) && announcement[0].announce != ''" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll" class="headroom header">
-      {{announcement[0].announce}} !!
+    
+      <header v-if="(user && (user.role == 'customer' || user.role == 'admin')) && announcement[0].announce != ''" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll()" class="headroom header">
+      {{ announcement[0].announce }} !!
       </header>
 
   </div>

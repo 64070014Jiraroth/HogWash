@@ -12,6 +12,7 @@ const routes = [
   {
     path: '/contact',
     name: 'HogWash | Contact',
+    meta: { login: true },
     component: () => import('../views/ContactPage.vue')
   },
   {
@@ -22,27 +23,39 @@ const routes = [
   {
     path: '/history',
     name: 'HogWash | History',
+    meta: { login: true },
     component: () => import('../views/HistoryPage.vue')
   },
   {
     path: '/feedback',
     name: 'HogWash | Feedback',
+    meta: { login: true },
     component: () => import('../views/FeedbackPage.vue')
   },
 ]
 
+// const router = new VueRouter({
+//   mode: 'history',
+//   base: process.env.BASE_URL,
+//   routes
+// })
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+// router.beforeEach((to, from, next) => {
+//   document.title = to.name;
+//   next();
+// });
+
+const router = new VueRouter({ routes })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.name;
-  next();
-});
+  const isLoggedIn = !!localStorage.getItem('token') // เช็คว่ามีตัวแปร token ใน local storage รึยัง (มีแล้ว = login แล้ว)
 
-// const router = new VueRouter({ routes })
+  if (to.meta.login && !isLoggedIn) {
+    alert('Please login first!')
+    next({ path: '/user' })
+  }
+
+  next()
+})
 
 export default router

@@ -1,40 +1,20 @@
 const express = require("express");
 const pool = require("../config");
-const path = require("path")
-const multer = require('multer');
 
 const { isLoggedIn } = require('../middlewares')
 
 router = express.Router();
 
-//เผื่อ upload รูปปัญหาที่พบ
-var storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-      callback(null, './static/uploads') // path to save file
-    },
-    filename: function (req, file, callback) {
-      // set file name
-      callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-})
+router.get("/contact", isLoggedIn, async function (req, res, next) {
 
-const upload = multer({ storage: storage })
-
-router.get("/contact", async function (req, res, next) {
-
-    const promise = pool.query("SELECT path FROM images");
-
-    Promise.all([promise])
-        .then((results) => {
-            const [images, imagesFields] = results[0];
-            res.json({
-                images: images,
-            });
-            console.log(images)
-        })
-        .catch((err) => {
-            return res.status(500).json(err);
+    try {
+        const [rows1, fields1] = await pool.query("SELECT path FROM images");
+        return res.json({
+            images: rows1,
         });
+    } catch(err) {
+        return res.status(500).json(err);
+    }
 });
 
 // contactBox
