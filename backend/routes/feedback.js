@@ -25,7 +25,10 @@ router.get("/feedback", async function (req, res, next) {
             email: email,
         })
     } catch (err) {
+        conn.rollback()
         return res.send(err);
+    } finally {
+        conn.release()
     }
 });
 
@@ -43,7 +46,10 @@ router.get("/feedback/:id", async function (req, res, next) {
             feedbackRead:feedbackReader,
         })
     } catch (err) {
+        conn.rollback()
         return res.send(err);
+    } finally {
+        conn.release()
     }
 });
 

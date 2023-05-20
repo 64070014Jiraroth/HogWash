@@ -43,7 +43,8 @@
             </router-link>
           </li>
 
-          <!-- <li class="nav-item">
+          <!-- test modal ----------------------------------------------->
+          <li class="nav-item">
             <a
               class="nav-link"
               href="#"
@@ -86,7 +87,7 @@
             >
               <b class="text-danger"> ( completed ) </b></a
             >
-          </li> -->
+          </li>
         </ul>
       </div>
 

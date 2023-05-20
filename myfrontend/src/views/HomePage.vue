@@ -126,6 +126,7 @@
 
                     <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'available'"
+                      class="selectWm"
                       style="background-color: #7ccf85; color: white; border:none;"
                       @click="
                         wm.status = 2;
@@ -156,6 +157,7 @@
                     </h4>
                     <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
+                      class="selectWm"
                       style="background-color: #dd6060; color: white; border:none;"
                       @click="wm_choose = wm"
                     >
@@ -169,6 +171,7 @@
                     </h4>
                     <b-button v-if="user && user.role == 'customer'"
                       v-b-modal="'queue'"
+                      class="selectWm"
                       style="background-color: #f1d438; color: white; border:none;"
                     >
                       รอสักครู่
@@ -187,7 +190,7 @@
         </div>
 
         <!-- modal available -->
-        <b-modal id="available" size='lg' centered hide-footer hide-header no-stacking data-backdrop="static" data-keyboard="false">
+        <b-modal id="available" size='lg' centered hide-footer hide-header no-stacking data-backdrop="static" data-keyboard="false"  no-close-on-backdrop>
           <template>
             <h1 class="modal-title w-100 text-center">
               เลือกรูปแบบการซัก
@@ -217,7 +220,7 @@
         </b-modal>
 
         <!-- selectPayment -->
-        <b-modal id="selectPayment" size='lg' centered hide-footer hide-header no-stacking>
+        <b-modal id="selectPayment" size='lg' centered hide-footer hide-header no-stacking  no-close-on-backdrop>
           <template>
             <h1 class="modal-title w-100 text-center">
               ช่องทางการชำระเงิน
@@ -249,7 +252,7 @@
         </b-modal>
 
         <!-- confirmPayment -->
-        <b-modal id="confirmPayment" size='lg' centered hide-footer hide-header no-stacking>
+        <b-modal id="confirmPayment" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
           <template>
             <h1 class="modal-title w-100 text-center">
               ยืนยันการชำระเงินเสร็จสิ้น
@@ -278,7 +281,7 @@
         </b-modal>
 
         <!-- modal queue -->
-        <b-modal id="queue" size='lg' centered hide-footer hide-header no-stacking>
+        <b-modal id="queue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
           <template>
             <h1 class="modal-title my-4 w-100 text-center">
               เครื่องไม่พร้อมใช้งานในขณะนี้<br />
@@ -307,118 +310,88 @@
         <!-- ************************** ทำต่อตรงนี้ ********************************* -->
 
         <!-- modal page2 queue -->
-        <div class="modal fade" id="queue2" tabindex="-1" role="dialog" data-backdrop="static">
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
+        <b-modal id="queue2" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
-                <!-- <h1 class="modal-title w-100 text-center">
-                  ลำดับคิวของคุณ : {{ choose.queue_id + 1 }}
-                </h1> -->
+                <h1 class="modal-title w-100 text-center">
+                  ลำดับคิวของคุณ : 
+                  <!-- {{ wm_choose.queue_id + 1 }} -->
+                </h1>
                 <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
-              </div>
               <div class="modal-body">
-                <button
-                  type="button"
+                <b-button
+                  v-b-modal="'queue3'"
                   class="btn queueOption"
-                  data-toggle="modal"
-                  data-target="#queue3"
-                  data-dismiss="modal"
                   style="background-color: #59a8b9; color: white"
                 >
-                  ยืนยันการจอง
-                </button>
-                <button
-                  type="button"
+                  จองคิว
+                </b-button>
+                <b-button
                   class="btn queueOption"
                   style="background-color: #b3b3b3; color: white"
-                  data-dismiss="modal"
+                  block @click="$bvModal.hide('queue2')"
                 >
                   ยกเลิก
-                </button>
+                </b-button>
               </div>
             </div>
-          </div>
-        </div>
+        </b-modal>
         <!-- modal page3 queue confirmed -->
-        <div class="modal fade" id="queue3" tabindex="-1" role="dialog" data-backdrop="static">
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
+        <b-modal id="queue3" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
                 <h1 class="modal-title w-100 text-center">
                   ยืนยันการจองเสร็จสิ้น
                 </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
-              </div>
               <div class="modal-body">
                 <h5>ระบบจะแจ้งให้ทราบเมื่อถึงคิวของคุณ</h5>
                 <h5>และโปรดยืนยันการใช้งานต่อภายในเวลาที่กำหนด</h5>
                 <br />
-                <button
+                <b-button
                   type="button"
                   class="btn confirmed"
-                  @click="putQueue()"
                   style="background-color: #59a8b9; color: white"
-                  data-dismiss="modal"
+                  block @click="$bvModal.hide('queue3'); putQueue()"
                 >
                   เข้าใจแล้ว
-                </button>
+                </b-button>
               </div>
             </div>
-          </div>
-        </div>
+        </b-modal>
 
         <!-- got queue -->
-        <div
-          class="modal fade"
-          id="gotQueue"
-          tabindex="-1"
-          role="dialog"
-          data-backdrop="static"
-        >
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
-            <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
-                <h1 class="modal-title w-100 text-center">
-                  ถึงคิวการใช้งานของคุณแล้ว
-                </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
-              </div>
-              <div class="modal-body">
-                <h5>หมายเลขเครื่องซักผ้า : 003</h5>
-                <h5 style="color: #dd6060">
-                  <b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b>
-                </h5>
-                <button
-                  type="button"
-                  class="btn queueOption"
-                  data-toggle="modal"
-                  data-target="#available"
-                  data-dismiss="modal"
-                  style="background-color: #59a8b9; color: white"
-                >
-                  ยืนยันการใช้งานต่อ
-                </button>
-                <button
-                  type="button"
-                  class="btn queueOption"
-                  style="background-color: #b3b3b3; color: white"
-                  data-dismiss="modal"
-                >
-                  ยกเลิก
-                </button>
-              </div>
+        <b-modal id="gotQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+          <div class="modal-content rounded-4">
+            <div class="modal-header" style="border: none; margin-top: 30px">
+              <h1 class="modal-title w-100 text-center">
+                ถึงคิวการใช้งานของคุณแล้ว
+              </h1>
+              <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
+            </div>
+            <div class="modal-body">
+              <h5>หมายเลขเครื่องซักผ้า : 003</h5>
+              <h5 style="color: #dd6060">
+                <b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b>
+              </h5>
+              <button
+                type="button"
+                class="btn queueOption"
+                data-toggle="modal"
+                data-target="#available"
+                data-dismiss="modal"
+                style="background-color: #59a8b9; color: white"
+              >
+                ยืนยันการใช้งานต่อ
+              </button>
+              <button
+                type="button"
+                class="btn queueOption"
+                style="background-color: #b3b3b3; color: white"
+                data-dismiss="modal"
+              >
+                ยกเลิก
+              </button>
             </div>
           </div>
-        </div>
+        </b-modal>
 
         <!-- จองไปแล้วและกดเครื่องเดิมซํ้า -->
         <div class="modal fade" id="editQueue" tabindex="-1" role="dialog" data-backdrop="static">

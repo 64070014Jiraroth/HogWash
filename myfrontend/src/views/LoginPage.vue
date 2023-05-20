@@ -60,7 +60,7 @@
                                 <input
                                     v-model="$v.signUpEmail.$model"
                                     :class="{ 'is-danger': $v.signUpEmail.$error }"
-                                    class="form-control"
+                                    class="form-control no-outline"
                                     type="text"
                                     placeholder="อีเมล"
                                 />
