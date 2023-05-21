@@ -237,7 +237,7 @@
                   v-b-modal="'confirmPayment'"
                   class="col btn selectOption"
                   variant="light"
-                  @click="payment_choose = payment"
+                  @click="payment_choose = payment;"
                 >
                   <img :src="imagePath(payment.path)" />
                   <span></span>
@@ -271,14 +271,14 @@
               <input
                 type="checkbox"
                 class="form-check-input"
-                @click="isCheck = !isCheck"
+                @click="paymentCheck = !paymentCheck"
               />
               <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">รับทราบ</a> <br /><br />
               <b-button
-                :class="['btn confirmed', isCheck ? '' : ' disabled']"
+                :class="['btn confirmed', paymentCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
-                block @click="$bvModal.hide('confirmPayment');  wm_choose.status = 1; addHistory(); isCheck = false;  
-                               fetchData(); startTimer(wm_choose);"
+                block @click="$bvModal.hide('confirmPayment'); paymentCheck = false; wm_choose.status = 1; addHistory();   
+                               fetchData(); startTimer(wm_choose); "
               >
                 ยืนยัน
               </b-button>
@@ -411,7 +411,7 @@
         <!-- จองไปแล้วและกดเครื่องเดิมซํ้า  => ตรวจสอบคิว -->
         <b-modal id="checkQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
+              <div class="modal-header" style="border: none;">
                 <h1 class="modal-title w-100 text-center">
                   ลำดับคิวของคุณ : 0
                 </h1>
@@ -463,7 +463,7 @@
         <!-- จองไปแล้วและไปกดเครื่องอื่น -->
         <b-modal id="inQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 10px">
+              <div class="modal-header" style="border: none;">
                 <h1 class="modal-title w-100 text-center">
                   ขณะนี้คุณอยู่ในลำดับคิวการใช้งาน<br />
                   ของเครื่องหมายเลข 003
@@ -499,15 +499,15 @@
               <input
                   type="checkbox"
                   class="form-check-input"
-                  @click="isCheck = !isCheck"
+                  @click="finishCheck = !finishCheck"
                 />
                 <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">นำผ้าออกจากเครื่องเรียบร้อยแล้ว</a> <br /><br />
                 <!-- นำผ้าออกจากเครื่องเรียบร้อยแล้ว <br /><br /> -->
                 <button
                   type="button"
-                  :class="['btn confirmed', isCheck ? '' : ' disabled']"
+                  :class="['btn confirmed', finishCheck ? '' : ' disabled']"
                   style="background-color: #59a8b9; color: white"
-                  @click="$bvModal.hide('completed')"
+                  @click="$bvModal.hide('completed'); finishCheck = false"
                 >
                   ยืนยัน
                 </button>
@@ -531,20 +531,20 @@
             <input
               type="checkbox"
               class="form-check-input"
-              @click="isCheck = !isCheck"
+              @click="refillCheck = !refillCheck"
             />
             <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">รับทราบ</a> <br /><br />
             <b-button
-              :class="['btn queueOption', isCheck ? '' : ' disabled']"
+              :class="['btn queueOption', refillCheck ? '' : ' disabled']"
               style="background-color: #59a8b9; color: white"
-              block @click="refill(), $bvModal.hide('refillConfirm')"
+              block @click="refill(), $bvModal.hide('refillConfirm'); refillCheck = false"
             >
               ยืนยัน
             </b-button>
             <b-button
               class="btn queueOption"
               style="background-color: #b3b3b3; color: white"
-              block @click="$bvModal.hide('refillConfirm')"
+              block @click="$bvModal.hide('refillConfirm'); refillCheck = false"
             >
               ยกเลิก
             </b-button>
@@ -572,7 +572,9 @@ export default {
     return {
       // modal_choose: false,
       // choose_id: '',
-      isCheck: false,
+      finishCheck: false,
+      paymentCheck: false,
+      refillCheck: false,
       // online: false,
       // online_user: '',
       // in_queue: false,
