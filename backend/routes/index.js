@@ -10,19 +10,22 @@ router.get("/", async function (req, res, next) {
     const promise2 = pool.query("SELECT path FROM images");
     const promise3 = pool.query("SELECT * FROM options");
     const promise4 = pool.query("SELECT * FROM payments");
+    const promise5 = pool.query("SELECT wm_id, COUNT(user_id) AS number FROM queue WHERE status = 0 GROUP BY (wm_id) ");
 
     // Use Promise.all() to make sure that all queries are successful
-    Promise.all([promise1, promise2, promise3, promise4])
+    Promise.all([promise1, promise2, promise3, promise4, promise5])
         .then((results) => {
         const [wms, wmsFields] = results[0];
         const [images, imagesFields] = results[1];
         const [options, optionsFields] = results[2];
         const [payments, paymentsFields] = results[3];
+        const [queueNums, queueFields] = results[4];
         res.json({
             wms: wms,
             images: images,
             options: options,
-            payments: payments
+            payments: payments,
+            queueNums: queueNums
         });
         // console.log(wms[1].powder)
         })

@@ -167,7 +167,6 @@
                       <div style="color: #f1d438">อยู่ระหว่างดำเนินการ</div>
                     </h4>
                     <b-button v-if="user && user.role == 'customer'"
-                      v-b-modal="'queue'"
                       class="selectWm"
                       style="background-color: #f1d438; color: white; border:none;"
                     >
@@ -175,11 +174,14 @@
                     </b-button>
                   </div>
 
-                  <p class="card-title wmCard-text">
-                    <!-- <small class="text-muted"
-                      >จำนวนคิวต่อใช้งาน : {{ wm.queue_id }}</small
-                    > -->
-                  </p>
+                  <!-- <p class="card-title wmCard-text">
+                    <span v-for="queueNum in queueNums" :key="queueNum.id">
+                      <small class="text-muted" v-if="wm.id == queueNum.wm_id">
+                        จำนวนคิวต่อใช้งาน : {{ queueNum.number }}
+                      </small>
+                    </span>
+                  </p> -->
+
                 </div>
               </div>
             </div>
@@ -285,6 +287,11 @@
               เครื่องไม่พร้อมใช้งานในขณะนี้<br />
               เนื่องจากมีการใช้งานอยู่
             </h1>
+            <span v-for="queueNum in queueNums" :key="queueNum.id">
+              <p class="text-muted" v-if="wm_choose.id == queueNum.wm_id">
+                จำนวนคิวต่อใช้งานขณะนี้ : {{ queueNum.number }}
+              </p>
+            </span>
             <div>
               <b-button
                 v-b-modal="'queue2'"
@@ -301,38 +308,38 @@
                 ยกเลิก
               </b-button>
             </div>
-            <small class="text-muted py-2" style="font-size:15px">จำนวนคิวต่อใช้งานในขณะนี้ : 1</small>
+            <!-- <small class="text-muted py-2" style="font-size:15px">จำนวนคิวต่อใช้งานในขณะนี้ : 1</small> -->
           </template>
         </b-modal>
 
-        <!-- ************************** ทำต่อตรงนี้ ********************************* -->
-
         <!-- modal page2 queue -->
         <b-modal id="queue2" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
-            <div class="modal-content rounded-4">
-                <h1 class="modal-title w-100 text-center">
-                  ลำดับคิวของคุณ : 
-                  <!-- {{ wm_choose.queue_id + 1 }} -->
-                </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
-              <div class="modal-body">
-                <b-button
-                  v-b-modal="'queue3'"
-                  class="btn queueOption"
-                  style="background-color: #59a8b9; color: white"
-                >
-                  จองคิว
-                </b-button>
-                <b-button
-                  class="btn queueOption"
-                  style="background-color: #b3b3b3; color: white"
-                  block @click="$bvModal.hide('queue2')"
-                >
-                  ยกเลิก
-                </b-button>
-              </div>
+          <div class="modal-content rounded-4">
+              <h1 class="modal-title w-100 text-center">
+                ลำดับคิวของคุณ : 
+                <!-- {{ wm_choose.queue_id + 1 }} -->
+                ยืนยันการจองหรือไม่
+              </h1>
+            <div class="modal-body">
+              <b-button
+                v-b-modal="'queue3'"
+                class="btn queueOption"
+                style="background-color: #59a8b9; color: white"
+                @click="addQueue(wm_choose)"
+              >
+                ยืนยัน
+              </b-button>
+              <b-button
+                class="btn queueOption"
+                style="background-color: #b3b3b3; color: white"
+                block @click="$bvModal.hide('queue2')"
+              >
+                ยกเลิก
+              </b-button>
             </div>
+          </div>
         </b-modal>
+
         <!-- modal page3 queue confirmed -->
         <b-modal id="queue3" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
@@ -347,7 +354,7 @@
                   type="button"
                   class="btn confirmed"
                   style="background-color: #59a8b9; color: white"
-                  block @click="$bvModal.hide('queue3'); putQueue()"
+                  block @click="$bvModal.hide('queue3');"
                 >
                   เข้าใจแล้ว
                 </b-button>
@@ -392,7 +399,7 @@
         </b-modal>
 
         <!-- จองไปแล้วและกดเครื่องเดิมซํ้า -->
-        <div class="modal fade" id="editQueue" tabindex="-1" role="dialog" data-backdrop="static">
+        <!-- <div class="modal fade" id="editQueue" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -402,7 +409,6 @@
                 <h1 class="modal-title w-100 text-center">
                   ลำดับคิวของคุณ : 0
                 </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
               <div class="modal-body">
                 <button
@@ -426,9 +432,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+
         <!-- editQueue2 -->
-        <div class="modal fade" id="editQueue2" tabindex="-1" role="dialog" data-backdrop="static">
+        <!-- <div class="modal fade" id="editQueue2" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -438,7 +445,6 @@
                 <h1 class="modal-title w-100 text-center">
                   ยืนยันการยกเลิกคิวปัจจุบัน
                 </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
               <div class="modal-body">
                 <button
@@ -462,10 +468,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- จองไปแล้วและไปกดเครื่องอื่น -->
-        <div class="modal fade" id="inQueue" tabindex="-1" role="dialog" data-backdrop="static">
+        <!-- <div class="modal fade" id="inQueue" tabindex="-1" role="dialog" data-backdrop="static">
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -476,7 +482,6 @@
                   ขณะนี้คุณอยู่ในลำดับคิวการใช้งาน<br />
                   ของเครื่องหมายเลข 003
                 </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
               <div class="modal-body">
                 <button
@@ -490,16 +495,16 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- ซักเสร็จแล้วเย่ -->
-        <div
+        <!-- <div
           class="modal fade"
           id="completed"
           tabindex="-1"
           role="dialog"
           data-backdrop="static"
-        >
+         >
           <div
             class="modal-dialog modal-lg modal-dialog-centered"
             role="document"
@@ -509,7 +514,6 @@
                 <h1 class="modal-title w-100 text-center">
                   ผ้าของคุณซักเสร็จเรียบร้อยแล้ว
                 </h1>
-                <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
               </div>
               <div class="modal-body">
                 <div class="modal-body confirmedText">
@@ -534,7 +538,8 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+
       </div>
 
       <b-modal id="refillConfirm" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
@@ -603,6 +608,7 @@ export default {
       images: [],
       options: [],
       payments: [],
+      queueNums: [],
 
       isFetch: false,
 
@@ -643,7 +649,7 @@ export default {
         const Hours = Math.floor((timeDif / (60 * 60 * 1000)) % 24);
         return `${this.padZero(Hours)}:${this.padZero(Minutes)}:${this.padZero(Seconds)}`;
       });
-    }
+    },
   },
   methods: {
     getWM() {
@@ -654,6 +660,8 @@ export default {
           this.images = response.data.images;
           this.options = response.data.options;
           this.payments = response.data.payments;
+          this.queueNums = response.data.queueNums;
+          // console.log(this.queueNums)
         })
         .catch((err) => {
           console.log(err);
@@ -785,7 +793,20 @@ export default {
     isUser(wm) {
       if (!this.user) return false
       return wm.used_by === this.user.id
-    }
+    },
+    addQueue(wm_choose) {
+      let data = {
+        wm_id: wm_choose.id
+      }
+      axios
+        .post("/queue", data)
+        .then(() => {
+          console.log('queue added')
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
