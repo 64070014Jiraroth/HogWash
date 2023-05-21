@@ -63,7 +63,6 @@ CREATE TABLE `queue` (
     `wm_id`     INT(3)  NOT NULL,
     `user_id`   INT(10) NOT NULL,
     `booking_time`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `status`  INT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
@@ -133,7 +132,7 @@ VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80),
 
 INSERT INTO `options` (`id`, `name`, `price`, `time`) 
 VALUES  (1, 'ซักเร็ว', 20, 6), 
-        (2, 'ซักธรรมดา', 30, 3000), 
+        (2, 'ซักธรรมดา', 30, 18), 
         (3, 'ซักนํ้าร้อน', 50, 3000), 
         (4, 'ซักนํ้าเย็น', 50, 3000);
 

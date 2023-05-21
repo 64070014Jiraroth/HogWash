@@ -53,6 +53,47 @@ router.post("/queue", isLoggedIn, async function (req, res, next) {
         conn.release();
     }
     return;
+    
 });
+
+router.delete("/queue/:id", async function (req, res, next) {
+
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+  
+    try {
+    //   let setQueue = await conn.query(
+    //     `DELETE FROM queue WHERE id = ( SELECT MIN(id) FROM queue WHERE wm_id = ?)`,
+    //     [req.params.id]
+    //     )
+
+      const [checkQueue] = await conn.query(
+        "SELECT COUNT(*) AS number FROM `queue` WHERE `wm_id` = ?",
+        [req.params.id]
+      );
+      console.log(checkQueue);
+  
+      if (checkQueue[0].number > 0) {
+        const [rows2] = await conn.query("DELETE FROM queue WHERE booking_time = ( SELECT MIN(booking_time) FROM queue WHERE wm_id = ?)", 
+            [req.params.id]
+        );
+
+        if (rows2.affectedRows === 1) {
+            await conn.commit();
+            return res.send('delete seccessfully');
+        } 
+      }
+      else {
+        await conn.commit();
+        return res.send('no queue found');
+      }
+    } catch (err) {
+      console.log(err)
+      await conn.rollback();
+      return res.status(500).json(err);
+    } finally {
+      conn.release();
+    }
+  });
 
 exports.router = router;

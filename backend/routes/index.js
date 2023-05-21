@@ -10,7 +10,7 @@ router.get("/", async function (req, res, next) {
     const promise2 = pool.query("SELECT path FROM images");
     const promise3 = pool.query("SELECT * FROM options");
     const promise4 = pool.query("SELECT * FROM payments");
-    const promise5 = pool.query("SELECT wm_id, COUNT(user_id) AS number FROM queue WHERE status = 0 GROUP BY (wm_id) ");
+    const promise5 = pool.query("SELECT wm_id, COUNT(user_id) AS number FROM queue GROUP BY (wm_id) ");
 
     // Use Promise.all() to make sure that all queries are successful
     Promise.all([promise1, promise2, promise3, promise4, promise5])
@@ -104,7 +104,6 @@ router.post("/timers", async function (req, res, next) {
         await conn.rollback();
         next(err);
     } finally {
-        console.log('finally')
         conn.release();
     }
     return;

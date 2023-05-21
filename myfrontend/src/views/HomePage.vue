@@ -288,7 +288,7 @@
               เนื่องจากมีการใช้งานอยู่
             </h1>
             <span v-for="queueNum in queueNums" :key="queueNum.id">
-              <p class="text-muted" v-if="wm_choose.id == queueNum.wm_id">
+              <p class="text-muted" v-if="wm_choose.id == queueNum.wm_id" style="font-size: 25px">
                 จำนวนคิวต่อใช้งานขณะนี้ : {{ queueNum.number }}
               </p>
             </span>
@@ -315,11 +315,18 @@
         <!-- modal page2 queue -->
         <b-modal id="queue2" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
           <div class="modal-content rounded-4">
-              <h1 class="modal-title w-100 text-center">
-                ลำดับคิวของคุณ : 
-                <!-- {{ wm_choose.queue_id + 1 }} -->
-                ยืนยันการจองหรือไม่
-              </h1>
+            <h1 class="modal-title w-100 text-center">
+              ยืนยันการจองหรือไม่
+            </h1>
+            <span v-for="queueNum in queueNums" :key="queueNum.id">
+              <span class="text-muted" v-if="wm_choose.id == queueNum.wm_id">
+                <p class="modal-title w-100 text-center" style="font-size: 25px">
+                  ลำดับคิวของคุณ : 
+                  {{ queueNum.number + 1 }}
+                </p>
+              </span>
+            </span>
+              
             <div class="modal-body">
               <b-button
                 v-b-modal="'queue3'"
@@ -369,7 +376,6 @@
               <h1 class="modal-title w-100 text-center">
                 ถึงคิวการใช้งานของคุณแล้ว
               </h1>
-              <!-- <button type="button" class="btn-close closeModal" aria-label="Close" data-dismiss="modal"></button> -->
             </div>
             <div class="modal-body">
               <h5>หมายเลขเครื่องซักผ้า : 003</h5>
@@ -498,6 +504,40 @@
         </div> -->
 
         <!-- ซักเสร็จแล้วเย่ -->
+        <b-modal id="completed" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+          <div class="modal-content rounded-4">
+            <div class="modal-header" style="border: none; margin-top: 30px">
+              <h1 class="modal-title w-100 text-center">
+                ผ้าของคุณซักเสร็จเรียบร้อยแล้ว
+              </h1>
+
+            </div>
+            <div class="modal-body">
+              <h5>หมายเลขเครื่องซักผ้า : 003</h5>
+              <h5 style="color: #dd6060">
+                <b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b>
+              </h5>
+              <button
+                type="button"
+                class="btn queueOption"
+                data-toggle="modal"
+                data-target="#available"
+                data-dismiss="modal"
+                style="background-color: #59a8b9; color: white"
+              >
+                ยืนยันการใช้งานต่อ
+              </button>
+              <button
+                type="button"
+                class="btn queueOption"
+                style="background-color: #b3b3b3; color: white"
+                data-dismiss="modal"
+              >
+                ยกเลิก
+              </button>
+            </div>
+          </div>
+        </b-modal>
         <!-- <div
           class="modal fade"
           id="completed"
@@ -744,9 +784,20 @@ export default {
             axios
             .put(`/finish/${wmTimer_choose.id}`)
             .then(() => {
-              // alert(`${wmTimer_choose.id} Finish !`)
               this.isFetch = false
               this.fetchData()
+            })
+            .catch((error) => {
+              console.log(error.response.data.message)
+            });
+
+            axios
+            .delete(`/queue/${wmTimer_choose.id}`)
+            .then(() => {
+              console.log('delete queue')
+              this.isFetch = false
+              this.fetchData()
+
             })
             .catch((error) => {
               console.log(error.response.data.message)
@@ -783,6 +834,7 @@ export default {
           .get("/")
           .then((response) => {
             this.wms = response.data.wms;
+            this.queueNums = response.data.queueNums;
           })
           .catch((err) => {
             console.log(err);
@@ -802,6 +854,8 @@ export default {
         .post("/queue", data)
         .then(() => {
           console.log('queue added')
+          this.isFetch = false
+          this.fetchData()
         })
         .catch((err) => {
           console.log(err);
@@ -810,9 +864,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#home {
-  background-color: #ff0000;
-}
-</style>
