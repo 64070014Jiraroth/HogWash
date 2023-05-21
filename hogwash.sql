@@ -15,8 +15,10 @@ CREATE TABLE `washing_machine` (
     `status` INT(1)  NOT NULL,
     `powder`    INT(3) NOT NULL,
     `softener`  INT(3) NOT NULL,
+    `used_by`  INT(10) NOT NULL DEFAULT 1,
     `time`  INT(3) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`used_by`) REFERENCES `users`(`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `options`;
@@ -120,8 +122,8 @@ VALUES  ('customer@gmail.com', 'Customer1234'),
 
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
 VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80), 
-        (2, 'Panasonic', 'NA-127XB1WMY', 1, 100, 100), 
-        (3, 'Panasonic', 'NA-127XB1WMY', 2, 100, 100), 
+        (2, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (3, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
         (4, 'Panasonic', 'NA-127XB1WMY', 0, 90, 90), 
         (5, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
         (6, 'Panasonic', 'NA-127XB1WMY', 0, 70, 70), 
@@ -129,7 +131,7 @@ VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80),
         (8, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100);
 
 INSERT INTO `options` (`id`, `name`, `price`, `time`) 
-VALUES  (1, 'ซักเร็ว', 20, 5), 
+VALUES  (1, 'ซักเร็ว', 20, 6), 
         (2, 'ซักธรรมดา', 30, 3000), 
         (3, 'ซักนํ้าร้อน', 50, 3000), 
         (4, 'ซักนํ้าเย็น', 50, 3000);

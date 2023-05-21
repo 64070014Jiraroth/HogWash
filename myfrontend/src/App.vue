@@ -11,7 +11,7 @@
           alt=""
         />
       </a>
-      <a class="navbar-brand" href="#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
+      <a class="navbar-brand" href="../#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -29,7 +29,7 @@
                     <a class="nav-link" href="#">หน้าแรก</a>
                 </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="#home2">สถานะเครื่องซักผ้า</a>
+            <a class="nav-link" href="../#home2">สถานะเครื่องซักผ้า</a>
           </li>
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">
@@ -45,6 +45,11 @@
           <li class="nav-item" v-if="user && user.role == 'admin'">
             <a class="nav-link" style="color:#59A8B9;" v-b-modal="'announcement'">เพิ่มประกาศ</a>
           </li>
+
+          <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ"
+          @ok="setAnnouncement()">
+              <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
+          </b-modal>
 
           <!-- test modal ----------------------------------------------->
           <li class="nav-item">
@@ -203,7 +208,11 @@ export default {
 
       limitPosition: 500,
       scrolled: false,
-      lastPosition: 0
+      lastPosition: 0,
+
+      announce: "",
+
+      isFetch: false,
     }
   },
   mounted () {
@@ -237,10 +246,25 @@ export default {
       axios
         .put("/user/" + this.user.id, data)
         .then(() => {
-          alert('Password updated')
-          this.$router.push({ path: "/" });
+          alert('Password updated');
         })
         .catch((e) => console.log(e));
+    },
+    setAnnouncement() {
+      console.log('setAnnouncement', this.announce)
+      let data = {
+          announce: this.announce,
+      }
+      axios
+          .post(`/announcement`, data)
+          .then(() => {
+              alert("Feedback send Successfully");
+              this.$bvModal.hide('modal-prevent-closing')
+              location.reload();
+          })
+          .catch((error) => {
+              console.log(error.response.data.message);
+          });
     },
   }
 }

@@ -41,10 +41,6 @@
             
         </b-modal>
 
-        <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ"
-        @ok="setAnnouncement()">
-            <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
-        </b-modal>
     </div>
 </template>
 
@@ -59,7 +55,6 @@ export default {
             feedback: [],
             email: [],
             feedback_choose: "",
-            announce: "",
         }
     },
     mounted() {
@@ -93,21 +88,6 @@ export default {
 
             });
             
-        },
-        setAnnouncement() {
-            console.log('setAnnouncement', this.announce)
-            let data = {
-                announce: this.announce,
-            }
-            axios
-                .post(`/announcement`, data)
-                .then(() => {
-                    alert("Feedback send Successfully");
-                    this.$bvModal.hide('modal-prevent-closing')
-                })
-                .catch((error) => {
-                    console.log(error.response.data.message);
-                });
         },
     }
 }

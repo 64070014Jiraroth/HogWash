@@ -81,4 +81,52 @@ router.put("/finish/:id", async function (req, res, next) {
     return;
 });
 
+router.post("/timers", async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    const { id, time } = req.body;
+
+    try {
+        let timer = await conn.query(
+            `UPDATE washing_machine SET time=? WHERE id=?`,
+            [time, id]
+        )
+
+        await conn.commit()
+        res.send("timer updated successfully !");
+
+    } catch (err) {
+        await conn.rollback();
+        next(err);
+    } finally {
+        console.log('finally')
+        conn.release();
+    }
+    return;
+});
+
+router.get("/timers", async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    try {
+        let [timers] = await conn.query(`SELECT * FROM washing_machine`)
+        await conn.commit()
+        return res.json({
+            timer: timers
+        });
+
+    } catch (err) {
+        await conn.rollback();
+        next(err);
+    } finally {
+        console.log('finally')
+        conn.release();
+    }
+    return;
+});
+
 exports.router = router;

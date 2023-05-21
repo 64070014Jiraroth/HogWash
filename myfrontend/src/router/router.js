@@ -7,6 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'HogWash',
+    meta: { guess: true },
     component: () => import('../views/HomePage.vue') // set home as path '/'
   },
   {
@@ -18,6 +19,7 @@ const routes = [
   {
     path: '/user',
     name: 'HogWash | User',
+    meta: { guess: true },
     component: () => import('../views/LoginPage.vue')
   },
   {
@@ -51,7 +53,7 @@ router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token') // เช็คว่ามีตัวแปร token ใน local storage รึยัง (มีแล้ว = login แล้ว)
 
   if (to.meta.login && !isLoggedIn) {
-    alert('Please login first!')
+    alert('Please login')
     next({ path: '/user' })
   }
 

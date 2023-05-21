@@ -6,15 +6,15 @@
                 <p style="font-size: 40px;font-weight: bold;">ช่องทางการติดต่อ</p>
                 <table>
                         <tr >
-                            <td><img :src="imagePath(images[5].path)" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
+                            <td><img :src="images[5] ? imagePath(images[5].path) : ''" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
                             <td>0912345678</td>
                         </tr>
                         <tr>
-                            <td><img :src="imagePath(images[4].path)" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
+                            <td><img :src="images[4] ? imagePath(images[4].path) : ''" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
                             <td>hogwash@gmail.com</td>
                         </tr>
                         <tr>
-                            <td><img :src="imagePath(images[3].path)" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
+                            <td><img :src="images[3] ? imagePath(images[3].path) : ''" width="50" style="margin-bottom:20px; margin-right:20px"/></td>
                             <td>@HogWashLaundry</td>
                         </tr>
                 </table>
@@ -66,7 +66,7 @@ export default {
                 .get("/contact")
                 .then((response) => {
                     this.images = response.data.images;
-                    console.log(this.images)
+                    // console.log(this.images)
                 })
                 .catch((err) => {
                     console.log(err);

@@ -140,19 +140,25 @@
 
                   <div v-show="wm.status == 1">
                     <h4 class="card-title wmCard-text">
-                        <div v-for="(output, index) in formattedTimerOutput" :key="index">
+                        <div v-for="(output, index) in formattedTimerOutput" :key="index" style="color: #dd6060">
                           <span v-if="index == wm.id-1">{{ output }}</span>
-                          
                         </div>
-                        <!-- <div>{{ timerOutput[wm.id-1] }}</div> -->
                     </h4>
-                    <b-button v-if="user && user.role == 'customer'"
+                    <b-button v-if="user && user.role == 'customer' && !isUser(wm)"
                       v-b-modal="'queue'"
                       class="selectWm"
                       style="background-color: #dd6060; color: white; border:none;"
                       @click="wm_choose = wm"
                     >
                       จองคิว
+                    </b-button>
+                    <b-button disabled 
+                      v-if="user && user.role == 'customer' && isUser(wm)"
+                      class="selectWm"
+                      style="background-color: #dd6060; color: white; border:none;"
+                      
+                    >
+                      กำลังใช้งาน
                     </b-button>
                   </div>
 
@@ -603,8 +609,26 @@ export default {
       limitPosition: 500,
       scrolled: false,
       lastPosition: 0,
-      announcement: [],
+      announcement: [""],
     };
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+
+    axios.get('/timers')
+      .then(response => {
+        const timers = response.data.timer;
+
+        timers.forEach(timer => {
+          this.startTimer(timer);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   mounted() {
     this.getWM();
@@ -663,8 +687,8 @@ export default {
       axios
         .put(`/${this.refill_choose.id}`,{})
         .then(() => {
-          alert('refill successfully')
-          location.reload()
+          this.isFetch = false
+          this.fetchData()
         })
         .catch((error) => {
           console.log(error.response.data.message)
@@ -686,7 +710,7 @@ export default {
       // this.scrolled = window.scrollY > 250;
     },
     getAnnoucement() {
-      axios.get("announcement")
+      axios.get("/announcement")
         .then((response) => {
             this.announcement = response.data.announcement;
         })
@@ -695,16 +719,19 @@ export default {
         });
     },
     startTimer(choose) { // ทำเป็นวันกว่าจะได้ ********* ห้ามแก้ !!!! ***********
-      const wmTimer_choose = this.wms.find((data) => data.id === choose.id);
+      const wmTimer_choose = this.wms.find(data => data.id === choose.id);
+  
+      if (wmTimer_choose && wmTimer_choose.time > 0) {
+        this.$set(this.timerOutput, wmTimer_choose.id - 1, wmTimer_choose.time); // $set เป็น vue instance (build in) --> set(item, index, value)
 
-      const current_time = Date.now();
-      const timeFinish = current_time + wmTimer_choose.time * 1000 + 2000;
+        const current_time = Date.now();
+        const timeFinish = new Date(current_time + wmTimer_choose.time * 1000 + 2000);
 
-      this.$set(this.timerOutput, wmTimer_choose.id - 1, wmTimer_choose.time); // $set เป็น vue instance (build in) --> set(item, index, value)
-
-      if (this.timerOutput[wmTimer_choose.id - 1] > 0) {
         const timerId = setInterval(() => {
-          if (this.timerOutput[wmTimer_choose.id - 1] <= 1) {
+          const timeNow = Date.now();
+          const timeDif = timeFinish - timeNow;
+
+          if (timeDif <= 0) {
             clearInterval(timerId);
             axios
             .put(`/finish/${wmTimer_choose.id}`)
@@ -717,21 +744,22 @@ export default {
               console.log(error.response.data.message)
             });
           } else {
-            const timeNow = Date.now();
-            const timeDif = timeFinish - timeNow; // มันเก็บ datetime เป็น millisec (1 sec = 1000 millisec)
-            this.$set(this.timerOutput, wmTimer_choose.id - 1, timeDif / 1000);
+            // const timeNow = Date.now();
+            // const timeDif = timeFinish - timeNow; // มันเก็บ datetime เป็น millisec (1 sec = 1000 millisec)
 
-            // Send API request to save timer data
-            // axios.post('/timers', {
-            //   id: wmTimer_choose[0].id,
-            //   time: wmTimer_choose[0].time
-            // })
-            //   .then(response => {
-            //     // Handle success
-            //   })
-            //   .catch(error => {
-            //     // Handle error
-            //   });
+            this.$set(this.timerOutput, wmTimer_choose.id - 1, timeDif / 1000);
+      
+            let data = {
+              id: wmTimer_choose.id,
+              time: timeDif / 1000
+            }
+            axios.post('/timers', data)
+              .then(() => {
+                // console.log('timer posted')
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }
         }, 1000);
       }
@@ -753,15 +781,12 @@ export default {
           });
         setTimeout(() => { this.isFetch = true; }, 500);
       }
-      
     },
+    isUser(wm) {
+      if (!this.user) return false
+      return wm.used_by === this.user.id
+    }
   },
-  created() {
-        window.addEventListener("scroll", this.handleScroll);
-      },
-      destroyed() {
-        window.removeEventListener("scroll", this.handleScroll);
-      },
 };
 </script>
 

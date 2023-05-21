@@ -64,8 +64,8 @@ router.post("/history", isLoggedIn, async function (req, res, next) {
         const softenerNum = +rowsTemp[0].softener - 5
 
         const [rows2] = await conn.query(
-            "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, time = ? WHERE id = ?",
-            [1, powderNum, softenerNum, wm_time, wm_choose]
+            "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, used_by = ?, time = ? WHERE id = ?",
+            [1, powderNum, softenerNum,  req.user.id, wm_time, wm_choose]
         )
 
         conn.commit()
