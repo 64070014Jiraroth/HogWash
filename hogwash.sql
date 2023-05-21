@@ -15,7 +15,7 @@ CREATE TABLE `washing_machine` (
     `status` INT(1)  NOT NULL,
     `powder`    INT(3) NOT NULL,
     `softener`  INT(3) NOT NULL,
-    `used_by`  INT(10) NOT NULL DEFAULT 1,
+    `used_by`  INT(10),
     `time`  INT(3) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`used_by`) REFERENCES `users`(`id`) ON DELETE CASCADE
@@ -118,7 +118,8 @@ VALUES  ('admin@gmail.com', 'Admin1234', 'admin');
 INSERT INTO `users` (`email`, `password`) 
 VALUES  ('customer@gmail.com', 'Customer1234'),
         ('customer2@gmail.com', 'Customer1234'),
-        ('Fluk@gmail.com', 'Customer1234');
+        ('Fluk@gmail.com', 'Customer1234'),
+        ('Pear@gmail.com', 'Aa1234');
 
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
 VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80), 
@@ -132,7 +133,7 @@ VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80),
 
 INSERT INTO `options` (`id`, `name`, `price`, `time`) 
 VALUES  (1, 'ซักเร็ว', 20, 6), 
-        (2, 'ซักธรรมดา', 30, 18), 
+        (2, 'ซักธรรมดา', 30, 30), 
         (3, 'ซักนํ้าร้อน', 50, 3000), 
         (4, 'ซักนํ้าเย็น', 50, 3000);
 

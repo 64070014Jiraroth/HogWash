@@ -62,9 +62,10 @@ router.put("/user/:id", async function (req, res, next) {
         )
         // console.log(rows[0].password + " // " + currentPassword)
         if (rows[0].password != currentPassword || newPassword != confirm_newPassword) {
-            return res.json({
-                message: "Incorrect password"
-            })
+            throw new Error('Incorrect password')
+            // return res.json({
+            //     message: "Incorrect password"
+            // })
         }
         else {
             const [rows, field] = await conn.query(
@@ -77,9 +78,9 @@ router.put("/user/:id", async function (req, res, next) {
                 message: "Updated"
             })
         }
-    } catch (err) {
+    } catch (error) {
         conn.rollback()
-        return res.send(err);
+        res.status(400).json(error.toString())
     } finally {
         conn.release()
     }
@@ -120,9 +121,9 @@ router.post("/user/signup", async function (req, res, next) {
                 message: 'Sign Up Successfully',
             })
         } 
-    } catch (err) {
+    } catch (error) {
         conn.rollback()
-        return res.send(err);
+        res.status(400).json(error.toString())
     } finally {
         conn.release()
     }

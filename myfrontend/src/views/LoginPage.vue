@@ -184,9 +184,10 @@ export default {
                 alert("Sign up Successfully");
                 location.reload();
             })
-            .catch((err) => {
-                alert(err.response.data.details.message)
-            });
+            .catch(error => {
+                alert('This email is already used')
+                console.log(error.response.data)
+            })
         }
         else {
             console.log()

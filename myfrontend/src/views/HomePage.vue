@@ -162,7 +162,6 @@
                       v-if="user && user.role == 'customer' && isUser(wm)"
                       class="selectWm"
                       style="background-color: #dd6060; color: white; border:none;"
-                      
                     >
                       กำลังใช้งาน
                     </b-button>
@@ -179,14 +178,6 @@
                       รอสักครู่
                     </b-button>
                   </div>
-
-                  <!-- <p class="card-title wmCard-text">
-                    <span v-for="queueNum in queueNums" :key="queueNum.id">
-                      <small class="text-muted" v-if="wm.id == queueNum.wm_id">
-                        จำนวนคิวต่อใช้งาน : {{ queueNum.number }}
-                      </small>
-                    </span>
-                  </p> -->
 
                 </div>
               </div>
@@ -294,7 +285,7 @@
               เนื่องจากมีการใช้งานอยู่
             </h1>
             <span v-for="queueNum in queueNums" :key="queueNum.id">
-              <p class="text-muted" v-if="wm_choose.id == queueNum.wm_id" style="font-size: 25px">
+              <p class="text-muted" v-show="wm_choose.id == queueNum.wm_id" style="font-size: 25px">
                 จำนวนคิวต่อใช้งานขณะนี้ : {{ queueNum.number }}
               </p>
             </span>
@@ -325,7 +316,7 @@
               ยืนยันการจองหรือไม่
             </h1>
             <span v-for="queueNum in queueNums" :key="queueNum.id">
-              <span class="text-muted" v-if="wm_choose.id == queueNum.wm_id">
+              <span class="text-muted" v-show="wm_choose.id == queueNum.wm_id">
                 <p class="modal-title w-100 text-center" style="font-size: 25px">
                   ลำดับคิวของคุณ : 
                   {{ queueNum.number + 1 }}
@@ -482,7 +473,8 @@
         </b-modal>
 
         <!-- ซักเสร็จแล้วเย่ -->
-        <b-modal id="completed" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+        <b-modal id="completed" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop
+          v-show="isUser(wm)">
           <div class="modal-content rounded-4">
             <div class="modal-header" style="border: none; margin-top: 0px">
               <h1 class="modal-title w-100 text-center">
@@ -496,12 +488,16 @@
               <h5 style="color: #dd6060">
                 <p><b>กรุณานำผ้าออกจากเครื่องก่อนกดยืนยัน</b></p>
               </h5>
-              <input
+                <input
                   type="checkbox"
                   class="form-check-input"
+                  id="finishCheckbox"
                   @click="finishCheck = !finishCheck"
                 />
-                <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">นำผ้าออกจากเครื่องเรียบร้อยแล้ว</a> <br /><br />
+                <label for="finishCheckbox" style="font-size: 18px; margin-left: 10px; cursor: pointer;user-select: none;">
+                  นำผ้าออกจากเครื่องเรียบร้อยแล้ว
+                </label>
+                <br /><br />
                 <!-- นำผ้าออกจากเครื่องเรียบร้อยแล้ว <br /><br /> -->
                 <button
                   type="button"
@@ -669,6 +665,8 @@ export default {
         })
         .then(() => {
           console.log('add history')
+          this.isFetch = false
+          this.fetchData()
         })
         .catch((err) => {
           console.log(err);
@@ -705,7 +703,7 @@ export default {
       axios.get("/announcement")
         .then((response) => {
             this.announcement = response.data.announcement;
-            console.log('this.announcement', this.announcement)
+            // console.log('this.announcement', this.announcement)
         })
         .catch((err) => {
         console.log(err);
@@ -718,7 +716,7 @@ export default {
         this.$set(this.timerOutput, wmTimer_choose.id - 1, wmTimer_choose.time); // $set เป็น vue instance (build in) --> set(item, index, value)
 
         const current_time = Date.now();
-        const timeFinish = new Date(current_time + wmTimer_choose.time * 1000 + 2000);
+        const timeFinish = new Date(current_time + wmTimer_choose.time * 1000 + 1000);
 
         const timerId = setInterval(() => {
           const timeNow = Date.now();

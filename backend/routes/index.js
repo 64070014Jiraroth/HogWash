@@ -67,8 +67,8 @@ router.put("/finish/:id", async function (req, res, next) {
     try {
         console.log(req.params.id)
         let finish = await conn.query(
-            `UPDATE washing_machine SET status=?, time=? WHERE id=?`,
-            [0, 0, req.params.id]
+            `UPDATE washing_machine SET status=?, used_by = ?, time=? WHERE id=?`,
+            [0, null, 0, req.params.id]
         )
 
         await conn.commit()

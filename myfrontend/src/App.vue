@@ -253,10 +253,14 @@ export default {
       } 
       axios
         .put("/user/" + this.user.id, data)
-        .then(() => {
+        .then((res) => {
           alert('Password updated');
+          console.log(res)
         })
-        .catch((e) => console.log(e));
+        .catch(error => {
+          alert('Incorrect email or password')
+          console.log(error.response.data)
+        });
     },
     setAnnouncement() {
       console.log('setAnnouncement', this.announce)
