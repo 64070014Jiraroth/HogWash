@@ -150,7 +150,8 @@
                           <span v-if="index == wm.id-1">{{ output }}</span>
                         </div>
                     </h4>
-                    <b-button v-if="user && user.role == 'customer' && !isUser(wm)"
+                    <b-button 
+                      v-if="user && user.role == 'customer' && !isUser(wm) && !isInQueue.some(queueItem => queueItem.user_id === user.id && queueItem.wm_id === wm.id)"
                       v-b-modal="'queue'"
                       class="selectWm"
                       style="background-color: #dd6060; color: white; border:none;"
@@ -164,6 +165,15 @@
                       style="background-color: #dd6060; color: white; border:none;"
                     >
                       กำลังใช้งาน
+                    </b-button>
+                    <b-button 
+                      v-if="user && user.role == 'customer' && !isUser(wm) && isInQueue.some(queueItem => queueItem.user_id === user.id && queueItem.wm_id === wm.id)"
+                      v-b-modal="'checkQueue'"
+                      class="selectWm"
+                      style="background-color: #dd6060; color: white; border:none;"
+                      @click="wm_choose = wm;"
+                    >
+                      ตรวจสอบคิว
                     </b-button>
                   </div>
 
@@ -269,7 +279,7 @@
                 :class="['btn confirmed', paymentCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
                 block @click="$bvModal.hide('confirmPayment'); paymentCheck = false; wm_choose.status = 1; addHistory();   
-                               fetchData(); startTimer(wm_choose); "
+                              isFetch = false; fetchData(); startTimer(wm_choose); "
               >
                 ยืนยัน
               </b-button>
@@ -329,7 +339,7 @@
                 v-b-modal="'queue3'"
                 class="btn queueOption"
                 style="background-color: #59a8b9; color: white"
-                @click="addQueue(wm_choose)"
+                @click="addQueue(wm_choose); isFetch = false; fetchData();"
               >
                 ยืนยัน
               </b-button>
@@ -367,7 +377,8 @@
         </b-modal>
 
         <!-- got queue -->
-        <b-modal id="gotQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+        <b-modal id="gotQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop
+          v-model="showGotQueueModal">
           <div class="modal-content rounded-4">
             <div class="modal-header" style="border: none; margin-top: 0px">
               <h1 class="modal-title w-100 text-center">
@@ -376,24 +387,26 @@
             </div>
             <div class="modal-body">
               <h5>หมายเลขเครื่องซักผ้า : 
-                003
+                {{ nextQueue.wm_id }}
               </h5>
               <h5 style="color: #dd6060">
-                <p><b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b></p>
+                <p><b>กรุณายืนยันการใช้งานต่อ</b></p>
               </h5>
               <b-button
                 v-b-modal="'available'"
                 class="btn queueOption"
                 style="background-color: #59a8b9; color: white"
+                @click="showGotQueueModal = false"
               >
                 ยืนยันการใช้งานต่อ
               </b-button>
               <b-button
                 class="btn queueOption"
-                style="background-color: #b3b3b3; color: white"
-                block @click="$bvModal.hide('gotQueue')"
+                style="background-color: #dd6060; color: white"
+                @click="showGotQueueModal = false"
+                v-b-modal="'cancelQueue'"
               >
-                ยกเลิก
+                ยกเลิกคิว
               </b-button>
             </div>
           </div>
@@ -404,7 +417,14 @@
             <div class="modal-content rounded-4">
               <div class="modal-header" style="border: none;">
                 <h1 class="modal-title w-100 text-center">
-                  ลำดับคิวของคุณ : 0
+                  <span v-for="queueNum in queueNums" :key="queueNum.id">
+                    <span class="text-muted" v-show="wm_choose.id == queueNum.wm_id">
+                      <p class="modal-title w-100 text-center" style="font-size: 25px">
+                        ลำดับคิวของคุณ : 
+                        {{ queueNum.number }}
+                      </p>
+                    </span>
+                  </span>
                 </h1>
               </div>
               <div class="modal-body">
@@ -417,7 +437,7 @@
                 </b-button>
                 <b-button
                   class="btn queueOption"
-                  v-b-modal="'checkQueue2'"
+                  v-b-modal="'cancelQueue'"
                   style="background-color: #dd6060; color: white"
                 >
                   ยกเลิกคิว
@@ -426,24 +446,24 @@
             </div>
         </b-modal>
 
-        <!-- checkQueue2 -->
-        <b-modal id="checkQueue2" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+        <!-- ยกเลิกคิว -->
+        <b-modal id="cancelQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
                 <h1 class="modal-title w-100 text-center">
                   ยืนยันการยกเลิกคิวปัจจุบัน
                 </h1>
               <div class="modal-body">
                 <b-button
+                  v-b-modal="'available'"
                   class="btn queueOption"
                   style="background-color: #59a8b9; color: white"
-                  block @click="$bvModal.hide('checkQueue2')"
                 >
                   ไม่ดีกว่า
                 </b-button>
                 <b-button
                   class="btn queueOption"
                   style="background-color: #dd6060; color: white"
-                  block @click="$bvModal.hide('checkQueue2')"
+                  block @click="$bvModal.hide('cancelQueue'); deleteQueue(nextQueue.id)"
                 >
                   ยืนยันการยกเลิก
                 </b-button>
@@ -474,7 +494,7 @@
 
         <!-- ซักเสร็จแล้วเย่ -->
         <b-modal id="completed" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop
-          v-show="isUser(wm)">
+          v-model="showFinishModal">
           <div class="modal-content rounded-4">
             <div class="modal-header" style="border: none; margin-top: 0px">
               <h1 class="modal-title w-100 text-center">
@@ -483,7 +503,7 @@
             </div>
             <div class="modal-body">
               <h5>หมายเลขเครื่องซักผ้า : 
-                003
+                {{ finish_wm.id }}
               </h5>
               <h5 style="color: #dd6060">
                 <p><b>กรุณานำผ้าออกจากเครื่องก่อนกดยืนยัน</b></p>
@@ -503,7 +523,7 @@
                   type="button"
                   :class="['btn confirmed', finishCheck ? '' : ' disabled']"
                   style="background-color: #59a8b9; color: white"
-                  @click="$bvModal.hide('completed'); finishCheck = false"
+                  @click="$bvModal.hide('completed'); finishCheck = false; showFinishModal = false; resetWm(finish_wm.id); isFetch = false; fetchData()"
                 >
                   ยืนยัน
                 </button>
@@ -596,6 +616,13 @@ export default {
       scrolled: false,
       lastPosition: 0,
       announcement: [""],
+
+      isInQueue: [],
+      nextQueue: "",
+      showGotQueueModal: false,
+      showFinishModal: false,
+
+      finish_wm: "",
     };
   },
   created() {
@@ -619,6 +646,7 @@ export default {
   mounted() {
     this.getWM();
     this.getAnnoucement();
+    this.getQueue();
   },
   computed: { 
     formattedTimerOutput() {  // ทำให้เวลารันบนจอ
@@ -724,9 +752,22 @@ export default {
 
           if (timeDif <= 0) {
             clearInterval(timerId);
+            // console.log(this.user.id + " " + wmTimer_choose.used_by)
+            // this.finish_wm.push(this.user.id, wmTimer_choose.id) 
+            // console.log(this.finish_wm)
+            // if (this.user && (this.user.id == wmTimer_choose.used_by)) {
+            //   this.showFinishModal = true;
+            //   this.finish_wm[this.user.id].push(wmTimer_choose.id) 
+            //   console.log(this.finish_wm)
+            // }
             axios
             .put(`/finish/${wmTimer_choose.id}`)
-            .then(() => {
+            .then((res) => {
+              this.finish_wm = res.data
+              console.log('finish wm : ', this.finish_wm)
+              if (this.user && (this.user.id == this.finish_wm.used_by)) {
+                this.showFinishModal = true;
+              }
               this.isFetch = false
               this.fetchData()
             })
@@ -734,17 +775,8 @@ export default {
               console.log(error.response.data.message)
             });
 
-            axios
-            .delete(`/queue/${wmTimer_choose.id}`)
-            .then(() => {
-              console.log('delete queue')
-              this.isFetch = false
-              this.fetchData()
+            this.deleteQueue(wmTimer_choose.id);
 
-            })
-            .catch((error) => {
-              console.log(error.response.data.message)
-            });
           } else {
             // const timeNow = Date.now();
             // const timeDif = timeFinish - timeNow; // มันเก็บ datetime เป็น millisec (1 sec = 1000 millisec)
@@ -804,6 +836,56 @@ export default {
           console.log(err);
         });
     },
+    deleteQueue(id) {
+      axios
+        .delete(`/queue/` + id)
+        .then((res) => {
+          console.log('delete queue')
+          if (res) {
+            this.nextQueue = res.data.nextQueue
+            // console.log('next queue user id = ', this.nextQueue.user_id)
+            // console.log('current user id : ', this.user.id)
+            if (this.user && this.nextQueue && (this.user.id == this.nextQueue.user_id) ) {
+              this.showGotQueueModal = true;
+            }
+            // else if (this.user && this.nextQueue && (this.user.id != this.nextQueue.user_id)) {
+            //   this.pendingQueue(this.nextQueue, 2)
+            // }
+          }
+          this.isFetch = false
+          this.fetchData()
+        })
+        .catch((error) => {
+          console.log(error.response)
+        });
+    },
+    getQueue() {
+      axios
+      .get(`/queue/`)
+      .then((res) => {
+        console.log('check done')
+        this.isInQueue = res.data.queue
+        // console.log("this.isInQueue = ", this.isInQueue)
+
+        this.isFetch = false
+        this.fetchData()
+      })
+      .catch((error) => {
+        console.log(error.response)
+      });
+    },
+    resetWm(id) {
+      axios
+      .put(`/reset/` + id)
+      .then(() => {
+        console.log('reset done')
+        this.isFetch = false
+        this.fetchData()
+      })
+      .catch((error) => {
+        console.log(error.response)
+      });
+    }
   },
 };
 </script>

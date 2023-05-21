@@ -63,6 +63,7 @@ CREATE TABLE `queue` (
     `wm_id`     INT(3)  NOT NULL,
     `user_id`   INT(10) NOT NULL,
     `booking_time`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `status` INT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`wm_id`) REFERENCES `washing_machine`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE

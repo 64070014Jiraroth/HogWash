@@ -5,16 +5,13 @@ router = express.Router();
 
 const { isLoggedIn } = require('../middlewares')
 
-router.get("/queue/:id", async function (req, res, next) {
+router.get("/queue/", async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
-        const [queueRows, historyField] = await conn.query(
-            "SELECT * FROM queue WHERE wm_id = ?",
-            [req.params.id]
-        )
+        const [queueRows, queueField] = await conn.query("SELECT * FROM queue")
         conn.commit()
         console.log(queueRows)
         return res.json({
@@ -28,6 +25,7 @@ router.get("/queue/:id", async function (req, res, next) {
     }
 
 });
+
 
 router.post("/queue", isLoggedIn, async function (req, res, next) {
 
@@ -74,18 +72,22 @@ router.delete("/queue/:id", async function (req, res, next) {
       console.log(checkQueue);
   
       if (checkQueue[0].number > 0) {
-        const [rows2] = await conn.query("DELETE FROM queue WHERE booking_time = ( SELECT MIN(booking_time) FROM queue WHERE wm_id = ?)", 
-            [req.params.id]
+        const [rows1] = await conn.query("SELECT * FROM queue WHERE booking_time = ( SELECT MIN(booking_time) FROM queue WHERE wm_id = ?)" +
+        "AND id = ( SELECT MIN(id) FROM queue WHERE wm_id = ?)", 
+            [req.params.id, req.params.id]
+        );
+
+        const [rows2] = await conn.query("DELETE FROM queue WHERE booking_time = ( SELECT MIN(booking_time) FROM queue WHERE wm_id = ?)"+
+        "AND id = ( SELECT MIN(id) FROM queue WHERE wm_id = ?) AND status = ?", 
+            [req.params.id, req.params.id, 0]
         );
 
         if (rows2.affectedRows === 1) {
             await conn.commit();
-            return res.send('delete seccessfully');
+            return res.json({
+              nextQueue: rows1[0]
+            });
         } 
-      }
-      else {
-        await conn.commit();
-        return res.send('no queue found');
       }
     } catch (err) {
       console.log(err)
@@ -95,5 +97,33 @@ router.delete("/queue/:id", async function (req, res, next) {
       conn.release();
     }
   });
+
+// //pending queue
+// router.put("/queue/:id/:status", async function (req, res, next) {
+
+//   const conn = await pool.getConnection();
+//   await conn.beginTransaction();
+
+//   try {
+//     const [rows1] = await conn.query("UPDATE washing_machine SET status = ? WHERE id = ?", 
+//         [req.params.status, req.params.id]
+//     );
+
+//     // const [rows2] = await conn.query("UPDATE queue SET status = ? WHERE wm_id = ? AND id = ( SELECT MIN(ID) FROM queue WHERE id = ? )", 
+//     //     [2, req.params.id, req.params.id]
+//     // );
+
+//     await conn.commit();
+//     return res.json(rows1);
+
+//   } catch (err) {
+//     console.log(err)
+//     await conn.rollback();
+//     return res.status(500).json(err);
+//   } finally {
+//     conn.release();
+//   }
+// });
+
 
 exports.router = router;

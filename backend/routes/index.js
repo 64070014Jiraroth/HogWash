@@ -34,20 +34,25 @@ router.get("/", async function (req, res, next) {
         });
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/finish/:id", async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
-        console.log(req.params.id)
-        let refillTank = await conn.query(
-            `UPDATE washing_machine SET powder=?, softener=? WHERE id=?`,
-            [100, 100, req.params.id]
+
+        let [rows] = await conn.query(
+            `SELECT * FROM washing_machine WHERE id=?`,
+            [req.params.id]
+        )
+
+        let finish = await conn.query(
+            `UPDATE washing_machine SET status=? WHERE id=?`,
+            [2, req.params.id]
         )
 
         await conn.commit()
-        res.send("success!");
+        return res.json(rows[0]);
 
     } catch (err) {
         await conn.rollback();
@@ -59,20 +64,20 @@ router.put("/:id", async function (req, res, next) {
     return;
 });
 
-router.put("/finish/:id", async function (req, res, next) {
+router.put("/reset/:id", async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
 
     try {
-        console.log(req.params.id)
-        let finish = await conn.query(
+
+        let reset = await conn.query(
             `UPDATE washing_machine SET status=?, used_by = ?, time=? WHERE id=?`,
             [0, null, 0, req.params.id]
         )
 
         await conn.commit()
-        res.send("wm finished !");
+        return res.send('reset successfully');
 
     } catch (err) {
         await conn.rollback();
@@ -131,4 +136,31 @@ router.get("/timers", async function (req, res, next) {
     return;
 });
 
+//pending queue
+router.put("/queue/:id/:status", async function (req, res, next) {
+
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+  
+    try {
+      const [rows1] = await conn.query("UPDATE washing_machine SET status = ? WHERE id = ?", 
+          [req.params.status, req.params.id]
+      );
+  
+      // const [rows2] = await conn.query("UPDATE queue SET status = ? WHERE wm_id = ? AND id = ( SELECT MIN(ID) FROM queue WHERE id = ? )", 
+      //     [2, req.params.id, req.params.id]
+      // );
+  
+      await conn.commit();
+      return res.json(rows1);
+  
+    } catch (err) {
+      console.log(err)
+      await conn.rollback();
+      return res.status(500).json(err);
+    } finally {
+      conn.release();
+    }
+  });
+  
 exports.router = router;

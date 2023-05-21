@@ -52,6 +52,10 @@
           <b-modal id="announcement" class="text-center" centered hide-header-close title="แก้ไขประกาศ"
           @ok="setAnnouncement()">
               <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
+              <template #modal-footer>
+                <button v-b-modal.modal-close_visit class="btn announceOp m-1" style="background-color: #b3b3b3;">ยกเลิก</button>
+                <button v-b-modal.modal-close_visit class="btn announceOp mr-4" style="background-color: #59a8b9;">ยืนยัน</button>
+            </template>
           </b-modal>
 
           <!-- test modal ----------------------------------------------->
@@ -295,5 +299,9 @@ export default {
 .modal-body {
     margin: 10px;
     margin-top: 0;
+}
+.announceOp {
+  border:none;
+  color:white;
 }
 </style>
