@@ -46,7 +46,7 @@
             <a class="nav-link" style="color:#59A8B9;" v-b-modal="'announcement'">เพิ่มประกาศ</a>
           </li>
 
-          <b-modal id="announcement" class="text-center" centered hide-header-close  title="แก้ไขประกาศ"
+          <b-modal id="announcement" class="text-center" centered hide-header-close title="แก้ไขประกาศ"
           @ok="setAnnouncement()">
               <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
           </b-modal>
@@ -263,7 +263,7 @@ export default {
       axios
           .post(`/announcement`, data)
           .then(() => {
-              alert("Feedback send Successfully");
+              alert("เพิ่มประกาศเรียบร้อยแล้ว");
               this.$bvModal.hide('modal-prevent-closing')
               location.reload();
           })
@@ -280,3 +280,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.modal-header {
+    justify-content: center;
+}
+.modal-body {
+    margin: 10px;
+    margin-top: 0;
+}
+</style>

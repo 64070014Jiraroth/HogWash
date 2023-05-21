@@ -158,6 +158,7 @@ b-button {
 }
 .modal-header {
     border:none;
+    justify-content: center;
 }
 .modal-body {
     text-align: center;

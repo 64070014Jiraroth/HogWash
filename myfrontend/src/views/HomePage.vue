@@ -64,7 +64,7 @@
         <!-- Washing Machine cards -->
         <div class="allCard">
           <div class="row justify-content-center groupCard my-2">
-            <div class="col-3" v-for="wm in wms" :key="wm.id">
+            <div class="col-3" v-for="wm in wms" :key="wm.id" @click="wmDisable_id = wm;disableUse();">
               <div
                 :class="[
                   'card wmCard',
@@ -125,9 +125,9 @@
                       Refill
                     </b-button>
 
-                    <b-button v-if="user && user.role == 'customer'"
+                    <b-button v-if="(user && user.role == 'customer')"
                       v-b-modal="'available'"
-                      class="selectWm"
+                      :class="['selectWm', (wmDisable_id.softener == 0 || wmDisable_id.powder == 0) ? 'disabled' : '']"
                       style="background-color: #7ccf85; color: white; border:none;"
                       @click="
                         wm.status = 2;
@@ -600,11 +600,18 @@
             />
             รับทราบ <br /><br />
             <b-button
-              :class="['btn confirmed', isCheck ? '' : ' disabled']"
+              :class="['btn queueOption', isCheck ? '' : ' disabled']"
               style="background-color: #59a8b9; color: white"
               block @click="refill(), $bvModal.hide('refillConfirm')"
             >
               ยืนยัน
+            </b-button>
+            <b-button
+              class="btn queueOption"
+              style="background-color: #b3b3b3; color: white"
+              block @click="$bvModal.hide('refillConfirm')"
+            >
+              ยกเลิก
             </b-button>
           </div>
           </div>
@@ -639,6 +646,7 @@ export default {
       option_choose: "",
       payment_choose: "",
       refill_choose: "",
+      wmDisable_id: "",
       // time_cost: 0,
       // pay_choose: '',
       
@@ -743,6 +751,19 @@ export default {
           
         });
     },
+    disableUse() {
+      axios
+        .get(`/${this.wmDisable_id.id}`)
+        .then(() => {
+          console.log('wmDisable_id id', this.wmDisable_id.id)
+          console.log('wmDisable_id softener', this.wmDisable_id.softener)
+          console.log('wmDisable_id powder', this.wmDisable_id.powder)
+        })
+        .catch((error) => {
+        console.log(error.response.data.message)
+
+        });
+    },
     handleScroll() {
       if (this.lastPosition < window.scrollY && this.limitPosition < window.scrollY) {
         this.scrolled = true;
@@ -761,6 +782,7 @@ export default {
       axios.get("/announcement")
         .then((response) => {
             this.announcement = response.data.announcement;
+            console.log('this.announcement', this.announcement)
         })
         .catch((err) => {
         console.log(err);

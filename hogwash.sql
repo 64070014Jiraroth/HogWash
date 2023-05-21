@@ -122,13 +122,13 @@ VALUES  ('customer@gmail.com', 'Customer1234'),
 
 INSERT INTO `washing_machine` (`id`, `brand`, `model`, `status`, `powder`,`softener`) 
 VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80), 
-        (2, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (2, 'Panasonic', 'NA-127XB1WMY', 0, 50, 50), 
         (3, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
-        (4, 'Panasonic', 'NA-127XB1WMY', 0, 90, 90), 
-        (5, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
+        (4, 'Panasonic', 'NA-127XB1WMY', 0, 45, 45), 
+        (5, 'Panasonic', 'NA-127XB1WMY', 0, 60, 60), 
         (6, 'Panasonic', 'NA-127XB1WMY', 0, 70, 70), 
-        (7, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
-        (8, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100);
+        (7, 'Panasonic', 'NA-127XB1WMY', 0, 35, 35), 
+        (8, 'Panasonic', 'NA-127XB1WMY', 0, 0, 0);
 
 INSERT INTO `options` (`id`, `name`, `price`, `time`) 
 VALUES  (1, 'ซักเร็ว', 20, 6), 
