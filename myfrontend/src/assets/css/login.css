@@ -7,6 +7,11 @@
 /* template {
     background-color:aquamarine;
 } */
+html {
+    background-image: url('http://localhost:3000/uploads/bg2.png') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 .loginPage {
     position: fixed;
     top: 50%;

@@ -162,5 +162,30 @@ router.put("/queue/:id/:status", async function (req, res, next) {
       conn.release();
     }
   });
+
+  router.put("/:id", async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    try {
+        console.log(req.params.id)
+        let refillTank = await conn.query(
+            `UPDATE washing_machine SET powder=?, softener=? WHERE id=?`,
+            [100, 100, req.params.id]
+        )
+
+        await conn.commit()
+        res.send("success!");
+
+    } catch (err) {
+        await conn.rollback();
+        next(err);
+    } finally {
+        console.log('finally')
+        conn.release();
+    }
+    return;
+});
   
 exports.router = router;

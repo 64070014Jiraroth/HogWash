@@ -4,9 +4,13 @@
     font-family: 'Prompt', sans-serif;
     /* overflow: hidden; */
     /* background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png'); */
+    
 }
 html {
     scroll-behavior: smooth;
+    background-image: url('http://localhost:3000/uploads/background.png') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 body::-webkit-scrollbar {
     display: none;
@@ -18,8 +22,6 @@ body::-webkit-scrollbar {
 #home1 {
     height: 100%;
     background-image: linear-gradient(white, #CAEAF1, white);
-    /* background-image: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png');
-    background-size: cover; */
 }
 #home2{
     position: absolute;
@@ -27,7 +29,6 @@ body::-webkit-scrollbar {
     align-items: center;
     height: 100%;
     background-image: linear-gradient(white, #CAEAF1, white);
-    /* background: url('https://cdn.discordapp.com/attachments/317865493090533376/1088883213784584272/image.png') center/cover no-repeat; */
 }
 .border0 {
     border: 3px solid #7CCF85;

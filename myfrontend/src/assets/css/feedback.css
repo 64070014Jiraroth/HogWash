@@ -1,3 +1,6 @@
+html {
+    background-image: linear-gradient(white, #CAEAF1, white) !important;
+}
 .feedback-border {
     position: absolute;
     color: #59A8B9;

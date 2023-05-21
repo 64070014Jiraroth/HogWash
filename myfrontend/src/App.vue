@@ -36,9 +36,9 @@
               <a>ติดต่อเรา</a>
             </router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" v-b-modal="'checkQueue'">ตรวจสอบคิว</a>
-          </li>
+          </li> -->
 
           <li class="nav-item" v-if="user && user.role == 'admin'">
             <router-link to="/feedback" class="nav-link">
@@ -49,17 +49,16 @@
             <a class="nav-link" style="color:#59A8B9;" v-b-modal="'announcement'">เพิ่มประกาศ</a>
           </li>
 
-          <b-modal id="announcement" class="text-center" centered hide-header-close title="แก้ไขประกาศ"
-          @ok="setAnnouncement()">
+          <b-modal id="announcement" class="text-center" centered hide-header-close title="แก้ไขประกาศ">
               <textarea class="form-control" type="text" style='height:100px;resize: none;' v-model="announce"></textarea>
               <template #modal-footer>
-                <button v-b-modal.modal-close_visit class="btn announceOp m-1" style="background-color: #b3b3b3;">ยกเลิก</button>
-                <button v-b-modal.modal-close_visit class="btn announceOp mr-4" style="background-color: #59a8b9;">ยืนยัน</button>
+                <button v-b-modal.modal-close_visit class="btn announceOp m-1" style="background-color: #b3b3b3;" block @click="$bvModal.hide('announcement');">ยกเลิก</button>
+                <button v-b-modal.modal-close_visit class="btn announceOp mr-4" style="background-color: #59a8b9;" @click="setAnnouncement()">ยืนยัน</button>
             </template>
           </b-modal>
 
           <!-- test modal ----------------------------------------------->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a
               class="nav-link"
               v-b-modal="'gotQueue'"
@@ -90,7 +89,7 @@
             >
               <b class="text-danger"> ( completed ) </b></a
             >
-          </li>
+          </li> -->
 
 
 
