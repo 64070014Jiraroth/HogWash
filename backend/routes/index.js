@@ -34,27 +34,6 @@ router.get("/", async function (req, res, next) {
         });
 });
 
-router.get("/:wmDisable_id", async function (req, res, next) {
-
-    const conn = await pool.getConnection()
-    await conn.beginTransaction();
-
-    try {
-        const [tankReader] = await conn.query(
-            "SELECT * FROM washing_machine WHERE id=?",
-            [req.params.wmDisable_id]
-        )
-        return res.json({
-            tank:tankReader,
-        })
-    } catch (err) {
-        conn.rollback()
-        return res.send(err);
-    } finally {
-        conn.release()
-    }
-});
-
 router.put("/:id", async function (req, res, next) {
 
     const conn = await pool.getConnection()

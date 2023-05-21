@@ -64,7 +64,7 @@
         <!-- Washing Machine cards -->
         <div class="allCard">
           <div class="row justify-content-center groupCard my-2">
-            <div class="col-3" v-for="wm in wms" :key="wm.id" @click="wmDisable_id = wm;disableUse();">
+            <div class="col-3" v-for="wm in wms" :key="wm.id">
               <div
                 :class="[
                   'card wmCard',
@@ -125,9 +125,9 @@
                       Refill
                     </b-button>
 
-                    <b-button v-if="(user && user.role == 'customer')"
+                    <b-button v-if="(user && user.role == 'customer') && (wm.powder != 0 && wm.softener != 0)"
                       v-b-modal="'available'"
-                      :class="['selectWm', (wmDisable_id.softener == 0 || wmDisable_id.powder == 0) ? 'disabled' : '']"
+                      :class="['selectWm']"
                       style="background-color: #7ccf85; color: white; border:none;"
                       @click="
                         wm.status = 2;
@@ -135,6 +135,12 @@
                       "
                     >
                       เลือกใช้งาน
+                    </b-button>
+
+                    <b-button v-if="(user && user.role == 'customer') && (wm.powder == 0 || wm.softener == 0)"
+                      :class="['selectWm']"
+                      style="background-color: #7ccf85; color: white; border:none;" disabled>
+                      ไม่สามารถใช้งานได้
                     </b-button>
                   </div>
 
@@ -646,7 +652,6 @@ export default {
       option_choose: "",
       payment_choose: "",
       refill_choose: "",
-      wmDisable_id: "",
       // time_cost: 0,
       // pay_choose: '',
       
@@ -673,7 +678,7 @@ export default {
       .then(response => {
         const timers = response.data.timer;
 
-        timers.forEach(timer => {
+        timers.map(timer => {
           this.startTimer(timer);
         });
       })
@@ -732,7 +737,7 @@ export default {
           },
         })
         .then(() => {
-          // console.log(res)
+          console.log('add history')
         })
         .catch((err) => {
           console.log(err);
@@ -749,19 +754,6 @@ export default {
         .catch((error) => {
           console.log(error.response.data.message)
           
-        });
-    },
-    disableUse() {
-      axios
-        .get(`/${this.wmDisable_id.id}`)
-        .then(() => {
-          console.log('wmDisable_id id', this.wmDisable_id.id)
-          console.log('wmDisable_id softener', this.wmDisable_id.softener)
-          console.log('wmDisable_id powder', this.wmDisable_id.powder)
-        })
-        .catch((error) => {
-        console.log(error.response.data.message)
-
         });
     },
     handleScroll() {

@@ -40,49 +40,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
 });
 
 // add history
-// router.post("/history", isLoggedIn, async function (req, res, next) {
-
-//     const conn = await pool.getConnection()
-//     await conn.beginTransaction();
-
-//     const { payment_choose, wm_choose, option_choose, wm_time } = req.body.params;
-
-//     try {
-//         const [rows, fields] = await conn.query(
-//             "INSERT INTO history(date, payment_id, wm_id, user_id, option_id) VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)",
-//             [payment_choose, wm_choose, req.user.id, option_choose]
-//         )
-
-//         const [rowsTemp] = await conn.query(
-//             "SELECT * FROM washing_machine WHERE id = ?",
-//             [wm_choose]
-//         )
-
-//         console.log(wm_choose)
-
-//         const powderNum = +rowsTemp[0].powder - 5
-//         const softenerNum = +rowsTemp[0].softener - 5
-
-//         const [rows2] = await conn.query(
-//             "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, used_by = ?, time = ? WHERE id = ?",
-//             [1, powderNum, softenerNum,  req.user.id, wm_time, wm_choose]
-//         )
-
-//         conn.commit()
-//         return res.json({
-//             message: 'History added successfully',
-//             data: rows2
-//         })
-//     } catch (err) {
-//         conn.rollback()
-//         return res.send(err);
-//     } finally {
-//         conn.release()
-//     }
-
-// })
-
-router.post("/history",  async function (req, res, next) {
+router.post("/history", isLoggedIn, async function (req, res, next) {
 
     const conn = await pool.getConnection()
     await conn.beginTransaction();
@@ -90,50 +48,92 @@ router.post("/history",  async function (req, res, next) {
     const { payment_choose, wm_choose, option_choose, wm_time } = req.body.params;
 
     try {
-        
+        const [rows, fields] = await conn.query(
+            "INSERT INTO history(date, payment_id, wm_id, user_id, option_id) VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)",
+            [payment_choose, wm_choose, req.user.id, option_choose]
+        )
+
         const [rowsTemp] = await conn.query(
             "SELECT * FROM washing_machine WHERE id = ?",
             [wm_choose]
-            )
-            
-            console.log(wm_choose)
-            
-            const powderNum = +rowsTemp[0].powder - 5
-            const softenerNum = +rowsTemp[0].softener - 5
-            
-            if (powderNum < 0 || softenerNum < 0) {
-                console.log('น้ำยาหมด กรุณาใช้งานเครื่องถัดไป')
-                conn.rollback();
-                return res.json({
-                    message: 'น้ำยาหมด กรุณาใช้งานเครื่องถัดไป'
-                });
-            }
-            else {
-                const [rows2] = await conn.query(
-                    "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, used_by = ?, time = ? WHERE id = ?",
-                    [1, powderNum, softenerNum,  req.user.id, wm_time, wm_choose]
-                    )
-                    
-                const [rows, fields] = await conn.query(
-                    "INSERT INTO history(date, payment_id, wm_id, user_id, option_id) VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)",
-                    [payment_choose, wm_choose, req.user.id, option_choose]
-                )
-                conn.commit()
-                return res.json({
-                    message: 'History added successfully',
-                    data: rows2
-                })
-            }
+        )
 
+        console.log(wm_choose)
 
-        } catch (err) {
-            conn.rollback()
-            return res.send(err);
-        } finally {
-            conn.release()
-        }
+        const powderNum = +rowsTemp[0].powder - 5
+        const softenerNum = +rowsTemp[0].softener - 5
+
+        const [rows2] = await conn.query(
+            "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, used_by = ?, time = ? WHERE id = ?",
+            [1, powderNum, softenerNum,  req.user.id, wm_time, wm_choose]
+        )
+
+        conn.commit()
+        return res.json({
+            message: 'History added successfully',
+            data: rows2
+        })
+    } catch (err) {
+        conn.rollback()
+        return res.send(err);
+    } finally {
+        conn.release()
+    }
 
 })
+
+// router.post("/history",  async function (req, res, next) {
+
+//     const conn = await pool.getConnection()
+//     await conn.beginTransaction();
+
+//     const { payment_choose, wm_choose, option_choose, wm_time } = req.body.params;
+
+//     try {
+        
+//         const [rowsTemp] = await conn.query(
+//             "SELECT * FROM washing_machine WHERE id = ?",
+//             [wm_choose]
+//             )
+            
+//             console.log(wm_choose)
+            
+//             const powderNum = +rowsTemp[0].powder - 5
+//             const softenerNum = +rowsTemp[0].softener - 5
+            
+//             if (powderNum < 0 || softenerNum < 0) {
+//                 console.log('น้ำยาหมด กรุณาใช้งานเครื่องถัดไป')
+//                 conn.rollback();
+//                 return res.json({
+//                     message: 'น้ำยาหมด กรุณาใช้งานเครื่องถัดไป'
+//                 });
+//             }
+//             else {
+//                 const [rows2] = await conn.query(
+//                     "UPDATE washing_machine SET status = ?, powder = ?, softener = ?, used_by = ?, time = ? WHERE id = ?",
+//                     [1, powderNum, softenerNum,  req.user.id, wm_time, wm_choose]
+//                     )
+                    
+//                 const [rows, fields] = await conn.query(
+//                     "INSERT INTO history(date, payment_id, wm_id, user_id, option_id) VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?)",
+//                     [payment_choose, wm_choose, req.user.id, option_choose]
+//                 )
+//                 conn.commit()
+//                 return res.json({
+//                     message: 'History added successfully',
+//                     data: rows2
+//                 })
+//             }
+
+
+//         } catch (err) {
+//             conn.rollback()
+//             return res.send(err);
+//         } finally {
+//             conn.release()
+//         }
+
+// })
 
 
 
