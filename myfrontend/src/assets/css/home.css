@@ -186,8 +186,8 @@ b-button {
     border-radius: 15px;
     width: 250px;
     height: 55px;
-    font-size: 17px;
-    letter-spacing: 1.5px;
+    font-size: 18px;
+    letter-spacing: 1.8px;
     margin: 10px;
     border: none;
     /* margin-bottom: 20px; */
@@ -195,7 +195,7 @@ b-button {
 .confirmed {
     font-weight: 600;
     font-size: 18px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.8px;
     width: 500px;
     height: 50px;
     border-radius: 15px;
@@ -372,3 +372,7 @@ b-button {
   .headroom--unpinned {
       transform: translateY(-100%);
   }
+  /* .form-check-input{ 
+    font-size: 15px;
+    border: 1px solid burlywood;
+  } */

@@ -273,7 +273,7 @@
                 class="form-check-input"
                 @click="isCheck = !isCheck"
               />
-              รับทราบ <br /><br />
+              <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">รับทราบ</a> <br /><br />
               <b-button
                 :class="['btn confirmed', isCheck ? '' : ' disabled']"
                 style="background-color: #59a8b9; color: white"
@@ -378,44 +378,38 @@
         <!-- got queue -->
         <b-modal id="gotQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
           <div class="modal-content rounded-4">
-            <div class="modal-header" style="border: none; margin-top: 30px">
+            <div class="modal-header" style="border: none; margin-top: 0px">
               <h1 class="modal-title w-100 text-center">
                 ถึงคิวการใช้งานของคุณแล้ว
               </h1>
             </div>
             <div class="modal-body">
-              <h5>หมายเลขเครื่องซักผ้า : 003</h5>
-              <h5 style="color: #dd6060">
-                <b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b>
+              <h5>หมายเลขเครื่องซักผ้า : 
+                003
               </h5>
-              <button
-                type="button"
+              <h5 style="color: #dd6060">
+                <p><b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b></p>
+              </h5>
+              <b-button
+                v-b-modal="'available'"
                 class="btn queueOption"
-                data-toggle="modal"
-                data-target="#available"
-                data-dismiss="modal"
                 style="background-color: #59a8b9; color: white"
               >
                 ยืนยันการใช้งานต่อ
-              </button>
-              <button
-                type="button"
+              </b-button>
+              <b-button
                 class="btn queueOption"
                 style="background-color: #b3b3b3; color: white"
-                data-dismiss="modal"
+                block @click="$bvModal.hide('gotQueue')"
               >
                 ยกเลิก
-              </button>
+              </b-button>
             </div>
           </div>
         </b-modal>
 
-        <!-- จองไปแล้วและกดเครื่องเดิมซํ้า -->
-        <!-- <div class="modal fade" id="editQueue" tabindex="-1" role="dialog" data-backdrop="static">
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
+        <!-- จองไปแล้วและกดเครื่องเดิมซํ้า  => ตรวจสอบคิว -->
+        <b-modal id="checkQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
               <div class="modal-header" style="border: none; margin-top: 30px">
                 <h1 class="modal-title w-100 text-center">
@@ -423,168 +417,103 @@
                 </h1>
               </div>
               <div class="modal-body">
-                <button
-                  type="button"
+                <b-button
                   class="btn queueOption"
-                  data-dismiss="modal"
                   style="background-color: #59a8b9; color: white"
+                  block @click="$bvModal.hide('checkQueue')"
                 >
                   ยืนยัน
-                </button>
-                <button
-                  type="button"
+                </b-button>
+                <b-button
                   class="btn queueOption"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target="#editQueue2"
+                  v-b-modal="'checkQueue2'"
                   style="background-color: #dd6060; color: white"
                 >
                   ยกเลิกคิว
-                </button>
+                </b-button>
               </div>
             </div>
-          </div>
-        </div> -->
+        </b-modal>
 
-        <!-- editQueue2 -->
-        <!-- <div class="modal fade" id="editQueue2" tabindex="-1" role="dialog" data-backdrop="static">
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
+        <!-- checkQueue2 -->
+        <b-modal id="checkQueue2" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
                 <h1 class="modal-title w-100 text-center">
                   ยืนยันการยกเลิกคิวปัจจุบัน
                 </h1>
-              </div>
               <div class="modal-body">
-                <button
-                  type="button"
+                <b-button
                   class="btn queueOption"
-                  data-dismiss="modal"
                   style="background-color: #59a8b9; color: white"
+                  block @click="$bvModal.hide('checkQueue2')"
                 >
                   ไม่ดีกว่า
-                </button>
-                <button
-                  type="button"
+                </b-button>
+                <b-button
                   class="btn queueOption"
-                  data-dismiss="modal"
-                  data-toggle="modal"
-                  data-target="#editQueue2"
                   style="background-color: #dd6060; color: white"
+                  block @click="$bvModal.hide('checkQueue2')"
                 >
                   ยืนยันการยกเลิก
-                </button>
+                </b-button>
               </div>
             </div>
-          </div>
-        </div> -->
+        </b-modal>
 
         <!-- จองไปแล้วและไปกดเครื่องอื่น -->
-        <!-- <div class="modal fade" id="inQueue" tabindex="-1" role="dialog" data-backdrop="static">
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
+        <b-modal id="inQueue" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
             <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
+              <div class="modal-header" style="border: none; margin-top: 10px">
                 <h1 class="modal-title w-100 text-center">
                   ขณะนี้คุณอยู่ในลำดับคิวการใช้งาน<br />
                   ของเครื่องหมายเลข 003
                 </h1>
               </div>
               <div class="modal-body">
-                <button
-                  type="button"
+                <b-button
                   class="btn confirmed"
                   style="background-color: #59a8b9; color: white"
-                  data-dismiss="modal"
+                  block @click="$bvModal.hide('inQueue')"
                 >
                   เข้าใจแล้ว
-                </button>
+                </b-button>
               </div>
             </div>
-          </div>
-        </div> -->
+        </b-modal>
 
         <!-- ซักเสร็จแล้วเย่ -->
         <b-modal id="completed" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
           <div class="modal-content rounded-4">
-            <div class="modal-header" style="border: none; margin-top: 30px">
+            <div class="modal-header" style="border: none; margin-top: 0px">
               <h1 class="modal-title w-100 text-center">
                 ผ้าของคุณซักเสร็จเรียบร้อยแล้ว
               </h1>
-
             </div>
             <div class="modal-body">
-              <h5>หมายเลขเครื่องซักผ้า : 003</h5>
-              <h5 style="color: #dd6060">
-                <b>กรุณายืนยันการใช้งานต่อภายใน 10 นาที</b>
+              <h5>หมายเลขเครื่องซักผ้า : 
+                003
               </h5>
-              <button
-                type="button"
-                class="btn queueOption"
-                data-toggle="modal"
-                data-target="#available"
-                data-dismiss="modal"
-                style="background-color: #59a8b9; color: white"
-              >
-                ยืนยันการใช้งานต่อ
-              </button>
-              <button
-                type="button"
-                class="btn queueOption"
-                style="background-color: #b3b3b3; color: white"
-                data-dismiss="modal"
-              >
-                ยกเลิก
-              </button>
+              <h5 style="color: #dd6060">
+                <p><b>กรุณานำผ้าออกจากเครื่องก่อนกดยืนยัน</b></p>
+              </h5>
+              <input
+                  type="checkbox"
+                  class="form-check-input"
+                  @click="isCheck = !isCheck"
+                />
+                <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">นำผ้าออกจากเครื่องเรียบร้อยแล้ว</a> <br /><br />
+                <!-- นำผ้าออกจากเครื่องเรียบร้อยแล้ว <br /><br /> -->
+                <button
+                  type="button"
+                  :class="['btn confirmed', isCheck ? '' : ' disabled']"
+                  style="background-color: #59a8b9; color: white"
+                  @click="$bvModal.hide('completed')"
+                >
+                  ยืนยัน
+                </button>
             </div>
           </div>
         </b-modal>
-        <!-- <div
-          class="modal fade"
-          id="completed"
-          tabindex="-1"
-          role="dialog"
-          data-backdrop="static"
-         >
-          <div
-            class="modal-dialog modal-lg modal-dialog-centered"
-            role="document"
-          >
-            <div class="modal-content rounded-4">
-              <div class="modal-header" style="border: none; margin-top: 30px">
-                <h1 class="modal-title w-100 text-center">
-                  ผ้าของคุณซักเสร็จเรียบร้อยแล้ว
-                </h1>
-              </div>
-              <div class="modal-body">
-                <div class="modal-body confirmedText">
-                  <p style="color: #dd6060; font-weight: bold">
-                    กรุณานำผ้าออกจากเครื่องก่อนกดยืนยัน
-                  </p>
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    @click="isCheck = !isCheck"
-                  />
-                  นำผ้าออกจากเครื่องเรียบร้อยแล้ว <br /><br />
-                  <button
-                    type="button"
-                    :class="['btn confirmed', isCheck ? '' : ' disabled']"
-                    style="background-color: #59a8b9; color: white"
-                    data-dismiss="modal"
-                  >
-                    ยืนยัน
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
 
       </div>
 
@@ -604,7 +533,7 @@
               class="form-check-input"
               @click="isCheck = !isCheck"
             />
-            รับทราบ <br /><br />
+            <a style="font-size:20px;margin-left:5px;cursor:none;cursor: default">รับทราบ</a> <br /><br />
             <b-button
               :class="['btn queueOption', isCheck ? '' : ' disabled']"
               style="background-color: #59a8b9; color: white"

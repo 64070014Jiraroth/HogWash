@@ -36,6 +36,9 @@
               <a>ติดต่อเรา</a>
             </router-link>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" v-b-modal="'checkQueue'">ตรวจสอบคิว</a>
+          </li>
 
           <li class="nav-item" v-if="user && user.role == 'admin'">
             <router-link to="/feedback" class="nav-link">
@@ -63,7 +66,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              v-b-modal="'editQueue'"
+              v-b-modal="'checkQueue'"
             >
               <b class="text-danger"> ( กดคิวซ้ำ ) </b></a
             >
