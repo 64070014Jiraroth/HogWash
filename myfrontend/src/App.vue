@@ -11,7 +11,7 @@
           alt=""
         />
       </a>
-      <a class="navbar-brand" href="../#home1" style="padding-top:10px;color: #59a8b9">HogWash</a>
+      <a class="navbar-brand" href="/" style="padding-top:10px;color: #59a8b9">HogWash</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -21,15 +21,15 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+      
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <!-- <li class="nav-item active">
-                    <a class="nav-link" href="#">หน้าแรก</a>
-                </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="../#home2">สถานะเครื่องซักผ้า</a>
+            <!-- <router-link to="/" class="nav-link">  //router-link ไม่ได้ทำการ refresh หน้าจอ จึงทำให้บางที frontend โหลดไม่ทัน
+            สถานะเครื่องซักผ้า
+            </router-link> -->
+            <a class="nav-link" href="/">สถานะเครื่องซักผ้า</a>
           </li>
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">
@@ -99,7 +99,7 @@
           style="
             background-color: #59a8b9;
             color: white;
-            font-size: 18;
+            font-size: 20px;
             width: 120px;
           ">
           <router-link style="text-decoration: none; color: inherit;padding-right:0;" to="/user">
@@ -110,14 +110,19 @@
 
       <!-- greeting button -->
       <b-dropdown  v-if="user" id="dropdown-right" size="lg" :text="'ยินดีต้อนรับ ' + user.email + ' ! '" variant="none"
-      style="margin-right:20px;margin:15px;w" block menu-class="w-75" right
+      style="margin-right:20px;margin:15px;padding-right:0;" block menu-class="w-75" right
       >
         <b-dropdown-item v-b-modal="'changePassword'">
-            <a style="font-size:18px">แก้ไขรหัสผ่าน</a>
+            <a style="font-size:18px;">แก้ไขรหัสผ่าน</a>
         </b-dropdown-item>
-        <b-dropdown-item>
-          <router-link style="text-decoration: none; color: inherit;padding-right:0;font-size:18px" to="/history">
+        <b-dropdown-item v-if="user && user.role == 'customer'">
+          <router-link style="text-decoration: none; color: inherit;font-size:18px;" to="/history">
             ประวัติการใช้งาน
+          </router-link>
+        </b-dropdown-item>
+        <b-dropdown-item v-if="user && user.role == 'admin'">
+          <router-link style="text-decoration: none; color: inherit;font-size:18px;" to="/historylist">
+            ประวัติการใช้งานทั้งหมด
           </router-link>
         </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
@@ -265,6 +270,12 @@ export default {
           .catch((error) => {
               console.log(error.response.data.message);
           });
+    },
+    navigateToHome2() {
+      const element = document.getElementById('home2');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     },
   }
 }

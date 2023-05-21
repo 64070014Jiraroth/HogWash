@@ -12,7 +12,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
 
     try {
         const [historyRows, historyField] = await conn.query(
-            "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS date, TIME(date) AS time FROM history WHERE user_id = ?",
+            "SELECT *, DATE_FORMAT(date, '%d-%m-%Y') AS justdate, TIME(date) AS time FROM history WHERE user_id = ? ORDER BY date DESC",
             [req.user.id]
         )
         const [paymentRows, paymentField] = await conn.query(
@@ -28,7 +28,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
         return res.json({
             history: historyRows,
             payment: paymentRows,
-            option: optionRows
+            option: optionRows,
         })
     } catch (err) {
         conn.rollback()
@@ -81,4 +81,45 @@ router.post("/history", isLoggedIn, async function (req, res, next) {
     }
 
 })
+
+// get allHistory
+router.get("/historylist", isLoggedIn, async function (req, res, next) {
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction();
+
+    try {
+        const [allHistory] = await conn.query(
+            "SELECT *, DATE_FORMAT(date, '%d-%m-%Y') AS justdate, TIME(date) AS time FROM history ORDER BY date desc"
+        )
+        const [paymentRows] = await conn.query(
+            "SELECT * FROM payments",
+            [allHistory[0].payment_id]
+        )
+        const [optionRows] = await conn.query(
+            "SELECT * FROM options",
+            [allHistory[0].option_id]
+        )
+        const [users] = await conn.query(
+            "SELECT * FROM users",
+            [allHistory[0].user_id]
+        )
+
+
+        conn.commit()
+        console.log(allHistory[0])
+        return res.json({
+            allHistory: allHistory,
+            payment: paymentRows,
+            option: optionRows,
+            users: users,
+        })
+    } catch (err) {
+        conn.rollback()
+        return res.send(err);
+    } finally {
+        conn.release()
+    }
+
+});
 exports.router = router;

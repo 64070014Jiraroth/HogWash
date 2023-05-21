@@ -152,6 +152,13 @@ VALUES  (1, '/uploads/materials/wm.png'),
 
 INSERT INTO `announcement` (`user_id`, `announce`) 
 VALUES  (1, '');
+
+INSERT INTO `history` (`date`, `payment_id`, `wm_id`, `user_id`, `option_id`) 
+VALUES  ('2023-05-21 16:38:50', 3, 1, 4, 2),
+        ('2023-04-18 10:08:55', 1, 3, 3, 1),
+        ('2023-05-02 23:38:47', 2, 8, 4, 4),
+        ('2023-05-11 20:38:05', 4, 4, 3, 3),
+        ('2023-04-27 06:38:00', 3, 2, 2, 2);
         
 INSERT INTO `feedback` (`id`, `user_id`, `title`, `description`, `feedback_date`)
 VALUES (1, '2', 'แจ้งเครื่องซักผ้าเสีย', 'Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis', '2023-04-20 01:58:01'),

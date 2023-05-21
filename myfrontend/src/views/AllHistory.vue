@@ -1,6 +1,6 @@
 <template>
     <div class="history-border">
-        <p style="font-size: 40px;font-weight: bold;">ประวัติการใช้งาน</p>
+        <p style="font-size: 40px;font-weight: bold;">ประวัติการใช้งานทั้งหมด</p>
         <table class="history-table">
             <tr >
                 <th>วันที่ใช้งาน</th>
@@ -8,8 +8,9 @@
                 <th>เครื่องที่ใช้</th>
                 <th>รูปแบบการซัก</th>
                 <th>ช่องทางการชำระเงิน</th>
+                <th>ชื่อผู้ใช้งาน</th>
             </tr>
-            <tr v-for="hist in history" :key="hist.id">
+            <tr v-for="hist in allHistory" :key="hist.id">
                 <td>{{ hist.justdate }}</td>
                 <td>{{ hist.time }}</td>
                 <td>{{ hist.wm_id }}</td>
@@ -27,6 +28,13 @@
                         </span>
                     </span>
                 </td>
+                <td>
+                    <span v-for="user in users" :key="user.id">
+                        <span v-if="user.id === hist.user_id">
+                            {{ user.email }}
+                        </span>
+                    </span>
+                </td>
             </tr>
         </table>
     </div>
@@ -40,21 +48,23 @@ export default {
     props: ["user"],
     data() {
         return {
-            history: [],
+            allHistory: [],
             payment: [],
-            option: []
+            option: [],
+            users: [],
         }
     },
     mounted() {
-        this.getHistory();
+        this.getAllHistory();
     },
     methods: {
-        getHistory() {
-            axios.get("history")
+        getAllHistory() {
+            axios.get("historylist")
             .then((response) => {
-                this.history = response.data.history;
+                this.allHistory = response.data.allHistory;
                 this.payment = response.data.payment;
                 this.option = response.data.option;
+                this.users = response.data.users;
             })
             .catch((err) => {
             console.log(err);

@@ -22,7 +22,7 @@
                             <div class="form-group mx-3 py-4">
                                 <input v-model="loginPassword" class="form-control" type="password" placeholder="รหัสผ่าน" />
                             </div>
-                            <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
+                            <button class="btn userButton py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                 @click="submit()">
                                 เข้าสู่ระบบ
                             </button>
@@ -101,7 +101,7 @@
                                         </p>
                                     </template>
                                 </div><br>
-                                <button class="btn py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
+                                <button class="btn userButton py-2 mb-3" type="submit" style="background-color:#59A8B9;color:white;"
                                     @click="addUser()">
                                     สร้างบัญชีผู้ใช้
                                 </button><br>

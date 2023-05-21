@@ -75,17 +75,8 @@ font-size: 12px;
     border: 2px solid salmon;
     /* line-height: 20px; */
 }
-.btn {
+.userButton {
     width: 92%;
     font-size: 20px;
     letter-spacing: .8px;
-}
-
-.no-outline,
-.no-outline:focus,
-.no-outline::placeholder {
-  outline: none;
-  border-bottom: none;
-  box-shadow: none;
-  -webkit-box-shadow: none;
 }

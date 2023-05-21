@@ -34,6 +34,12 @@ const routes = [
     meta: { login: true },
     component: () => import('../views/FeedbackPage.vue')
   },
+  {
+    path: '/historylist',
+    name: 'HogWash | AllHistory',
+    meta: { login: true },
+    component: () => import('../views/AllHistory.vue')
+  },
 ]
 
 // const router = new VueRouter({
@@ -50,6 +56,7 @@ const routes = [
 const router = new VueRouter({ routes })
 
 router.beforeEach((to, from, next) => {
+  document.title = to.name;   //เปลี่ยนชื่อ title
   const isLoggedIn = !!localStorage.getItem('token') // เช็คว่ามีตัวแปร token ใน local storage รึยัง (มีแล้ว = login แล้ว)
 
   if (to.meta.login && !isLoggedIn) {

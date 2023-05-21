@@ -21,3 +21,6 @@ th, td {
 tr {
     border-bottom: 2px solid #D9D9D9;
 }
+td {
+    font-size: 18px;
+}
