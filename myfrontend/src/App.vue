@@ -29,10 +29,10 @@
             <!-- <router-link to="/" class="nav-link">  //router-link ไม่ได้ทำการ refresh หน้าจอ จึงทำให้บางที frontend โหลดไม่ทัน
             สถานะเครื่องซักผ้า
             </router-link> -->
-            <a class="nav-link" href="/">สถานะเครื่องซักผ้า</a>
+            <a class="nav-link" href="../#home2">สถานะเครื่องซักผ้า</a>
           </li>
-          <li class="nav-item">
-            <router-link to="/contact" class="nav-link">
+          <li class="nav-item" v-if="user">
+            <router-link to="/contact" prefetch="false" class="nav-link">
               <a>ติดต่อเรา</a>
             </router-link>
           </li>

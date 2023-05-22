@@ -128,7 +128,7 @@ VALUES  (1, 'Panasonic', 'NA-127XB1WMY', 0, 80, 80),
         (3, 'Panasonic', 'NA-127XB1WMY', 0, 100, 100), 
         (4, 'Panasonic', 'NA-127XB1WMY', 0, 45, 45), 
         (5, 'Panasonic', 'NA-127XB1WMY', 0, 60, 60), 
-        (6, 'Panasonic', 'NA-127XB1WMY', 0, 70, 70), 
+        (6, 'Panasonic', 'NA-127XB1WMY', 0, 10, 10), 
         (7, 'Panasonic', 'NA-127XB1WMY', 0, 35, 35), 
         (8, 'Panasonic', 'NA-127XB1WMY', 0, 0, 0);
 

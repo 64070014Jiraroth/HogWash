@@ -386,7 +386,7 @@
               </h1>
             </div>
             <div class="modal-body">
-              <h5>หมายเลขเครื่องซักผ้า : 
+              <h5>เครื่องซักผ้าหมายเลข : 
                 {{ nextQueue.wm_id }}
               </h5>
               <h5 style="color: #dd6060">
@@ -502,7 +502,7 @@
               </h1>
             </div>
             <div class="modal-body">
-              <h5>หมายเลขเครื่องซักผ้า : 
+              <h5>เครื่องซักผ้าหมายเลข : 
                 {{ finish_wm.id }}
               </h5>
               <h5 style="color: #dd6060">
