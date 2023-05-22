@@ -35,7 +35,7 @@
                             {{ em.email }}
                         </span>
                 </span>
-               ({{feedback_choose.date}})
+               {{feedback_choose.date}} ( {{feedback_choose.feedback_time}} )
             </div>
             </template>
             
