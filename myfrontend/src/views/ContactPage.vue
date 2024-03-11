@@ -76,7 +76,7 @@ export default {
         imagePath(file_path) {
             if (file_path) {
                 // console.log(file_path)
-                return "http://localhost:3000/" + file_path;
+                return "http://54.164.60.205:3000/" + file_path;
             }
         },
         addFeedback() {

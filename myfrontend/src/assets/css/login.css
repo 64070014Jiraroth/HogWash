@@ -8,7 +8,7 @@
     background-color:aquamarine;
 } */
 html {
-    background-image: url('http://localhost:3000/uploads/bg2.png') !important;
+    background-image: url('http://54.164.60.205:3000/uploads/bg2.png') !important;
     background-size: cover;
     background-repeat: no-repeat;
   }

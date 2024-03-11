@@ -8,7 +8,7 @@
 }
 html {
     scroll-behavior: smooth;
-    background-image: url('http://localhost:3000/uploads/background.png') !important;
+    background-image: url('http://54.164.60.205:3000/uploads/background.png') !important;
     background-size: cover;
     background-repeat: no-repeat;
 }

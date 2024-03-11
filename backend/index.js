@@ -45,5 +45,5 @@ app.use(queueRouter.router)
 app.use(express.json())
 
 app.listen(3000 || process.env.PORT || process.env.RDS_PORT , () => {
-  console.log(`Example app listening at http://localhost:3000`)
+  console.log(`Example app listening at http://54.164.60.205:3000`)
 })
