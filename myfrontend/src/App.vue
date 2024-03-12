@@ -45,7 +45,9 @@
               <a style="color:#59A8B9;">กล่องข้อความ</a>
             </router-link>
           </li>
-          <li class="nav-item" v-if="user && user.role == 'admin'">
+
+          <!-- announcement -->
+          <!-- <li class="nav-item" v-if="user && user.role == 'admin'">
             <a class="nav-link" style="color:#59A8B9;" v-b-modal="'announcement'">เพิ่มประกาศ</a>
           </li>
 
@@ -55,7 +57,7 @@
                 <button v-b-modal.modal-close_visit class="btn announceOp m-1" style="background-color: #b3b3b3;" block @click="$bvModal.hide('announcement');">ยกเลิก</button>
                 <button v-b-modal.modal-close_visit class="btn announceOp mr-4" style="background-color: #59a8b9;" @click="setAnnouncement()">ยืนยัน</button>
             </template>
-          </b-modal>
+          </b-modal> -->
 
           <!-- test modal ----------------------------------------------->
           <!-- <li class="nav-item">
