@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({ // สร้าง instance เมื่อมรการเรียกใช้ axios
-    // baseURL: 'http://localhost:3000', // 1) set baseURL ไม่ต้องพิมพ์ localhost เองทุกครั้งเวลาเรียก
+    // baseURL: 'http://54.164.60.205:3000', // 1) set baseURL ไม่ต้องพิมพ์ 54.164.60.205 เองทุกครั้งเวลาเรียก
     baseURL: 'http://54.164.60.205:3000', // 1)
 })
 

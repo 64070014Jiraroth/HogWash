@@ -13,7 +13,7 @@ router.get("/queue/", async function (req, res, next) {
     try {
         const [queueRows, queueField] = await conn.query("SELECT * FROM queue")
         conn.commit()
-        console.log(queueRows)
+        console.log("queueRows: ", queueRows)
         return res.json({
             queue: queueRows,
         })
@@ -69,7 +69,7 @@ router.delete("/queue/:id", async function (req, res, next) {
         "SELECT COUNT(*) AS number FROM `queue` WHERE `wm_id` = ?",
         [req.params.id]
       );
-      console.log(checkQueue);
+      console.log("checkQueue: ", checkQueue);
   
       if (checkQueue[0].number > 0) {
         const [rows1] = await conn.query("SELECT * FROM queue WHERE booking_time = ( SELECT MIN(booking_time) FROM queue WHERE wm_id = ?)" +

@@ -150,7 +150,7 @@
                           <span v-if="index == wm.id-1">{{ output }}</span>
                         </div>
                     </h4>
-                    <b-button 
+                    <!-- <b-button 
                       v-if="user && user.role == 'customer' && !isUser(wm) && !isInQueue.some(queueItem => queueItem.user_id === user.id && queueItem.wm_id === wm.id)"
                       v-b-modal="'queue'"
                       class="selectWm"
@@ -158,7 +158,7 @@
                       @click="wm_choose = wm"
                     >
                       จองคิว
-                    </b-button>
+                    </b-button> -->
                     <b-button disabled 
                       v-if="user && user.role == 'customer' && isUser(wm)"
                       class="selectWm"
@@ -166,7 +166,7 @@
                     >
                       กำลังใช้งาน
                     </b-button>
-                    <b-button 
+                    <!-- <b-button 
                       v-if="user && user.role == 'customer' && !isUser(wm) && isInQueue.some(queueItem => queueItem.user_id === user.id && queueItem.wm_id === wm.id)"
                       v-b-modal="'checkQueue'"
                       class="selectWm"
@@ -174,7 +174,7 @@
                       @click="wm_choose = wm;"
                     >
                       ตรวจสอบคิว
-                    </b-button>
+                    </b-button> -->
                   </div>
 
                   <div v-show="wm.status == 2">
@@ -571,9 +571,9 @@
 
     </div>
     
-      <header v-if="(user && (user.role == 'customer' || user.role == 'admin')) && announcement[0].announce != ''" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll()" class="headroom header">
+      <!-- <header v-if="(user && (user.role == 'customer' || user.role == 'admin')) && announcement[0].announce != ''" :class="{'headroom--unpinned': scrolled}"  v-on="handleScroll()" class="headroom header">
       {{ announcement[0].announce }} !!
-      </header>
+      </header> -->
 
   </div>
 </template>

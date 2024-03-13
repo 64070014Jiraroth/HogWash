@@ -76,6 +76,8 @@ router.put("/reset/:id", async function (req, res, next) {
             [0, null, 0, req.params.id]
         )
 
+        console.log("reset wm: ", req.params.id)
+
         await conn.commit()
         return res.send('reset successfully');
 
@@ -83,7 +85,7 @@ router.put("/reset/:id", async function (req, res, next) {
         await conn.rollback();
         next(err);
     } finally {
-        console.log('finally')
+        console.log('reset finally')
         conn.release();
     }
     return;

@@ -240,7 +240,7 @@ export default {
     },
     getUser () {
       // const token = localStorage.getItem('token')
-      // axios.get('http://localhost:3000/user/me', { headers: {Authorization: 'Bearer ' + token} }).then(res => {
+      // axios.get('http://54.164.60.205:3000/user/me', { headers: {Authorization: 'Bearer ' + token} }).then(res => {
       axios.get('/user/me').then(res => {
         this.user = res.data
       })

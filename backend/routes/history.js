@@ -24,7 +24,7 @@ router.get("/history", isLoggedIn, async function (req, res, next) {
             [historyRows[0].option_id]
         )
         conn.commit()
-        console.log(historyRows)
+        console.log("historyRows: ", historyRows)
         return res.json({
             history: historyRows,
             payment: paymentRows,
