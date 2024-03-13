@@ -118,6 +118,37 @@
             </div>    
         </div>
 
+        <b-modal id="loginSuccess" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+            <div class="modal-content rounded-4">
+                <div class="modal-header" style="border: none; margin-top: 0px">
+                    <h1 class="modal-title w-100 text-center">
+                        เข้าสู่ระบบสำเร็จ !
+                    </h1>
+                </div>
+                <div class="modal-body">
+                    <button type="button" class="btn loginModal" style="background-color: #59a8b9; color: white" 
+                        @click="isLoginToggle">
+                        ยืนยัน
+                    </button>
+                </div>
+            </div>
+        </b-modal>
+
+        <b-modal id="signupSuccess" size='lg' centered hide-footer hide-header no-stacking no-close-on-backdrop>
+            <div class="modal-content rounded-4">
+                <div class="modal-header" style="border: none; margin-top: 0px">
+                    <h1 class="modal-title w-100 text-center">
+                        สมัครสมาชิกสำเร็จ !
+                    </h1>
+                </div>
+                <div class="modal-body">
+                    <button type="button" class="btn loginModal" style="background-color: #59a8b9; color: white" 
+                        @click="isSignupToggle">
+                        ยืนยัน
+                    </button>
+                </div>
+            </div>
+        </b-modal>
 
     </div>
 </template>
@@ -148,6 +179,7 @@ export default {
             },
             show_login: true,
             show_signup: false,
+            isLogin: false,
         };
     },
     validations: {
@@ -167,31 +199,50 @@ export default {
     methods: {
         addUser() {
 
-        // Validate all fields
-        this.$v.$touch();
+            // Validate all fields
+            this.$v.$touch();
 
-        // เช็คว่าในฟอร์มไม่มี error
-        if (!this.$v.$invalid) {            
-            let data = {
-                signUpEmail: this.signUpEmail,
-                signUpPassword: this.signUpPassword,
-                confirm_password: this.confirm_password,
-            };
+            // เช็คว่าในฟอร์มไม่มี error
+            if (!this.$v.$invalid) {            
+                let data = {
+                    signUpEmail: this.signUpEmail,
+                    signUpPassword: this.signUpPassword,
+                    confirm_password: this.confirm_password,
+                };
 
-            axios
-            .post("/user/signup", data)
-            .then(() => {
-                alert("Sign up Successfully");
-                location.reload();
-            })
-            .catch(error => {
-                alert('This email is already used')
-                console.log(error.response.data)
-            })
-        }
-        else {
-            console.log()
-        }
+                axios
+                .post("/user/signup", data)
+                .then(() => {
+                    // alert("Sign up Successfully");
+                    this.$bvModal.show('signupSuccess') 
+                })
+                .catch(error => {
+                    alert('This email is already used')
+                    console.log(error.response.data)
+                })
+            }
+            else {
+                console.log()
+            }
+        },
+        isSignupToggle() {
+            this.$bvModal.hide('signupSuccess');
+            console.log("signupSuccess")
+            this.reloadPage()
+        },
+        isLoginToggle() {
+            this.$bvModal.hide('loginSuccess');
+            this.isLogin = true;
+            console.log("this.isLogin: ", this.isLogin)
+            this.toHome()
+        },
+        toHome() {
+            if (this.isLogin) { 
+                this.$router.push({ path: '/' }); 
+            }
+        },
+        reloadPage() {
+            location.reload();
         },
         submit () {
             const data = {
@@ -200,11 +251,12 @@ export default {
             } 
             axios.post('/user/login/', data)
             .then((res) => {
-                alert('Login Successfully')
+                // alert('Login Successfully')
                 const token = res.data.token                                
                 localStorage.setItem('token', token) // เอา token ที่ได้ไปใส่ใน local storage
                 this.$emit('auth-change')
-                this.$router.push({path: '/'}) // login สำเร็จ -> ไปหน้า index
+                this.$bvModal.show('loginSuccess') 
+                // this.$router.push({path: '/'}) // login สำเร็จ -> ไปหน้า index
             })
             .catch(error => {
                 alert('Incorrect email or password')
